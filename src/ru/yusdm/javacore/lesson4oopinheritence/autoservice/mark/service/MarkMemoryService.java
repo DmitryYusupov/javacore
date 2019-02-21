@@ -12,8 +12,11 @@ public class MarkMemoryService {
 
     public void addMark(Mark mark) {
         markRepo.addMark(mark);
-        for (Model model : mark.getModels()) {
-            modelRepo.addModel(model);
+
+        if (mark.getModels() != null) {
+            for (Model model : mark.getModels()) {
+                modelRepo.addModel(model);
+            }
         }
     }
 
