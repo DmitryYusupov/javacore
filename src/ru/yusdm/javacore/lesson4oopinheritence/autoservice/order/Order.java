@@ -6,12 +6,22 @@ import ru.yusdm.javacore.lesson4oopinheritence.autoservice.model.Model;
 import ru.yusdm.javacore.lesson4oopinheritence.autoservice.user.User;
 
 public class Order {
+    private Long id;
     private Mark mark;
     private Model model;
     private User user;
     private String description;
+    private int price;
 
     public Order() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Mark getMark() {
@@ -44,5 +54,13 @@ public class Order {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

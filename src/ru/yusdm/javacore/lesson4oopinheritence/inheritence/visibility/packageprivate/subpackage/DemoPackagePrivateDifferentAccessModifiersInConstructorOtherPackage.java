@@ -1,6 +1,7 @@
 package ru.yusdm.javacore.lesson4oopinheritence.inheritence.visibility.packageprivate.subpackage;
 
-import ru.yusdm.javacore.lesson5.inheritence.visibility.packageprivate.PersonWithPackagePrivateConstructor;
+
+import ru.yusdm.javacore.lesson4oopinheritence.inheritence.visibility.packageprivate.PersonWithPackagePrivateConstructor;
 
 public class DemoPackagePrivateDifferentAccessModifiersInConstructorOtherPackage {
 

@@ -1,6 +1,7 @@
 package ru.yusdm.javacore.lesson4oopinheritence.inheritence.visibility.protectedcase.subpackage;
 
-import ru.yusdm.javacore.lesson5.inheritence.visibility.protectedcase.Person;
+
+import ru.yusdm.javacore.lesson4oopinheritence.inheritence.visibility.protectedcase.Person;
 
 public class DemoProtectedDifferentAccessModifiersInConstructorOtherPackage {
 

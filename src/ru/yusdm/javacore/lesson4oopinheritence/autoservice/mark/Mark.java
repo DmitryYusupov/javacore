@@ -3,18 +3,24 @@ package ru.yusdm.javacore.lesson4oopinheritence.autoservice.mark;
 
 import ru.yusdm.javacore.lesson4oopinheritence.autoservice.model.Model;
 
-public class Mark {
+import java.util.Arrays;
 
+public class Mark {
     private Long id;
     private String name;
+    private String country;
     private Model[] models;
 
     public Mark() {
     }
 
-    public Mark(Long id, String name) {
-        this.id = id;
+    public Mark(String name) {
         this.name = name;
+    }
+
+    public Mark(String name, String country) {
+        this.name = name;
+        this.country = country;
     }
 
     public Long getId() {
@@ -39,5 +45,31 @@ public class Mark {
 
     public void setModels(Model[] models) {
         this.models = models;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    @Override
+    public String toString() {
+        return "-----------------------\nMark\n" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", country='" + country + '\'' +
+                ", \n\nmodels:\n" + getModelsAsStr();
+    }
+
+    private String getModelsAsStr() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Model model : models) {
+            stringBuilder.append(model.toString()).append("\n");
+        }
+
+        return stringBuilder.toString();
     }
 }
