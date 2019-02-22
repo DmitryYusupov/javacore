@@ -94,12 +94,10 @@ public class AutoServiceDemo {
             markService.addMark(mark);
         }
 
-
         public void fillStorage() {
             addUsers();
             addMarksWithModels();
         }
-
 
         public void printUsers() {
             userService.printUsers();
@@ -109,7 +107,6 @@ public class AutoServiceDemo {
             markService.printMarks();
         }
     }
-
 
     public static void main(String[] args) {
         Application application = new Application();
