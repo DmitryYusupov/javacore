@@ -29,12 +29,13 @@ public class AutoServiceDemo {
                     "Dasha       | Jukova | 25",
                     "Wlad        | Belyh  | 23",
                     "Terminator  | T-800  | 125",
+                    "Terminator  | T-1000  | 125",
             };
-
+            Long id = 0L;
             for (String csvUser : usersAsCsv) {
                 String[] userAttrs = csvUser.split("\\|");
                 int attrIndex = -1;
-                userService.addUser(new User(
+                userService.addUser(new User(++id,
                         userAttrs[++attrIndex].trim(),
                         userAttrs[++attrIndex].trim(),
                         Integer.parseInt(userAttrs[++attrIndex].trim())
@@ -106,6 +107,17 @@ public class AutoServiceDemo {
         public void printMarks() {
             markService.printMarks();
         }
+
+        public void deleteUsers(){
+
+            userService.deleteUser(1L);
+            userService.deleteUser(2L);
+            userService.deleteUser(3L);
+            userService.deleteUser(4L);
+            userService.deleteUser(5L);
+            userService.deleteUser(6L);
+            userService.deleteUser(7L);
+        }
     }
 
     public static void main(String[] args) {
@@ -117,6 +129,9 @@ public class AutoServiceDemo {
 
         System.out.println("--------Marks------------");
         application.printMarks();
+
+        application.deleteUsers();
+        System.out.println();
     }
 
 }

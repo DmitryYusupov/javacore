@@ -5,7 +5,7 @@ import ru.yusdm.javacore.lesson4oopinheritence.autoservice.user.User;
 import static ru.yusdm.javacore.lesson4oopinheritence.autoservice.storage.Storage.users;
 
 public class UserMemoryRepo {
-    
+
     private int userIndex = -1;
 
     public void addUser(User user) {
@@ -45,11 +45,45 @@ public class UserMemoryRepo {
     }
 
     private void deleteUserByIndex(int index) {
-        User[] newArrUsers = new User[users.length];
-        System.arraycopy(users, 0, newArrUsers, 0, index - 1);
-        System.arraycopy(users, index, newArrUsers, index - 1, users.length - index);
+        User[] newArrUsers = new User[users.length - 1];
+        if (index != 0) {
+            System.arraycopy(users, 0, newArrUsers, 0, index);
+            System.arraycopy(users, index + 1, newArrUsers, index, users.length - index - 1);
+        } else {
+            System.arraycopy(users, 1, newArrUsers, 0, users.length - 1);
+        }
+
+
         users = newArrUsers;
-        userIndex--;
+        newArrUsers = new User[userIndex];
+
+
+        int i = 0;
+        for (User user : users) {
+            if (user != null) {
+                newArrUsers[i] = user;
+                i++;
+            }
+        }
+        users = newArrUsers;
+
+        userIndex = users.length - 1;
+    }
+
+    private User[] getNotNullUsers(){
+       User[] newArrUsers = new User[userIndex];
+
+
+        int i = 0;
+        for (User user : users) {
+            if (user != null) {
+                newArrUsers[i] = user;
+                i++;
+            }
+        }
+        //users =
+        userIndex = users.length - 1;
+        return newArrUsers;
     }
 
     public void printUsers() {
