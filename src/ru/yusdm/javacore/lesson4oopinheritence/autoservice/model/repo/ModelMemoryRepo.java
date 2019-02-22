@@ -33,7 +33,6 @@ public class ModelMemoryRepo {
 
         if (foundIndex != null) {
             deleteModelByIndex(foundIndex);
-            this.modelIndex--;
         }
     }
 

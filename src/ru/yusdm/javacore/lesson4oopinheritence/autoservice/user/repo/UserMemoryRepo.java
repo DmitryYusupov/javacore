@@ -33,7 +33,6 @@ public class UserMemoryRepo {
 
         if (foundIndex != null) {
             deleteUserByIndex(foundIndex);
-            this.userIndex--;
         }
     }
 

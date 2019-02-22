@@ -34,7 +34,6 @@ public class MarkMemoryRepo {
 
         if (foundIndex != null) {
             deleteMarkByIndex(foundIndex);
-            this.markIndex--;
         }
     }
 

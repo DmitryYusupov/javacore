@@ -33,7 +33,6 @@ public class OrderMemoryRepo {
 
         if (foundIndex != null) {
             deleteOrderByIndex(foundIndex);
-            this.orderIndex--;
         }
     }
 
