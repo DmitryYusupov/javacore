@@ -54,17 +54,17 @@ public class DataTypes {
     }
 
     private static void demoString() {
-        String s1 = "test";
-        String s2 = "test";
+        String s1 = "atmwithabstractbaseclass";
+        String s2 = "atmwithabstractbaseclass";
 
         System.out.println("s1 equals s2 is " + s1.equals(s2));
         System.out.println("s1 == s2 is " + (s1 == s2) + "\n");
 
-        String s3 = new String("test");
+        String s3 = new String("atmwithabstractbaseclass");
         System.out.println("s1 equals s3 is " + s1.equals(s3));
         System.out.println("s1 == s3 is " + (s1 == s3) + "\n");
 
-        String s4 = new String("test").intern();
+        String s4 = new String("atmwithabstractbaseclass").intern();
         System.out.println("s1 equals s4 is " + s1.equals(s4));
         System.out.println("s1 == s4 is " + (s1 == s4) + "\n");
 
