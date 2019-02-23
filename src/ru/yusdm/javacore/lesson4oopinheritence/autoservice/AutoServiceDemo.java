@@ -117,6 +117,9 @@ public class AutoServiceDemo {
             userService.deleteUser(5L);
             userService.deleteUser(6L);
             userService.deleteUser(7L);
+
+            userService.addUser(new User(33L, "SSSS","AAAA",333));
+            userService.deleteUser(33L);
         }
     }
 

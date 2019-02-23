@@ -1,5 +1,6 @@
 package ru.yusdm.javacore.lesson4oopinheritence.autoservice.mark.repo;
 
+import ru.yusdm.javacore.lesson4oopinheritence.autoservice.common.ArrayUtils;
 import ru.yusdm.javacore.lesson4oopinheritence.autoservice.mark.Mark;
 
 import static ru.yusdm.javacore.lesson4oopinheritence.autoservice.storage.Storage.marks;
@@ -46,10 +47,7 @@ public class MarkMemoryRepo {
     }
 
     private void deleteMarkByIndex(int index) {
-        Mark[] newArrMarks = new Mark[marks.length];
-        System.arraycopy(marks, 0, newArrMarks, 0, index - 1);
-        System.arraycopy(marks, index, newArrMarks, index - 1, marks.length - index);
-        marks = newArrMarks;
+        ArrayUtils.removeElement(marks, index);
         markIndex--;
     }
 

@@ -1,5 +1,6 @@
 package ru.yusdm.javacore.lesson4oopinheritence.autoservice.order.repo;
 
+import ru.yusdm.javacore.lesson4oopinheritence.autoservice.common.ArrayUtils;
 import ru.yusdm.javacore.lesson4oopinheritence.autoservice.order.Order;
 
 import static ru.yusdm.javacore.lesson4oopinheritence.autoservice.storage.Storage.orders;
@@ -45,10 +46,7 @@ public class OrderMemoryRepo {
     }
 
     private void deleteOrderByIndex(int index) {
-        Order[] newArrOrders = new Order[orders.length];
-        System.arraycopy(orders, 0, newArrOrders, 0, index - 1);
-        System.arraycopy(orders, index, newArrOrders, index - 1, orders.length - index);
-        orders = newArrOrders;
+        ArrayUtils.removeElement(orders, index);
         orderIndex--;
     }
 

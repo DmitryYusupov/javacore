@@ -1,5 +1,6 @@
 package ru.yusdm.javacore.lesson4oopinheritence.autoservice.model.repo;
 
+import ru.yusdm.javacore.lesson4oopinheritence.autoservice.common.ArrayUtils;
 import ru.yusdm.javacore.lesson4oopinheritence.autoservice.model.Model;
 
 import static ru.yusdm.javacore.lesson4oopinheritence.autoservice.storage.Storage.models;
@@ -45,10 +46,7 @@ public class ModelMemoryRepo {
     }
 
     private void deleteModelByIndex(int index) {
-        Model[] newArrModels = new Model[models.length];
-        System.arraycopy(models, 0, newArrModels, 0, index - 1);
-        System.arraycopy(models, index, newArrModels, index - 1, models.length - index);
-        models = newArrModels;
+        ArrayUtils.removeElement(models, index);
         modelIndex--;
     }
 

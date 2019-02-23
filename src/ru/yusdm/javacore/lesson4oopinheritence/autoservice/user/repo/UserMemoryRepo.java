@@ -1,5 +1,6 @@
 package ru.yusdm.javacore.lesson4oopinheritence.autoservice.user.repo;
 
+import ru.yusdm.javacore.lesson4oopinheritence.autoservice.common.ArrayUtils;
 import ru.yusdm.javacore.lesson4oopinheritence.autoservice.user.User;
 
 import static ru.yusdm.javacore.lesson4oopinheritence.autoservice.storage.Storage.users;
@@ -45,33 +46,12 @@ public class UserMemoryRepo {
     }
 
     private void deleteUserByIndex(int index) {
-        User[] newArrUsers = new User[users.length - 1];
-        if (index != 0) {
-            System.arraycopy(users, 0, newArrUsers, 0, index);
-            System.arraycopy(users, index + 1, newArrUsers, index, users.length - index - 1);
-        } else {
-            System.arraycopy(users, 1, newArrUsers, 0, users.length - 1);
-        }
-
-
-        users = newArrUsers;
-        newArrUsers = new User[userIndex];
-
-
-        int i = 0;
-        for (User user : users) {
-            if (user != null) {
-                newArrUsers[i] = user;
-                i++;
-            }
-        }
-        users = newArrUsers;
-
-        userIndex = users.length - 1;
+        ArrayUtils.removeElement(users, index);
+        userIndex--;
     }
 
-    private User[] getNotNullUsers(){
-       User[] newArrUsers = new User[userIndex];
+    private User[] getNotNullUsers() {
+        User[] newArrUsers = new User[userIndex];
 
 
         int i = 0;
@@ -81,7 +61,7 @@ public class UserMemoryRepo {
                 i++;
             }
         }
-        //users =
+
         userIndex = users.length - 1;
         return newArrUsers;
     }
