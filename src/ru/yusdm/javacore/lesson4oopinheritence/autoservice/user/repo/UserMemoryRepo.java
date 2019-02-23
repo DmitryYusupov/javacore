@@ -50,22 +50,6 @@ public class UserMemoryRepo {
         userIndex--;
     }
 
-    private User[] getNotNullUsers() {
-        User[] newArrUsers = new User[userIndex];
-
-
-        int i = 0;
-        for (User user : users) {
-            if (user != null) {
-                newArrUsers[i] = user;
-                i++;
-            }
-        }
-
-        userIndex = users.length - 1;
-        return newArrUsers;
-    }
-
     public void printUsers() {
         for (User user : users) {
             System.out.println(user);
