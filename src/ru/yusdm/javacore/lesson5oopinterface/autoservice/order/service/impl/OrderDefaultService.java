@@ -28,7 +28,7 @@ public class OrderDefaultService implements OrderService {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         orderRepo.deleteById(id);
     }
 

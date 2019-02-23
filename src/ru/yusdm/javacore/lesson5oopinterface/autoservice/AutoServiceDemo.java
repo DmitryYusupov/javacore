@@ -1,7 +1,7 @@
 package ru.yusdm.javacore.lesson5oopinterface.autoservice;
 
 
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.Pair;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.solutions.dataclasses.Pair;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.service.impl.MarkDefaultService;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.domain.Model;

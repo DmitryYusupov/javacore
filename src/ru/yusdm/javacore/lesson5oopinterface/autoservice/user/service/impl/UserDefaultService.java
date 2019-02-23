@@ -29,7 +29,7 @@ public class UserDefaultService implements UserService {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         userRepo.deleteById(id);
     }
 

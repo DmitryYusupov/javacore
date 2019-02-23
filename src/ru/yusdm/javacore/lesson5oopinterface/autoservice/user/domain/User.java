@@ -1,7 +1,7 @@
 package ru.yusdm.javacore.lesson5oopinterface.autoservice.user.domain;
 
 
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.domain.BaseDomain;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.business.domain.BaseDomain;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.domain.Order;
 
 public class User extends BaseDomain {

@@ -1,7 +1,7 @@
 package ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.domain;
 
 
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.domain.BaseDomain;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.business.domain.BaseDomain;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.domain.Model;
 
 public class Mark extends BaseDomain {

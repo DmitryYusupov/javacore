@@ -1,6 +1,6 @@
 package ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.repo.impl;
 
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.ArrayUtils;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.solutions.utils.ArrayUtils;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.repo.MarkRepo;
 

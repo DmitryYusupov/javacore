@@ -1,6 +1,6 @@
 package ru.yusdm.javacore.lesson5oopinterface.autoservice.user.repo.impl;
 
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.ArrayUtils;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.solutions.utils.ArrayUtils;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.repo.UserRepo;
 

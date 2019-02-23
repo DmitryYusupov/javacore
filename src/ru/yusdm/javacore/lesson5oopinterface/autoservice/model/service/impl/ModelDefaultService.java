@@ -28,7 +28,7 @@ public class ModelDefaultService implements ModelService {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         modelRepo.deleteById(id);
     }
 

@@ -1,7 +1,7 @@
 package ru.yusdm.javacore.lesson5oopinterface.autoservice.order.domain;
 
 
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.domain.BaseDomain;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.business.domain.BaseDomain;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.domain.User;

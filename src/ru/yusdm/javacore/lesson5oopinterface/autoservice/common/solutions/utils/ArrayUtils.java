@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson5oopinterface.autoservice.common;
+package ru.yusdm.javacore.lesson5oopinterface.autoservice.common.solutions.utils;
 
 public final class ArrayUtils {
 

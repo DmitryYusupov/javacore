@@ -1,6 +1,6 @@
 package ru.yusdm.javacore.lesson5oopinterface.autoservice.model.domain;
 
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.domain.BaseDomain;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.business.domain.BaseDomain;
 
 public class Model extends BaseDomain {
     private String name;

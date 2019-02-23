@@ -40,7 +40,7 @@ public class MarkDefaultService implements MarkService {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         markRepo.deleteById(id);
     }
 

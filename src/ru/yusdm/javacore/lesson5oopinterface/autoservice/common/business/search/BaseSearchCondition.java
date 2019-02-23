@@ -1,6 +1,6 @@
-package ru.yusdm.javacore.lesson5oopinterface.autoservice.common.domain;
+package ru.yusdm.javacore.lesson5oopinterface.autoservice.common.business.search;
 
-public abstract class BaseDomain {
+public abstract class BaseSearchCondition {
     protected Long id;
 
     public Long getId() {
