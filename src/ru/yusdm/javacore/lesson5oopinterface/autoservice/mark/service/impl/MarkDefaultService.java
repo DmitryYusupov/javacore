@@ -30,18 +30,26 @@ public class MarkDefaultService implements MarkService {
     }
 
     @Override
-    public Mark findById(long id) {
-        return markRepo.findById(id);
+    public Mark findById(Long id) {
+        if (id != null) {
+            return markRepo.findById(id);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public void delete(Mark mark) {
-        markRepo.delete(mark);
+        if (mark.getId() != null) {
+            this.deleteById(mark.getId());
+        }
     }
 
     @Override
     public void deleteById(Long id) {
-        markRepo.deleteById(id);
+        if (id != null) {
+            markRepo.deleteById(id);
+        }
     }
 
     @Override

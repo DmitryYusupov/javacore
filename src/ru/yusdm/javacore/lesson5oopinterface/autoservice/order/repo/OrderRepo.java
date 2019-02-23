@@ -8,7 +8,4 @@ public interface OrderRepo extends BaseRepo {
     void add(Order order);
 
     Order findById(long id);
-
-    void deleteById(long id);
-
 }

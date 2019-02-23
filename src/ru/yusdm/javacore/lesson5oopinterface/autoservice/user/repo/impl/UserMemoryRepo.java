@@ -34,15 +34,6 @@ public class UserMemoryRepo implements UserRepo {
     }
 
     @Override
-    public void delete(User user) {
-        Integer foundIndex = findUserIndexByEntity(user);
-
-        if (foundIndex != null) {
-            deleteUserByIndex(foundIndex);
-        }
-    }
-
-    @Override
     public void deleteById(long id) {
         Integer userIndex = findUserIndexById(id);
 
@@ -61,16 +52,6 @@ public class UserMemoryRepo implements UserRepo {
         for (User user : users) {
             System.out.println(user);
         }
-    }
-
-    private Integer findUserIndexByEntity(User user) {
-        for (int i = 0; i < users.length; i++) {
-            if (users[i].equals(user)) {
-                return i;
-            }
-        }
-
-        return null;
     }
 
     private Integer findUserIndexById(Long userId) {

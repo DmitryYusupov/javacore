@@ -7,7 +7,7 @@ public interface UserService extends BaseService {
 
     void add(User user);
 
-    User findById(long id);
+    User findById(Long id);
 
     void delete(User user);
 

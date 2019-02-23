@@ -34,15 +34,6 @@ public class MarkMemoryRepo implements MarkRepo {
     }
 
     @Override
-    public void delete(Mark mark) {
-        Integer foundIndex = findMarkIndexByEntity(mark);
-
-        if (foundIndex != null) {
-            deleteMarkByIndex(foundIndex);
-        }
-    }
-
-    @Override
     public void deleteById(long id) {
         Integer markIndex = findMarkIndexById(id);
 
@@ -61,16 +52,6 @@ public class MarkMemoryRepo implements MarkRepo {
         for (Mark mark : marks) {
             System.out.println(mark);
         }
-    }
-
-    private Integer findMarkIndexByEntity(Mark mark) {
-        for (int i = 0; i < marks.length; i++) {
-            if (marks[i].equals(mark)) {
-                return i;
-            }
-        }
-
-        return null;
     }
 
     private Integer findMarkIndexById(Long markId) {

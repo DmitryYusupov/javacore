@@ -8,6 +8,4 @@ public interface UserRepo extends BaseRepo {
 
     User findById(long id);
 
-    void delete(User user);
-
 }

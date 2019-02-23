@@ -7,7 +7,7 @@ public interface ModelService extends BaseService {
 
     void add(Model model);
 
-    Model findById(long id);
+    Model findById(Long id);
 
     void delete(Model model);
 

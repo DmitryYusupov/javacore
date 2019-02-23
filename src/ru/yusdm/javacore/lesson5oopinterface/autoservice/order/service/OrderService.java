@@ -7,7 +7,7 @@ public interface OrderService extends BaseService {
 
     void add(Order order);
 
-    Order findById(long id);
+    Order findById(Long id);
 
     void delete(Order order);
 

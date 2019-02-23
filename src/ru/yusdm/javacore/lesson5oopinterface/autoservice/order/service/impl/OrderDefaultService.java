@@ -18,18 +18,26 @@ public class OrderDefaultService implements OrderService {
     }
 
     @Override
-    public Order findById(long id) {
-        return orderRepo.findById(id);
+    public Order findById(Long id) {
+        if (id != null) {
+            return orderRepo.findById(id);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public void delete(Order order) {
-        orderRepo.delete(order);
+        if (order.getId() != null) {
+            this.deleteById(order.getId());
+        }
     }
 
     @Override
     public void deleteById(Long id) {
-        orderRepo.deleteById(id);
+        if (id != null) {
+            orderRepo.deleteById(id);
+        }
     }
 
     @Override

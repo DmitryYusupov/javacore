@@ -19,18 +19,26 @@ public class UserDefaultService implements UserService {
     }
 
     @Override
-    public User findById(long id) {
-        return userRepo.findById(id);
+    public User findById(Long id) {
+        if (id != null) {
+            return userRepo.findById(id);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public void delete(User user) {
-        userRepo.delete(user);
+        if (user.getId() != null) {
+            this.deleteById(user.getId());
+        }
     }
 
     @Override
     public void deleteById(Long id) {
-        userRepo.deleteById(id);
+        if (id != null) {
+            userRepo.deleteById(id);
+        }
     }
 
     @Override

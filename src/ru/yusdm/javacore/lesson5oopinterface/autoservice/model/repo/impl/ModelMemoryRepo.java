@@ -34,15 +34,6 @@ public class ModelMemoryRepo implements ModelRepo {
     }
 
     @Override
-    public void delete(Model model) {
-        Integer foundIndex = findModelIndexByEntity(model);
-
-        if (foundIndex != null) {
-            deleteModelByIndex(foundIndex);
-        }
-    }
-
-    @Override
     public void deleteById(long id) {
         Integer modelIndex = findModelIndexById(id);
 
@@ -61,16 +52,6 @@ public class ModelMemoryRepo implements ModelRepo {
         for (Model model : models) {
             System.out.println(model);
         }
-    }
-
-    private Integer findModelIndexByEntity(Model model) {
-        for (int i = 0; i < models.length; i++) {
-            if (models[i].equals(model)) {
-                return i;
-            }
-        }
-
-        return null;
     }
 
     private Integer findModelIndexById(Long modelId) {

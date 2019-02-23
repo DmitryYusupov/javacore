@@ -18,18 +18,26 @@ public class ModelDefaultService implements ModelService {
     }
 
     @Override
-    public Model findById(long id) {
-        return modelRepo.findById(id);
+    public Model findById(Long id) {
+        if (id != null) {
+            return modelRepo.findById(id);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public void delete(Model model) {
-        modelRepo.delete(model);
+        if (model.getId() != null) {
+            this.deleteById(model.getId());
+        }
     }
 
     @Override
     public void deleteById(Long id) {
-        modelRepo.deleteById(id);
+        if (id != null) {
+            modelRepo.deleteById(id);
+        }
     }
 
     @Override

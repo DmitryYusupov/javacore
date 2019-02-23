@@ -9,6 +9,4 @@ public interface ModelRepo extends BaseRepo {
 
     Model findById(long id);
 
-    void delete(Model model);
-
 }

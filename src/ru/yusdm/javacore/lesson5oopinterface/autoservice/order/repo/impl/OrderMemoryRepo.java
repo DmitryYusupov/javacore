@@ -34,15 +34,6 @@ public class OrderMemoryRepo implements OrderRepo {
     }
 
     @Override
-    public void delete(Order order) {
-        Integer foundIndex = findOrderIndexByEntity(order);
-
-        if (foundIndex != null) {
-            deleteOrderByIndex(foundIndex);
-        }
-    }
-
-    @Override
     public void deleteById(long id) {
         Integer orderIndex = findOrderIndexById(id);
 
@@ -61,16 +52,6 @@ public class OrderMemoryRepo implements OrderRepo {
         for (Order order : orders) {
             System.out.println(order);
         }
-    }
-
-    private Integer findOrderIndexByEntity(Order order) {
-        for (int i = 0; i < orders.length; i++) {
-            if (orders[i].equals(order)) {
-                return i;
-            }
-        }
-
-        return null;
     }
 
     private Integer findOrderIndexById(Long orderId) {

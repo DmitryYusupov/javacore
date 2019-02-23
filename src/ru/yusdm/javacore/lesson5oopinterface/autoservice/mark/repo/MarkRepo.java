@@ -8,5 +8,4 @@ public interface MarkRepo extends BaseRepo {
 
     Mark findById(long id);
 
-    void delete(Mark mark);
 }

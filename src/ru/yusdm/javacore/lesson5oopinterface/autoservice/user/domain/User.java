@@ -9,6 +9,7 @@ public class User extends BaseDomain {
     private String firstName;
     private String lastName;
     private int age;
+    private ClientType clientType;
     private Order[] orders;
 
     public User() {
@@ -65,12 +66,21 @@ public class User extends BaseDomain {
         this.age = age;
     }
 
+    public ClientType getClientType() {
+        return clientType;
+    }
+
+    public void setClientType(ClientType clientType) {
+        this.clientType = clientType;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", clientType='" + clientType + '\'' +
                 '}';
     }
 }

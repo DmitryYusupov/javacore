@@ -7,7 +7,7 @@ public interface MarkService extends BaseService {
 
     void add(Mark mark);
 
-    Mark findById(long id);
+    Mark findById(Long id);
 
     void delete(Mark mark);
 
