@@ -3,21 +3,25 @@ package ru.yusdm.javacore.lesson5oopinterface.autoservice;
 
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.solutions.dataclasses.Pair;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.domain.Mark;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.repo.impl.MarkMemoryRepo;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.service.impl.MarkDefaultService;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.domain.Model;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.repo.impl.ModelMemoryRepo;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.service.impl.ModelDefaultService;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.repo.impl.OrderMemoryRepo;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.service.impl.OrderDefaultService;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.storage.Storage;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.domain.User;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.repo.impl.UserMemoryRepo;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.service.impl.UserDefaultService;
 
 public class AutoServiceDemo {
 
     private static class Application {
-        private UserDefaultService userService = new UserDefaultService();
-        private MarkDefaultService markService = new MarkDefaultService();
-        private ModelDefaultService modelService = new ModelDefaultService();
-        private OrderDefaultService orderService = new OrderDefaultService();
+        private UserDefaultService userService = new UserDefaultService(new UserMemoryRepo());
+        private MarkDefaultService markService = new MarkDefaultService(new MarkMemoryRepo(), new ModelMemoryRepo());
+        private ModelDefaultService modelService = new ModelDefaultService(new ModelMemoryRepo());
+        private OrderDefaultService orderService = new OrderDefaultService(new OrderMemoryRepo());
 
         private Storage storage = new Storage();
 
@@ -35,7 +39,7 @@ public class AutoServiceDemo {
             for (String csvUser : usersAsCsv) {
                 String[] userAttrs = csvUser.split("\\|");
                 int attrIndex = -1;
-                userService.addUser(new User(++id,
+                userService.add(new User(++id,
                         userAttrs[++attrIndex].trim(),
                         userAttrs[++attrIndex].trim(),
                         Integer.parseInt(userAttrs[++attrIndex].trim())
@@ -92,7 +96,7 @@ public class AutoServiceDemo {
                 mark.getModels()[i] = model;
             }
 
-            markService.addMark(mark);
+            markService.add(mark);
         }
 
         public void fillStorage() {
@@ -101,25 +105,24 @@ public class AutoServiceDemo {
         }
 
         public void printUsers() {
-            userService.printUsers();
+            userService.printAll();
         }
 
         public void printMarks() {
-            markService.printMarks();
+            markService.printAll();
         }
 
         public void deleteUsers(){
+            userService.deleteById(1L);
+            userService.deleteById(2L);
+            userService.deleteById(3L);
+            userService.deleteById(4L);
+            userService.deleteById(5L);
+            userService.deleteById(6L);
+            userService.deleteById(7L);
 
-            userService.deleteUser(1L);
-            userService.deleteUser(2L);
-            userService.deleteUser(3L);
-            userService.deleteUser(4L);
-            userService.deleteUser(5L);
-            userService.deleteUser(6L);
-            userService.deleteUser(7L);
-
-            userService.addUser(new User(33L, "SSSS","AAAA",333));
-            userService.deleteUser(33L);
+            userService.add(new User(33L, "SSSS","AAAA",333));
+            userService.deleteById(33L);
         }
     }
 
