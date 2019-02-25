@@ -3,6 +3,7 @@ package ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.service.impl;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.repo.MarkRepo;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.repo.impl.MarkMemoryRepo;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.search.MarkSearchCondition;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.service.MarkService;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.repo.ModelRepo;
@@ -57,4 +58,9 @@ public class MarkDefaultService implements MarkService {
         markRepo.printAll();
     }
 
+
+    @Override
+    public Mark[] search(MarkSearchCondition searchCondition) {
+        return markRepo.search(searchCondition);
+    }
 }

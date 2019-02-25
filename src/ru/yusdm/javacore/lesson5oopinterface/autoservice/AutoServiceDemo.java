@@ -1,27 +1,35 @@
 package ru.yusdm.javacore.lesson5oopinterface.autoservice;
 
 
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.business.data.DataType;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.solutions.dataclasses.Pair;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.repo.impl.MarkMemoryRepo;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.search.MarkSearchCondition;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.service.MarkService;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.service.impl.MarkDefaultService;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.repo.impl.ModelMemoryRepo;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.service.ModelService;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.service.impl.ModelDefaultService;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.repo.impl.OrderMemoryRepo;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.service.OrderService;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.service.impl.OrderDefaultService;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.storage.Storage;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.domain.User;
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.repo.impl.UserMemoryRepo;
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.service.impl.UserDefaultService;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.service.UserServiceCreator;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.service.UserService;
 
 public class AutoServiceDemo {
 
     private static class Application {
-        private UserDefaultService userService = new UserDefaultService(new UserMemoryRepo());
-        private MarkDefaultService markService = new MarkDefaultService(new MarkMemoryRepo(), new ModelMemoryRepo());
-        private ModelDefaultService modelService = new ModelDefaultService(new ModelMemoryRepo());
-        private OrderDefaultService orderService = new OrderDefaultService(new OrderMemoryRepo());
+        DataType dataType = DataType.MEMORY_COLLECTION;
+
+        private UserService userService = UserServiceCreator.getUserService(dataType);
+
+        private MarkService markService = new MarkDefaultService(new MarkMemoryRepo(), new ModelMemoryRepo());
+        private ModelService modelService = new ModelDefaultService(new ModelMemoryRepo());
+        private OrderService orderService = new OrderDefaultService(new OrderMemoryRepo());
 
         private Storage storage = new Storage();
 
@@ -38,6 +46,7 @@ public class AutoServiceDemo {
             Long id = 0L;
             for (String csvUser : usersAsCsv) {
                 String[] userAttrs = csvUser.split("\\|");
+
                 int attrIndex = -1;
                 userService.add(new User(++id,
                         userAttrs[++attrIndex].trim(),
@@ -56,6 +65,12 @@ public class AutoServiceDemo {
                             }
                     ),
                     new Pair("Kamaz | Russia",
+                            new String[]{
+                                    "53125 | Power yeaah | 1970 | -1"
+                            }
+                    ),
+
+                    new Pair("Ural | Russia",
                             new String[]{
                                     "53125 | Power yeaah | 1970 | -1"
                             }
@@ -100,12 +115,12 @@ public class AutoServiceDemo {
         }
 
         public void fillStorage() {
-            addUsers();
+          //  addUsers();
             addMarksWithModels();
         }
 
         public void printUsers() {
-            userService.printAll();
+          // userService.printAll();
         }
 
         public void printMarks() {
@@ -113,13 +128,13 @@ public class AutoServiceDemo {
         }
 
         public void deleteUsers(){
-            userService.deleteById(1L);
-            userService.deleteById(2L);
-            userService.deleteById(3L);
-            userService.deleteById(4L);
-            userService.deleteById(5L);
-            userService.deleteById(6L);
-            userService.deleteById(7L);
+
+
+            MarkSearchCondition markSearchCondition = new MarkSearchCondition();
+            markSearchCondition.setCountry("Russia");
+            markSearchCondition.setName("Ural");
+            Mark[] search = markService.search(markSearchCondition);
+            System.out.println();
 
             userService.add(new User(33L, "SSSS","AAAA",333));
             userService.deleteById(33L);
