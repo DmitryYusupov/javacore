@@ -1,20 +1,22 @@
 package ru.yusdm.javacore.lesson5oopinterface.autoservice.order.service.impl;
 
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.domain.Order;
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.repo.impl.OrderMemoryRepo;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.repo.impl.OrderMemoryArrayRepo;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.service.OrderService;
 
 public class OrderDefaultService implements OrderService {
 
-    private final OrderMemoryRepo orderRepo;
+    private final OrderMemoryArrayRepo orderRepo;
 
-    public OrderDefaultService(OrderMemoryRepo orderRepo) {
+    public OrderDefaultService(OrderMemoryArrayRepo orderRepo) {
         this.orderRepo = orderRepo;
     }
 
     @Override
     public void add(Order order) {
-        orderRepo.add(order);
+        if (order != null) {
+            orderRepo.add(order);
+        }
     }
 
     @Override

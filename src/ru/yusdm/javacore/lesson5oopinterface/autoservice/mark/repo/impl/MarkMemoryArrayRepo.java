@@ -10,8 +10,8 @@ import static ru.yusdm.javacore.lesson5oopinterface.autoservice.common.solutions
 import static ru.yusdm.javacore.lesson5oopinterface.autoservice.storage.Storage.marks;
 
 
-public class MarkMemoryRepo implements MarkRepo {
-
+public class MarkMemoryArrayRepo implements MarkRepo {
+    private static final Mark[] EMPTY_MARKS_ARR = new Mark[0];
     private int markIndex = -1;
 
     @Override
@@ -41,11 +41,9 @@ public class MarkMemoryRepo implements MarkRepo {
         if (searchCondition.getId() != null) {
             return new Mark[]{findById(searchCondition.getId())};
         } else {
-            boolean searchByCountry =
-                    isNotBlank(searchCondition.getCountry());
+            boolean searchByCountry = isNotBlank(searchCondition.getCountry());
 
-            boolean searchByName
-                    = isNotBlank(searchCondition.getName());
+            boolean searchByName = isNotBlank(searchCondition.getName());
 
             Mark[] result = new Mark[marks.length];
             int resultIndex = 0;
@@ -62,7 +60,7 @@ public class MarkMemoryRepo implements MarkRepo {
                         found = searchCondition.getName().equals(mark.getName());
                     }
 
-                    if (found && (searchByName || searchByCountry)) {
+                    if (found) {
                         result[resultIndex] = mark;
                         resultIndex++;
                     }
@@ -75,7 +73,7 @@ public class MarkMemoryRepo implements MarkRepo {
                 return toReturn;
             }
         }
-        return new Mark[0];
+        return EMPTY_MARKS_ARR;
     }
 
     @Override
@@ -94,14 +92,15 @@ public class MarkMemoryRepo implements MarkRepo {
 
     @Override
     public void printAll() {
-        for (Mark mark : marks) {
-            System.out.println(mark);
-        }
+        for (Mark mark : marks)
+            if (mark != null) {
+                System.out.println(mark);
+            }
     }
 
-    private Integer findMarkIndexById(Long markId) {
+    private Integer findMarkIndexById(long markId) {
         for (int i = 0; i < marks.length; i++) {
-            if (marks[i].getId().equals(markId)) {
+            if (marks[i] != null && Long.valueOf(markId).equals(marks[i].getId())) {
                 return i;
             }
         }

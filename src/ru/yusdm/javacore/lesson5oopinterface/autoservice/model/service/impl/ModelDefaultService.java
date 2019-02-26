@@ -14,7 +14,9 @@ public class ModelDefaultService implements ModelService {
 
     @Override
     public void add(Model model) {
-        modelRepo.add(model);
+        if (model != null) {
+            modelRepo.add(model);
+        }
     }
 
     @Override

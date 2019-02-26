@@ -2,7 +2,6 @@ package ru.yusdm.javacore.lesson5oopinterface.autoservice.user.service.impl;
 
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.repo.UserRepo;
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.repo.impl.UserMemoryRepo;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.service.UserService;
 
 public class UserDefaultService implements UserService {
@@ -15,7 +14,9 @@ public class UserDefaultService implements UserService {
 
     @Override
     public void add(User user) {
-        userRepo.add(user);
+        if (user != null) {
+            userRepo.add(user);
+        }
     }
 
     @Override

@@ -3,12 +3,13 @@ package ru.yusdm.javacore.lesson5oopinterface.autoservice.user.repo.impl;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.solutions.utils.ArrayUtils;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.repo.UserRepo;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.search.UserSearchCondition;
 
 import static ru.yusdm.javacore.lesson5oopinterface.autoservice.storage.Storage.users;
 
 
-public class UserMemoryRepo implements UserRepo {
-
+public class UserMemoryArrayRepo implements UserRepo {
+    private static final User[] EMPTY_USERS_ARR = new User[0];
     private int userIndex = -1;
 
     @Override
@@ -34,6 +35,11 @@ public class UserMemoryRepo implements UserRepo {
     }
 
     @Override
+    public User[] search(UserSearchCondition searchCondition) {
+        return EMPTY_USERS_ARR;
+    }
+
+    @Override
     public void deleteById(long id) {
         Integer userIndex = findUserIndexById(id);
 
@@ -50,13 +56,15 @@ public class UserMemoryRepo implements UserRepo {
     @Override
     public void printAll() {
         for (User user : users) {
-            System.out.println(user);
+            if (user != null) {
+                System.out.println(user);
+            }
         }
     }
 
-    private Integer findUserIndexById(Long userId) {
+    private Integer findUserIndexById(long userId) {
         for (int i = 0; i < users.length; i++) {
-            if (users[i].getId().equals(userId)) {
+            if (users[i] != null && Long.valueOf(userId).equals(users[i].getId())) {
                 return i;
             }
         }

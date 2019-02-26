@@ -37,7 +37,7 @@ public class OrderMemoryRepo {
         }
     }
 
-    public void deleteOrder(Long id) {
+    public void deleteOrder(long id) {
         Integer orderIndex = findOrderIndexById(id);
 
         if (orderIndex != null) {
@@ -52,13 +52,16 @@ public class OrderMemoryRepo {
 
     public void printOrders() {
         for (Order order : orders) {
-            System.out.println(order);
+            if (order != null) {
+                System.out.println(order);
+            }
         }
     }
 
     private Integer findOrderIndexByEntity(Order order) {
         for (int i = 0; i < orders.length; i++) {
-            if (orders[i].equals(order)) {
+
+            if (orders[i] != null && orders[i].equals(order)) {
                 return i;
             }
         }
@@ -66,9 +69,9 @@ public class OrderMemoryRepo {
         return null;
     }
 
-    private Integer findOrderIndexById(Long orderId) {
+    private Integer findOrderIndexById(long orderId) {
         for (int i = 0; i < orders.length; i++) {
-            if (orders[i].getId().equals(orderId)) {
+            if (orders[i] != null && Long.valueOf(orderId).equals(orders[i].getId())) {
                 return i;
             }
         }

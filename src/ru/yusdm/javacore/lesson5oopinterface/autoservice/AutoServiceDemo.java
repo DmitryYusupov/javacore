@@ -1,35 +1,34 @@
 package ru.yusdm.javacore.lesson5oopinterface.autoservice;
 
 
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.business.data.DataType;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.business.application.ApplicationServiceCreator;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.business.application.StorageType;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.solutions.dataclasses.Pair;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.domain.Mark;
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.repo.impl.MarkMemoryRepo;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.repo.impl.MarkMemoryArrayRepo;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.search.MarkSearchCondition;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.service.MarkService;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.service.impl.MarkDefaultService;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.domain.Model;
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.repo.impl.ModelMemoryRepo;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.repo.impl.ModelMemoryArrayRepo;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.service.ModelService;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.service.impl.ModelDefaultService;
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.repo.impl.OrderMemoryRepo;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.repo.impl.OrderMemoryArrayRepo;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.service.OrderService;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.service.impl.OrderDefaultService;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.storage.Storage;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.domain.User;
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.service.UserServiceCreator;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.service.UserService;
 
 public class AutoServiceDemo {
 
     private static class Application {
-        DataType dataType = DataType.MEMORY_COLLECTION;
+        StorageType storageType = StorageType.MEMORY_ARRAY;
 
-        private UserService userService = UserServiceCreator.getUserService(dataType);
-
-        private MarkService markService = new MarkDefaultService(new MarkMemoryRepo(), new ModelMemoryRepo());
-        private ModelService modelService = new ModelDefaultService(new ModelMemoryRepo());
-        private OrderService orderService = new OrderDefaultService(new OrderMemoryRepo());
+        private UserService userService = ApplicationServiceCreator.getUserService(storageType);
+        private MarkService markService = ApplicationServiceCreator.getMarkService(storageType);
+        private ModelService modelService = ApplicationServiceCreator.getModelService(storageType);
+        private OrderService orderService = ApplicationServiceCreator.getOrderService(storageType);
 
         private Storage storage = new Storage();
 
@@ -115,28 +114,31 @@ public class AutoServiceDemo {
         }
 
         public void fillStorage() {
-          //  addUsers();
+            addUsers();
             addMarksWithModels();
         }
 
         public void printUsers() {
-          // userService.printAll();
+            userService.printAll();
         }
 
         public void printMarks() {
             markService.printAll();
         }
 
-        public void deleteUsers(){
+        public void deleteUsers() {
 
-
+            userService.deleteById(1L);
+            System.out.println("----------Search marks by country and mark name------------");
             MarkSearchCondition markSearchCondition = new MarkSearchCondition();
             markSearchCondition.setCountry("Russia");
             markSearchCondition.setName("Ural");
-            Mark[] search = markService.search(markSearchCondition);
-            System.out.println();
-
-            userService.add(new User(33L, "SSSS","AAAA",333));
+            Mark[] searchResult = markService.search(markSearchCondition);
+            System.out.println("-----Search result----------------------");
+            for (Mark mark: searchResult){
+                System.out.println(mark);
+            }
+            userService.add(new User(33L, "SSSS", "AAAA", 333));
             userService.deleteById(33L);
         }
     }

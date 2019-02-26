@@ -3,12 +3,13 @@ package ru.yusdm.javacore.lesson5oopinterface.autoservice.model.repo.impl;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.solutions.utils.ArrayUtils;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.repo.ModelRepo;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.search.ModelSearchCondition;
 
 import static ru.yusdm.javacore.lesson5oopinterface.autoservice.storage.Storage.models;
 
 
-public class ModelMemoryRepo implements ModelRepo {
-
+public class ModelMemoryArrayRepo implements ModelRepo {
+    private static final Model[] EMPTY_MODELS_ARR = new Model[0];
     private int modelIndex = -1;
 
     @Override
@@ -34,6 +35,11 @@ public class ModelMemoryRepo implements ModelRepo {
     }
 
     @Override
+    public Model[] search(ModelSearchCondition searchCondition) {
+        return EMPTY_MODELS_ARR;
+    }
+
+    @Override
     public void deleteById(long id) {
         Integer modelIndex = findModelIndexById(id);
 
@@ -50,13 +56,15 @@ public class ModelMemoryRepo implements ModelRepo {
     @Override
     public void printAll() {
         for (Model model : models) {
-            System.out.println(model);
+            if (model != null) {
+                System.out.println(model);
+            }
         }
     }
 
-    private Integer findModelIndexById(Long modelId) {
+    private Integer findModelIndexById(long modelId) {
         for (int i = 0; i < models.length; i++) {
-            if (models[i].getId().equals(modelId)) {
+            if (models[i] != null && Long.valueOf(modelId).equals(models[i].getId())) {
                 return i;
             }
         }

@@ -3,12 +3,13 @@ package ru.yusdm.javacore.lesson5oopinterface.autoservice.order.repo.impl;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.solutions.utils.ArrayUtils;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.repo.OrderRepo;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.order.search.OrderSearchCondition;
 
 import static ru.yusdm.javacore.lesson5oopinterface.autoservice.storage.Storage.orders;
 
 
-public class OrderMemoryRepo implements OrderRepo {
-
+public class OrderMemoryArrayRepo implements OrderRepo {
+    private static final Order[] EMPTY_ORDERS_ARR = new Order[0];
     private int orderIndex = -1;
 
     @Override
@@ -50,17 +51,23 @@ public class OrderMemoryRepo implements OrderRepo {
     @Override
     public void printAll() {
         for (Order order : orders) {
-            System.out.println(order);
+            if (order != null) {
+                System.out.println(order);
+            }
         }
     }
 
-    private Integer findOrderIndexById(Long orderId) {
+    private Integer findOrderIndexById(long orderId) {
         for (int i = 0; i < orders.length; i++) {
-            if (orders[i].getId().equals(orderId)) {
+            if (orders[i] != null && Long.valueOf(orderId).equals(orders[i].getId())) {
                 return i;
             }
         }
         return null;
     }
 
+    @Override
+    public Order[] search(OrderSearchCondition searchCondition) {
+        return EMPTY_ORDERS_ARR;
+    }
 }

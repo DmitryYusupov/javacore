@@ -2,8 +2,8 @@ package ru.yusdm.javacore.lesson5oopinterface.autoservice.user.service;
 
 
 
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.business.data.DataType;
-import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.repo.impl.UserMemoryRepo;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.business.application.StorageType;
+import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.repo.impl.UserMemoryArrayRepo;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.service.impl.UserDefaultService;
 
 /**
@@ -15,11 +15,11 @@ public final class UserServiceCreator {
 
     }
 
-    public static UserService getUserService(DataType dataType) {
-        switch (dataType) {
+    public static UserService getUserService(StorageType storageType) {
+        switch (storageType) {
 
             case MEMORY_ARRAY:
-                return new UserDefaultService(new UserMemoryRepo());
+                return new UserDefaultService(new UserMemoryArrayRepo());
 
             case MEMORY_COLLECTION:{
                 return null;
