@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static ru.yusdm.javacore.lesson6collectionlist.autoservice.common.solutions.utils.StringUtils.isNotBlank;
-import static ru.yusdm.javacore.lesson6collectionlist.autoservice.storage.Storage.marksArray;
 import static ru.yusdm.javacore.lesson6collectionlist.autoservice.storage.Storage.marksList;
 
 public class MarkMemoryCollectionRepo implements MarkRepo {
@@ -34,7 +33,7 @@ public class MarkMemoryCollectionRepo implements MarkRepo {
 
             List<Mark> result = new ArrayList<>();
 
-            for (Mark mark : marksArray) {
+            for (Mark mark : marksList) {
                 if (mark != null) {
                     boolean found = true;
 
