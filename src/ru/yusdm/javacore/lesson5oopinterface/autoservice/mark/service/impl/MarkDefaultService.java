@@ -66,7 +66,7 @@ public class MarkDefaultService implements MarkService {
 
 
     @Override
-    public List<Mark> search(MarkSearchCondition searchCondition) {
-        return new ArrayList<>(Arrays.asList(markRepo.search(searchCondition)));
+    public Mark[] search(MarkSearchCondition searchCondition) {
+        return markRepo.search(searchCondition);
     }
 }

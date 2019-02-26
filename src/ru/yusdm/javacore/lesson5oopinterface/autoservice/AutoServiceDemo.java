@@ -20,6 +20,8 @@ import ru.yusdm.javacore.lesson5oopinterface.autoservice.storage.Storage;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.user.service.UserService;
 
+import java.util.List;
+
 public class AutoServiceDemo {
 
     private static class Application {

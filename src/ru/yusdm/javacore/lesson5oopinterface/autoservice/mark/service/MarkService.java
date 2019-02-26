@@ -14,6 +14,6 @@ public interface MarkService extends BaseService {
 
     void delete(Mark mark);
 
-    List<Mark> search(MarkSearchCondition searchCondition);
+    Mark[] search(MarkSearchCondition searchCondition);
 
 }
