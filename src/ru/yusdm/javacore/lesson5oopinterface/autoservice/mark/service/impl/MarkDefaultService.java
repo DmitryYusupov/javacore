@@ -7,6 +7,10 @@ import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.service.MarkServic
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.model.repo.ModelRepo;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class MarkDefaultService implements MarkService {
 
     private final MarkRepo markRepo;
@@ -62,7 +66,7 @@ public class MarkDefaultService implements MarkService {
 
 
     @Override
-    public Mark[] search(MarkSearchCondition searchCondition) {
-        return markRepo.search(searchCondition);
+    public List<Mark> search(MarkSearchCondition searchCondition) {
+        return new ArrayList<>(Arrays.asList(markRepo.search(searchCondition)));
     }
 }
