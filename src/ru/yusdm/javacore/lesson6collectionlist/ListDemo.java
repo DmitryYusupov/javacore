@@ -20,6 +20,9 @@ public class ListDemo {
         //deleteElementFromListError();
         //deleteElementFromListWithIter();
       //  deleteElementFromListWithRemoveAll();
+
+        //testContains();
+        testContains2();
     }
 
     private static List<String> getTestCollection() {
@@ -174,9 +177,58 @@ public class ListDemo {
         }
 
         namesInLine.removeAll(toDelete);
-
         System.out.println(namesInLine);
-
     }
+
+    private static class Person{
+        private int id;
+        private String name;
+        private String lastName;
+
+        public Person(int id, String name, String lastName) {
+            this.id = id;
+            this.name = name;
+            this.lastName = lastName;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Person person = (Person) o;
+
+            if (name != null ? !name.equals(person.name) : person.name != null) return false;
+            return lastName != null ? lastName.equals(person.lastName) : person.lastName == null;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = name != null ? name.hashCode() : 0;
+            result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+            return result;
+        }
+    }
+
+    private static void testContains(){
+        List<Person> persons = new ArrayList<>();
+        Person person1 = new Person(1, "Ivan","Ivanov");
+        persons.add(person1);
+        Person person2 = new Person(1, "Ivan","Ivanov");
+        persons.add(person2);
+
+        System.out.println(persons.contains(person1));
+    }
+
+    private static void testContains2(){
+        List<Person> persons = new ArrayList<>();
+        persons.add(new Person(1, "Ivan","Ivanov"));
+        persons.add(new Person(2, "Ivan","Ivanov"));
+
+        System.out.println(
+                persons.contains(new Person(1, "Ivan","Ivanov"))
+        );
+    }
+
 
 }

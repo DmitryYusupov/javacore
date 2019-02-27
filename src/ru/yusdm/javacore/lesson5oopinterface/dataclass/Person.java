@@ -8,6 +8,7 @@ public final class Person {
     private final String lastName;
     private final Passport passport;
 
+
     public Person(String name, String lastName, Passport passport) {
         this.name = name;
         this.lastName = lastName;
