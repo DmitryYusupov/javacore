@@ -20,7 +20,9 @@ public class AutoServiceDemo {
 
     private static class Application {
         StorageType storageType = StorageType.MEMORY_COLLECTION;
-        ServiceSupplier.newInstance(storageType);
+
+        ServiceSupplier serviceSupplier = ServiceSupplier.newInstance(storageType);
+
         private UserService userService = ServiceSupplier.getInstance().getUserService();
         private MarkService markService = ServiceSupplier.getInstance().getMarkService();
         private ModelService modelService = ServiceSupplier.getInstance().getModelService();
