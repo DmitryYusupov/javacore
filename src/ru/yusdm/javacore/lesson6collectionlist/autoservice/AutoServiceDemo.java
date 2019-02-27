@@ -1,7 +1,7 @@
 package ru.yusdm.javacore.lesson6collectionlist.autoservice;
 
 
-import ru.yusdm.javacore.lesson6collectionlist.autoservice.common.business.application.ApplicationServiceCreator;
+import ru.yusdm.javacore.lesson6collectionlist.autoservice.common.business.application.servicefactory.ServiceSupplier;
 import ru.yusdm.javacore.lesson6collectionlist.autoservice.common.business.application.StorageType;
 import ru.yusdm.javacore.lesson6collectionlist.autoservice.common.solutions.dataclasses.Pair;
 import ru.yusdm.javacore.lesson6collectionlist.autoservice.mark.domain.Mark;
@@ -20,11 +20,11 @@ public class AutoServiceDemo {
 
     private static class Application {
         StorageType storageType = StorageType.MEMORY_COLLECTION;
-
-        private UserService userService = ApplicationServiceCreator.getUserService(storageType);
-        private MarkService markService = ApplicationServiceCreator.getMarkService(storageType);
-        private ModelService modelService = ApplicationServiceCreator.getModelService(storageType);
-        private OrderService orderService = ApplicationServiceCreator.getOrderService(storageType);
+        ServiceSupplier.newInstance(storageType);
+        private UserService userService = ServiceSupplier.getInstance().getUserService();
+        private MarkService markService = ServiceSupplier.getInstance().getMarkService();
+        private ModelService modelService = ServiceSupplier.getInstance().getModelService();
+        private OrderService orderService = ServiceSupplier.getInstance().getOrderService();
 
         private Storage storage = new Storage();
 
