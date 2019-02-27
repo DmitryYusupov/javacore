@@ -19,9 +19,9 @@ import java.util.List;
 public class AutoServiceDemo {
 
     private static class Application {
-        StorageType storageType = StorageType.MEMORY_COLLECTION;
-
-        ServiceSupplier serviceSupplier = ServiceSupplier.newInstance(storageType);
+        static {
+            ServiceSupplier.newInstance(StorageType.MEMORY_COLLECTION);
+        }
 
         private UserService userService = ServiceSupplier.getInstance().getUserService();
         private MarkService markService = ServiceSupplier.getInstance().getMarkService();
@@ -133,7 +133,7 @@ public class AutoServiceDemo {
             markSearchCondition.setName("Ural");
             List<Mark> searchResult = markService.search(markSearchCondition);
             System.out.println("-----Search result----------------------");
-            for (Mark mark: searchResult){
+            for (Mark mark : searchResult) {
                 System.out.println(mark);
             }
             userService.add(new User(33L, "SSSS", "AAAA", 333));
