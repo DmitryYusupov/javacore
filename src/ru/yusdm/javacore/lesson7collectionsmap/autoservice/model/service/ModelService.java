@@ -16,4 +16,5 @@ public interface ModelService extends BaseService {
 
     List<Model> search(ModelSearchCondition searchCondition);
 
+    void update(Model model);
 }

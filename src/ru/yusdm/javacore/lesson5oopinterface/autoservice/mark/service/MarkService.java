@@ -4,8 +4,6 @@ import ru.yusdm.javacore.lesson5oopinterface.autoservice.common.business.service
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson5oopinterface.autoservice.mark.search.MarkSearchCondition;
 
-import java.util.List;
-
 public interface MarkService extends BaseService {
 
     void add(Mark mark);

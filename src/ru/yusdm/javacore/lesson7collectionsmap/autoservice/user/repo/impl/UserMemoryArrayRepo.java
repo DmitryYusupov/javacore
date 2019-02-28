@@ -1,6 +1,7 @@
 package ru.yusdm.javacore.lesson7collectionsmap.autoservice.user.repo.impl;
 
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.common.solutions.utils.ArrayUtils;
+import ru.yusdm.javacore.lesson7collectionsmap.autoservice.storage.SequenceGenerator;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.user.repo.UserRepo;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.user.search.UserSearchCondition;
@@ -23,7 +24,13 @@ public class UserMemoryArrayRepo implements UserRepo {
         }
 
         userIndex++;
+        user.setId(SequenceGenerator.getNextValue());
         usersArray[userIndex] = user;
+    }
+
+    @Override
+    public void update(User user) {
+        //we already in memory, no need to update object
     }
 
     @Override

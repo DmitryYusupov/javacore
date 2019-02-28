@@ -1,5 +1,8 @@
 package ru.yusdm.javacore.lesson7collectionsmap.map;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Admin on 2/27/2019.
  */
@@ -9,6 +12,15 @@ public enum MonthEnumWithMap {
     NOV("Froze"),
     JULY("Warm"),
     AUGUST;
+
+    private static Map<String, MonthEnumWithMap> strNameEnumItemMap;
+
+    static {
+        strNameEnumItemMap = new HashMap<>();
+        for (MonthEnumWithMap enumItem : MonthEnumWithMap.values()) {
+            strNameEnumItemMap.put(enumItem.name(), enumItem);
+        }
+    }
 
     private String description;
 
@@ -24,13 +36,8 @@ public enum MonthEnumWithMap {
         return description;
     }
 
-    public static boolean isStrBelongsToEnumValues(String s) {
-        for (MonthEnumWithMap MonthEnumWithMap :
-                MonthEnumWithMap.values()) {
-            if (MonthEnumWithMap.name().equals(s)) {
-                return true;
-            }
-        }
-        return false;
+
+    public static boolean isStrBelongsToEnumValues(String enumItemAsStr) {
+        return strNameEnumItemMap.containsKey(enumItemAsStr);
     }
 }

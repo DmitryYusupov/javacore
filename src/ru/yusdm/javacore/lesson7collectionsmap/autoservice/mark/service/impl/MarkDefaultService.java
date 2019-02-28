@@ -67,4 +67,11 @@ public class MarkDefaultService implements MarkService {
     public List<Mark> search(MarkSearchCondition searchCondition) {
         return markRepo.search(searchCondition);
     }
+
+    @Override
+    public void update(Mark mark) {
+        if (mark.getId() != null) {
+            markRepo.update(mark);
+        }
+    }
 }

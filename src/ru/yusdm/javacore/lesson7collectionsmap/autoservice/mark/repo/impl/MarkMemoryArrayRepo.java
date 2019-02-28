@@ -4,6 +4,7 @@ import ru.yusdm.javacore.lesson7collectionsmap.autoservice.common.solutions.util
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.mark.repo.MarkRepo;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.mark.search.MarkSearchCondition;
+import ru.yusdm.javacore.lesson7collectionsmap.autoservice.storage.SequenceGenerator;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.storage.Storage;
 
 import java.util.ArrayList;
@@ -28,8 +29,13 @@ public class MarkMemoryArrayRepo implements MarkRepo {
         }
 
         markIndex++;
-        mark.setId(Storage.getNextValue());
+        mark.setId(SequenceGenerator.getNextValue());
         marksArray[markIndex] = mark;
+    }
+
+    @Override
+    public void update(Mark mark) {
+        //we already in memory, no need to update object
     }
 
     @Override

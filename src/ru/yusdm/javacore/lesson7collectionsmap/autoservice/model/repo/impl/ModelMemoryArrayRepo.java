@@ -4,6 +4,7 @@ import ru.yusdm.javacore.lesson7collectionsmap.autoservice.common.solutions.util
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.model.repo.ModelRepo;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.model.search.ModelSearchCondition;
+import ru.yusdm.javacore.lesson7collectionsmap.autoservice.storage.SequenceGenerator;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +25,7 @@ public class ModelMemoryArrayRepo implements ModelRepo {
         }
 
         modelIndex++;
+        model.setId(SequenceGenerator.getNextValue());
         modelsArray[modelIndex] = model;
     }
 
@@ -35,6 +37,11 @@ public class ModelMemoryArrayRepo implements ModelRepo {
         }
 
         return null;
+    }
+
+    @Override
+    public void update(Model model) {
+        //we already in memory, no need to update object
     }
 
     @Override

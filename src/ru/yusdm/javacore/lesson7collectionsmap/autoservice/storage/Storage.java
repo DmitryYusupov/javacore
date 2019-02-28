@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Storage {
-    private static long sequenceValue = 0;
     private static final int CAPACITY = 3;
     public static Mark[] marksArray = new Mark[CAPACITY];
     public static Model[] modelsArray = new Model[CAPACITY];
@@ -22,7 +21,4 @@ public class Storage {
     public static List<Order> ordersList = new ArrayList<>();
     public static List<User> usersList = new ArrayList<>();
 
-    public static long getNextValue(){
-        return ++sequenceValue;
-    }
 }

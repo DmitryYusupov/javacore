@@ -14,4 +14,6 @@ public interface MarkRepo extends BaseRepo {
 
     List<Mark> search(MarkSearchCondition searchCondition);
 
+    void update(Mark mark);
+
 }

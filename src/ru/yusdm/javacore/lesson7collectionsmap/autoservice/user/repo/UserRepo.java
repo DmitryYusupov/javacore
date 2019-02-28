@@ -13,4 +13,5 @@ public interface UserRepo extends BaseRepo {
 
     List<User> search(UserSearchCondition searchCondition);
 
+    void update(User user);
 }

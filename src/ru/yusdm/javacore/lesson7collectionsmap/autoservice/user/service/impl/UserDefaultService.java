@@ -44,6 +44,13 @@ public class UserDefaultService implements UserService {
     }
 
     @Override
+    public void update(User user) {
+        if (user.getId() != null) {
+            userRepo.update(user);
+        }
+    }
+
+    @Override
     public void deleteById(Long id) {
         if (id != null) {
             userRepo.deleteById(id);

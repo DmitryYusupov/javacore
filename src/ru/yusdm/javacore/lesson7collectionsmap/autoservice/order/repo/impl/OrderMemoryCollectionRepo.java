@@ -3,6 +3,7 @@ package ru.yusdm.javacore.lesson7collectionsmap.autoservice.order.repo.impl;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.order.repo.OrderRepo;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.order.search.OrderSearchCondition;
+import ru.yusdm.javacore.lesson7collectionsmap.autoservice.storage.SequenceGenerator;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +15,7 @@ public class OrderMemoryCollectionRepo implements OrderRepo {
 
     @Override
     public void add(Order order) {
+        order.setId(SequenceGenerator.getNextValue());
         ordersList.add(order);
     }
 

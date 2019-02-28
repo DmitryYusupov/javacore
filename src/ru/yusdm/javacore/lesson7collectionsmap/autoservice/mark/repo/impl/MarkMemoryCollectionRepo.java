@@ -3,6 +3,7 @@ package ru.yusdm.javacore.lesson7collectionsmap.autoservice.mark.repo.impl;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.mark.repo.MarkRepo;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.mark.search.MarkSearchCondition;
+import ru.yusdm.javacore.lesson7collectionsmap.autoservice.storage.SequenceGenerator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,12 +16,18 @@ import static ru.yusdm.javacore.lesson7collectionsmap.autoservice.storage.Storag
 public class MarkMemoryCollectionRepo implements MarkRepo {
     @Override
     public void add(Mark mark) {
+        mark.setId(SequenceGenerator.getNextValue());
         marksList.add(mark);
     }
 
     @Override
     public Mark findById(long id) {
         return findMarkById(id);
+    }
+
+    @Override
+    public void update(Mark mark) {
+        //we already in memory, no need to update object
     }
 
     @Override

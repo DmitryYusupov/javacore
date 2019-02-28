@@ -40,13 +40,11 @@ public class AutoServiceDemo {
                     "Terminator  | T-800  | 125",
                     "Terminator  | T-1000  | 125",
             };
-            Long id = 0L;
             for (String csvUser : usersAsCsv) {
                 String[] userAttrs = csvUser.split("\\|");
 
                 int attrIndex = -1;
-                userService.add(new User(++id,
-                        userAttrs[++attrIndex].trim(),
+                userService.add(new User(userAttrs[++attrIndex].trim(),
                         userAttrs[++attrIndex].trim(),
                         Integer.parseInt(userAttrs[++attrIndex].trim())
                 ));
@@ -136,7 +134,7 @@ public class AutoServiceDemo {
             for (Mark mark : searchResult) {
                 System.out.println(mark);
             }
-            userService.add(new User(33L, "SSSS", "AAAA", 333));
+            userService.add(new User("SSSS", "AAAA", 333));
             userService.deleteById(33L);
         }
     }

@@ -13,4 +13,6 @@ public interface ModelRepo extends BaseRepo {
     Model findById(long id);
 
     List<Model> search(ModelSearchCondition searchCondition);
+
+    void update(Model model);
 }

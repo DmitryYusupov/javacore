@@ -54,4 +54,11 @@ public class ModelDefaultService implements ModelService {
     public List<Model> search(ModelSearchCondition searchCondition) {
         return modelRepo.search(searchCondition);
     }
+
+    @Override
+    public void update(Model model) {
+        if (model.getId() != null) {
+            modelRepo.update(model);
+        }
+    }
 }

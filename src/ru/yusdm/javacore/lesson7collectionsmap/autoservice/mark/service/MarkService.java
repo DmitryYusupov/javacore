@@ -16,4 +16,5 @@ public interface MarkService extends BaseService {
 
     List<Mark> search(MarkSearchCondition searchCondition);
 
+    void update(Mark mark);
 }

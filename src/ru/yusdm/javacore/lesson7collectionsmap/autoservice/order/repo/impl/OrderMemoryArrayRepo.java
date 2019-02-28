@@ -4,6 +4,7 @@ import ru.yusdm.javacore.lesson7collectionsmap.autoservice.common.solutions.util
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.order.repo.OrderRepo;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.order.search.OrderSearchCondition;
+import ru.yusdm.javacore.lesson7collectionsmap.autoservice.storage.SequenceGenerator;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +25,7 @@ public class OrderMemoryArrayRepo implements OrderRepo {
         }
 
         orderIndex++;
+        order.setId(SequenceGenerator.getNextValue());
         ordersArray[orderIndex] = order;
     }
 

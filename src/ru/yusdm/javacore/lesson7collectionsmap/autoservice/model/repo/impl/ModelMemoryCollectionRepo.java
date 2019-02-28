@@ -3,6 +3,7 @@ package ru.yusdm.javacore.lesson7collectionsmap.autoservice.model.repo.impl;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.model.repo.ModelRepo;
 import ru.yusdm.javacore.lesson7collectionsmap.autoservice.model.search.ModelSearchCondition;
+import ru.yusdm.javacore.lesson7collectionsmap.autoservice.storage.SequenceGenerator;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,12 +15,18 @@ public class ModelMemoryCollectionRepo implements ModelRepo {
 
     @Override
     public void add(Model model) {
+        model.setId(SequenceGenerator.getNextValue());
         modelsList.add(model);
     }
 
     @Override
     public Model findById(long id) {
         return findModelById(id);
+    }
+
+    @Override
+    public void update(Model model) {
+        //we already in memory, no need to update object
     }
 
     @Override
