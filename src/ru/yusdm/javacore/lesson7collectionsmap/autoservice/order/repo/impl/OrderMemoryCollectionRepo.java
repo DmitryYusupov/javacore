@@ -7,7 +7,8 @@ import ru.yusdm.javacore.lesson7collectionsmap.autoservice.order.search.OrderSea
 import java.util.Collections;
 import java.util.List;
 
-import static ru.yusdm.javacore.lesson6collectionlist.autoservice.storage.Storage.ordersList;
+import static ru.yusdm.javacore.lesson7collectionsmap.autoservice.storage.Storage.ordersList;
+
 
 public class OrderMemoryCollectionRepo implements OrderRepo {
 

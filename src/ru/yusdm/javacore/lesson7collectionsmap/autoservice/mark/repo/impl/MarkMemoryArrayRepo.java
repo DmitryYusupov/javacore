@@ -11,8 +11,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static ru.yusdm.javacore.lesson6collectionlist.autoservice.common.solutions.utils.StringUtils.isNotBlank;
-import static ru.yusdm.javacore.lesson6collectionlist.autoservice.storage.Storage.marksArray;
+import static ru.yusdm.javacore.lesson7collectionsmap.autoservice.common.solutions.utils.StringUtils.isNotBlank;
+import static ru.yusdm.javacore.lesson7collectionsmap.autoservice.storage.Storage.marksArray;
+
 
 public class MarkMemoryArrayRepo implements MarkRepo {
     private static final Mark[] EMPTY_MARKS_ARR = new Mark[0];

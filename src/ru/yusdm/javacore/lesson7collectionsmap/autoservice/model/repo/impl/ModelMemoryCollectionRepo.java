@@ -7,7 +7,8 @@ import ru.yusdm.javacore.lesson7collectionsmap.autoservice.model.search.ModelSea
 import java.util.Collections;
 import java.util.List;
 
-import static ru.yusdm.javacore.lesson6collectionlist.autoservice.storage.Storage.modelsList;
+import static ru.yusdm.javacore.lesson7collectionsmap.autoservice.storage.Storage.modelsList;
+
 
 public class ModelMemoryCollectionRepo implements ModelRepo {
 

@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static ru.yusdm.javacore.lesson6collectionlist.autoservice.common.solutions.utils.StringUtils.isNotBlank;
-import static ru.yusdm.javacore.lesson6collectionlist.autoservice.storage.Storage.marksList;
+import static ru.yusdm.javacore.lesson7collectionsmap.autoservice.common.solutions.utils.StringUtils.isNotBlank;
+import static ru.yusdm.javacore.lesson7collectionsmap.autoservice.storage.Storage.marksList;
+
 
 public class MarkMemoryCollectionRepo implements MarkRepo {
     @Override
