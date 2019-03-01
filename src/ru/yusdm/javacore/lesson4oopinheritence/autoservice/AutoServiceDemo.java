@@ -19,8 +19,6 @@ public class AutoServiceDemo {
         private ModelMemoryService modelService = new ModelMemoryService();
         private OrderMemoryService orderService = new OrderMemoryService();
 
-        private Storage storage = new Storage();
-
         private void addUsers() {
             String[] usersAsCsv = new String[]{
                     "Ivan        | Ivanov | 21",

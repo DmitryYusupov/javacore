@@ -32,8 +32,6 @@ public class AutoServiceDemo {
         private ModelService modelService = ApplicationServiceCreator.getModelService(storageType);
         private OrderService orderService = ApplicationServiceCreator.getOrderService(storageType);
 
-        private Storage storage = new Storage();
-
         private void addUsers() {
             String[] usersAsCsv = new String[]{
                     "Ivan        | Ivanov | 21",

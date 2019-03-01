@@ -28,8 +28,6 @@ public class AutoServiceDemo {
         private ModelService modelService = ServiceSupplier.getInstance().getModelService();
         private OrderService orderService = ServiceSupplier.getInstance().getOrderService();
 
-        private Storage storage = new Storage();
-
         private void addUsers() {
             String[] usersAsCsv = new String[]{
                     "Ivan        | Ivanov | 21",
