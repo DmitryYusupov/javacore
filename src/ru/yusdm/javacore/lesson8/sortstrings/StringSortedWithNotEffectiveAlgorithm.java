@@ -107,12 +107,12 @@ public class StringSortedWithNotEffectiveAlgorithm implements StringSorter {
     }
 
     private void iterateAndSort(List<String> toSort) {
-        for (int i = 0; i < toSort.size() - 1; i++) {
+        for (int i = 0, j = 1; j < toSort.size(); i++, j++) {
             String prev = toSort.get(i);
-            String next = toSort.get(i + 1);
+            String next = toSort.get(j);
 
             if (compareNumericStrings(prev, next) < 0) {
-                Collections.swap(toSort, i, i + 1);
+                Collections.swap(toSort, i, j);
             }
         }
     }
@@ -142,5 +142,8 @@ public class StringSortedWithNotEffectiveAlgorithm implements StringSorter {
 
         return 0;
     }
+
+
+
 
 }

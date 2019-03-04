@@ -18,7 +18,7 @@ public enum MonthEnumWithMap {
     static {
         strNameEnumItemMap = new HashMap<>();
         for (MonthEnumWithMap enumItem : MonthEnumWithMap.values()) {
-            strNameEnumItemMap.put(enumItem.name(), enumItem);
+            strNameEnumItemMap.put(enumItem.getDescription(), enumItem);
         }
     }
 
