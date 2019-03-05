@@ -32,6 +32,7 @@ public class CollectionsIntersection {
         List<String> list2 = new ArrayList<>(Arrays.asList("c", "d", "c", "w"));
 
         list1.retainAll(list2);
+        list1 = new ArrayList<>(new HashSet<>(list1));
         printCollection(list1);
     }
 
