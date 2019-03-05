@@ -1,6 +1,6 @@
-package ru.yusdm.javacore.lesson7collectionsmap.autoservice.common.business.search;
+package ru.yusdm.javacore.lesson8setandcomparator.autoservice.common.business.domain;
 
-public abstract class BaseSearchCondition {
+public abstract class BaseDomain {
     protected Long id;
 
     public Long getId() {
