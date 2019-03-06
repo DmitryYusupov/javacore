@@ -6,6 +6,7 @@ public class MarkSearchCondition extends BaseSearchCondition {
 
     private String name;
     private String country;
+    private MarkOrderByField orderByField;
 
     public String getName() {
         return name;
@@ -23,11 +24,17 @@ public class MarkSearchCondition extends BaseSearchCondition {
         this.country = country;
     }
 
-    public boolean needSearchByCountry(){
-        return true;
+    public MarkOrderByField getOrderByField() {
+        return orderByField;
     }
 
-    public boolean isNameLengthGeThan6Chars(){
-        return true;
+    public void setOrderByField(MarkOrderByField orderByField) {
+        this.orderByField = orderByField;
     }
+
+    public boolean needOrdering() {
+        return super.needOrdering() && orderByField != null;
+    }
+
+
 }

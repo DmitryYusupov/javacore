@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson8setandcomparator.autoservice.order.repo.impl;
+package ru.yusdm.javacore.lesson8setandcomparator.autoservice.order.repo.impl.memory;
 
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.order.repo.OrderRepo;
@@ -11,7 +11,7 @@ import java.util.List;
 import static ru.yusdm.javacore.lesson8setandcomparator.autoservice.storage.Storage.ordersList;
 
 
-public class OrderMemoryCollectionRepo implements OrderRepo {
+public class OrderCollectionRepo implements OrderRepo {
 
     @Override
     public void add(Order order) {

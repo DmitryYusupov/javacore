@@ -62,4 +62,11 @@ public class Mark extends BaseDomain {
 
         return stringBuilder.toString();
     }
+
+    public String getAsStrWithoutModles() {
+        return "id=" + id +
+                ", country='" + country + '\'' +
+                ", name='" + name + '\'' ;
+
+    }
 }

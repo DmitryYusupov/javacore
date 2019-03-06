@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson8setandcomparator.autoservice.mark.repo.impl;
+package ru.yusdm.javacore.lesson8setandcomparator.autoservice.mark.repo.impl.memory;
 
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.mark.repo.MarkRepo;
@@ -13,7 +13,10 @@ import static ru.yusdm.javacore.lesson8setandcomparator.autoservice.common.solut
 import static ru.yusdm.javacore.lesson8setandcomparator.autoservice.storage.Storage.marksList;
 
 
-public class MarkMemoryCollectionRepo implements MarkRepo {
+public class MarkCollectionRepo implements MarkRepo {
+
+    private MarkOrderingComponent orderingComponent = new MarkOrderingComponent();
+
     @Override
     public void add(Mark mark) {
         mark.setId(SequenceGenerator.getNextValue());
@@ -35,33 +38,42 @@ public class MarkMemoryCollectionRepo implements MarkRepo {
         if (searchCondition.getId() != null) {
             return Collections.singletonList(findById(searchCondition.getId()));
         } else {
-            boolean searchByCountry = isNotBlank(searchCondition.getCountry());
+            List<Mark> result = doSearch(searchCondition);
 
-            boolean searchByName = isNotBlank(searchCondition.getName());
-
-            List<Mark> result = new ArrayList<>();
-
-            for (Mark mark : marksList) {
-                if (mark != null) {
-                    boolean found = true;
-
-                    if (searchByCountry) {
-                        found = searchCondition.getCountry().equals(mark.getCountry());
-                    }
-
-                    if (found && searchByName) {
-                        found = searchCondition.getName().equals(mark.getName());
-                    }
-
-                    if (found) {
-                        result.add(mark);
-                    }
-                }
+            boolean needOrdering = !result.isEmpty() && searchCondition.needOrdering();
+            if (needOrdering) {
+                orderingComponent.applyOrdering(result, searchCondition);
             }
 
             return result;
         }
     }
+
+    private List<Mark> doSearch(MarkSearchCondition searchCondition) {
+        boolean searchByCountry = isNotBlank(searchCondition.getCountry());
+        boolean searchByName = isNotBlank(searchCondition.getName());
+
+        List<Mark> result = new ArrayList<>();
+        for (Mark mark : marksList) {
+            if (mark != null) {
+                boolean found = true;
+
+                if (searchByCountry) {
+                    found = searchCondition.getCountry().equals(mark.getCountry());
+                }
+
+                if (found && searchByName) {
+                    found = searchCondition.getName().equals(mark.getName());
+                }
+
+                if (found) {
+                    result.add(mark);
+                }
+            }
+        }
+        return result;
+    }
+
 
     @Override
     public void deleteById(long id) {

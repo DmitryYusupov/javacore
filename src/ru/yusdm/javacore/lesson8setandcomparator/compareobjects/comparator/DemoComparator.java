@@ -1,7 +1,5 @@
 package ru.yusdm.javacore.lesson8setandcomparator.compareobjects.comparator;
 
-import ru.yusdm.javacore.lesson8setandcomparator.compareobjects.comparable.DemoComparable;
-
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;

@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson8setandcomparator.autoservice.model.repo.impl;
+package ru.yusdm.javacore.lesson8setandcomparator.autoservice.model.repo.impl.memory;
 
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.model.repo.ModelRepo;
@@ -11,7 +11,7 @@ import java.util.List;
 import static ru.yusdm.javacore.lesson8setandcomparator.autoservice.storage.Storage.modelsList;
 
 
-public class ModelMemoryCollectionRepo implements ModelRepo {
+public class ModelCollectionRepo implements ModelRepo {
 
     @Override
     public void add(Model model) {

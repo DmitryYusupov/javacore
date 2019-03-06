@@ -3,9 +3,12 @@ package ru.yusdm.javacore.lesson8setandcomparator.autoservice;
 
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.common.business.application.StorageType;
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.common.business.application.servicefactory.ServiceSupplier;
+import ru.yusdm.javacore.lesson8setandcomparator.autoservice.common.business.search.OrderDirection;
+import ru.yusdm.javacore.lesson8setandcomparator.autoservice.common.business.search.OrderType;
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.common.solutions.dataclasses.Pair;
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.mark.search.MarkSearchCondition;
+import ru.yusdm.javacore.lesson8setandcomparator.autoservice.mark.search.MarkOrderByField;
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.mark.service.MarkService;
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.model.service.ModelService;
@@ -50,6 +53,29 @@ public class AutoServiceDemo {
 
         private void addMarksWithModels() {
             Pair[] marksWithModels = new Pair[]{
+
+                    new Pair("Toyota | Japan",
+                            new String[]{
+                                    "Land cruiser 200   | Big like a gym | 1990 | -1",
+                            }
+                    ),
+                    new Pair("Ural | Russia",
+                            new String[]{
+                                    "53125 | Power yeaah | 1970 | -1"
+                            }
+                    ),
+
+                    new Pair("BMW | Germany",
+                            new String[]{
+                                    "745Li   | Expensiv | 1960 | -1",
+                            }
+                    ),
+                    new Pair("Mazda | Japan",
+                            new String[]{
+                                    "Mazda 6   | Not bad | 1990 | -1",
+                            }
+                    ),
+
                     new Pair("Mercedes-Benz | Germany",
                             new String[]{
                                     "G-500 Amg   | Fast and brutal | 1960 | -1",
@@ -62,11 +88,6 @@ public class AutoServiceDemo {
                             }
                     ),
 
-                    new Pair("Ural | Russia",
-                            new String[]{
-                                    "53125 | Power yeaah | 1970 | -1"
-                            }
-                    ),
 
                     new Pair("Ford | USA",
                             new String[]{
@@ -120,19 +141,64 @@ public class AutoServiceDemo {
         }
 
         public void deleteUsers() {
-
             userService.deleteById(1L);
-            System.out.println("----------Search marks by country and mark name------------");
-            MarkSearchCondition markSearchCondition = new MarkSearchCondition();
-            markSearchCondition.setCountry("Russia");
-            markSearchCondition.setName("Ural");
-            List<Mark> searchResult = markService.search(markSearchCondition);
-            System.out.println("-----Search result----------------------");
-            for (Mark mark : searchResult) {
-                System.out.println(mark);
-            }
             userService.add(new User("SSSS", "AAAA", 333));
             userService.deleteById(33L);
+        }
+
+        public void searchMarksWithoutOrder() {
+            System.out.println("\n----------Search marks No order ------------");
+            MarkSearchCondition markSearchCondition = new MarkSearchCondition();
+            List<Mark> searchResult = markService.search(markSearchCondition);
+            for (Mark mark : searchResult) {
+                System.out.println(mark.getAsStrWithoutModles());
+            }
+        }
+
+        public void searchMarksWithOrderAsc() {
+            System.out.println("\n----------Search marks Order ASC ------------");
+            MarkSearchCondition markSearchCondition = new MarkSearchCondition();
+            markSearchCondition.setOrderDirection(OrderDirection.ASC);
+            markSearchCondition.setOrderByField(MarkOrderByField.COUNTRY);
+            List<Mark> searchResult = markService.search(markSearchCondition);
+            for (Mark mark : searchResult) {
+                System.out.println(mark.getAsStrWithoutModles());
+            }
+        }
+
+        public void searchMarksWithOrderDesc() {
+            System.out.println("\n----------Search marks Order Desc ------------");
+            MarkSearchCondition markSearchCondition = new MarkSearchCondition();
+            markSearchCondition.setOrderDirection(OrderDirection.DESC);
+            markSearchCondition.setOrderByField(MarkOrderByField.COUNTRY);
+            List<Mark> searchResult = markService.search(markSearchCondition);
+            for (Mark mark : searchResult) {
+                System.out.println(mark.getAsStrWithoutModles());
+            }
+        }
+
+        public void searchMarksWithComplexOrderAsc() {
+            System.out.println("\n----------Search marks COMPLEX Order Desc ------------");
+            MarkSearchCondition markSearchCondition = new MarkSearchCondition();
+            markSearchCondition.setOrderDirection(OrderDirection.ASC);
+            markSearchCondition.setOrderByField(MarkOrderByField.COUNTRY);
+            markSearchCondition.setOrderType(OrderType.COMPLEX);
+            List<Mark> searchResult = markService.search(markSearchCondition);
+            for (Mark mark : searchResult) {
+                System.out.println(mark.getAsStrWithoutModles());
+            }
+        }
+
+        public void searchMarksWithComplexOrderDesc() {
+            System.out.println("\n----------Search marks COMPLEX Order Desc ------------");
+            MarkSearchCondition markSearchCondition = new MarkSearchCondition();
+            markSearchCondition.setOrderDirection(OrderDirection.DESC);
+            markSearchCondition.setOrderByField(MarkOrderByField.COUNTRY);
+            markSearchCondition.setOrderType(OrderType.COMPLEX);
+            List<Mark> searchResult = markService.search(markSearchCondition);
+            for (Mark mark : searchResult) {
+                System.out.println(mark.getAsStrWithoutModles());
+            }
         }
     }
 
@@ -146,8 +212,15 @@ public class AutoServiceDemo {
         System.out.println("--------Marks------------");
         application.printMarks();
 
+        System.out.println("--------Delete users------------");
         application.deleteUsers();
-        System.out.println();
+
+        application.searchMarksWithoutOrder();
+        application.searchMarksWithOrderAsc();
+        application.searchMarksWithOrderDesc();
+        application.searchMarksWithComplexOrderAsc();
+        application.searchMarksWithComplexOrderDesc();
+
     }
 
 }

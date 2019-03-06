@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson8setandcomparator.autoservice.user.repo.impl;
+package ru.yusdm.javacore.lesson8setandcomparator.autoservice.user.repo.impl.memory;
 
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.common.solutions.utils.ArrayUtils;
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.storage.SequenceGenerator;
@@ -12,7 +12,7 @@ import java.util.List;
 import static ru.yusdm.javacore.lesson8setandcomparator.autoservice.storage.Storage.usersArray;
 
 
-public class UserMemoryArrayRepo implements UserRepo {
+public class UserArrayRepo implements UserRepo {
     private int userIndex = -1;
 
     @Override

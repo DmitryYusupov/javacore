@@ -1,8 +1,5 @@
 package ru.yusdm.javacore.lesson8setandcomparator.autoservice.common.business.search;
 
-/**
- * Created by Admin on 3/4/2019.
- */
-public enum SortType {
-    ASC, DESC
+public enum OrderType {
+    SIMPLE, COMPLEX
 }

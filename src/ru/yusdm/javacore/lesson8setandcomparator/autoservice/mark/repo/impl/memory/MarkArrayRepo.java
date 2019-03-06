@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson8setandcomparator.autoservice.mark.repo.impl;
+package ru.yusdm.javacore.lesson8setandcomparator.autoservice.mark.repo.impl.memory;
 
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.common.solutions.utils.ArrayUtils;
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.mark.domain.Mark;
@@ -15,8 +15,9 @@ import static ru.yusdm.javacore.lesson8setandcomparator.autoservice.common.solut
 import static ru.yusdm.javacore.lesson8setandcomparator.autoservice.storage.Storage.marksArray;
 
 
-public class MarkMemoryArrayRepo implements MarkRepo {
+public class MarkArrayRepo implements MarkRepo {
     private static final Mark[] EMPTY_MARKS_ARR = new Mark[0];
+    private MarkOrderingComponent orderingComponent = new MarkOrderingComponent();
     private int markIndex = -1;
 
     @Override
@@ -52,38 +53,49 @@ public class MarkMemoryArrayRepo implements MarkRepo {
         if (searchCondition.getId() != null) {
             return Collections.singletonList(findById(searchCondition.getId()));
         } else {
-            boolean searchByCountry = isNotBlank(searchCondition.getCountry());
+            List<Mark> result = doSearch(searchCondition);
+            boolean needOrdering = !result.isEmpty() && searchCondition.needOrdering();
 
-            boolean searchByName = isNotBlank(searchCondition.getName());
+            if (needOrdering) {
+                orderingComponent.applyOrdering(result, searchCondition);
+            }
 
-            Mark[] result = new Mark[marksArray.length];
-            int resultIndex = 0;
+            return result;
+        }
+    }
 
-            for (Mark mark : marksArray) {
-                if (mark != null) {
-                    boolean found = true;
+    private List<Mark> doSearch(MarkSearchCondition searchCondition) {
+        boolean searchByCountry = isNotBlank(searchCondition.getCountry());
+        boolean searchByName = isNotBlank(searchCondition.getName());
 
-                    if (searchByCountry) {
-                        found = searchCondition.getCountry().equals(mark.getCountry());
-                    }
+        Mark[] result = new Mark[marksArray.length];
+        int resultIndex = 0;
 
-                    if (found && searchByName) {
-                        found = searchCondition.getName().equals(mark.getName());
-                    }
+        for (Mark mark : marksArray) {
+            if (mark != null) {
+                boolean found = true;
 
-                    if (found) {
-                        result[resultIndex] = mark;
-                        resultIndex++;
-                    }
+                if (searchByCountry) {
+                    found = searchCondition.getCountry().equals(mark.getCountry());
+                }
+
+                if (found && searchByName) {
+                    found = searchCondition.getName().equals(mark.getName());
+                }
+
+                if (found) {
+                    result[resultIndex] = mark;
+                    resultIndex++;
                 }
             }
-
-            if (resultIndex > 0) {
-                Mark toReturn[] = new Mark[resultIndex];
-                System.arraycopy(result, 0, toReturn, 0, resultIndex);
-                return new ArrayList<>(Arrays.asList(toReturn));
-            }
         }
+
+        if (resultIndex > 0) {
+            Mark toReturn[] = new Mark[resultIndex];
+            System.arraycopy(result, 0, toReturn, 0, resultIndex);
+            return new ArrayList<>(Arrays.asList(toReturn));
+        }
+
         return Collections.emptyList();
     }
 

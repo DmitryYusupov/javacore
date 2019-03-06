@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson8setandcomparator.autoservice.model.repo.impl;
+package ru.yusdm.javacore.lesson8setandcomparator.autoservice.model.repo.impl.memory;
 
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.common.solutions.utils.ArrayUtils;
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.model.domain.Model;
@@ -12,7 +12,7 @@ import java.util.List;
 import static ru.yusdm.javacore.lesson8setandcomparator.autoservice.storage.Storage.modelsArray;
 
 
-public class ModelMemoryArrayRepo implements ModelRepo {
+public class ModelArrayRepo implements ModelRepo {
     private static final Model[] EMPTY_MODELS_ARR = new Model[0];
     private int modelIndex = -1;
 

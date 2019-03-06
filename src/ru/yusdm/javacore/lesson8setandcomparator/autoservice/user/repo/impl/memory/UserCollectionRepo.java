@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson8setandcomparator.autoservice.user.repo.impl;
+package ru.yusdm.javacore.lesson8setandcomparator.autoservice.user.repo.impl.memory;
 
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.storage.SequenceGenerator;
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.user.domain.User;
@@ -11,7 +11,7 @@ import java.util.List;
 import static ru.yusdm.javacore.lesson8setandcomparator.autoservice.storage.Storage.usersList;
 
 
-public class UserMemoryCollectionRepo implements UserRepo {
+public class UserCollectionRepo implements UserRepo {
 
     @Override
     public void add(User user) {

@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson8setandcomparator.autoservice.order.repo.impl;
+package ru.yusdm.javacore.lesson8setandcomparator.autoservice.order.repo.impl.memory;
 
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.common.solutions.utils.ArrayUtils;
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.order.domain.Order;
@@ -12,7 +12,7 @@ import java.util.List;
 import static ru.yusdm.javacore.lesson8setandcomparator.autoservice.storage.Storage.ordersArray;
 
 
-public class OrderMemoryArrayRepo implements OrderRepo {
+public class OrderArrayRepo implements OrderRepo {
     private static final Order[] EMPTY_ORDERS_ARR = new Order[0];
     private int orderIndex = -1;
 
