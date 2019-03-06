@@ -1,7 +1,7 @@
 package ru.yusdm.javacore.lesson8setandcomparator.autoservice.mark.search;
 
 public enum MarkOrderByField {
-    NAME("markname"), COUNTRY("markcountry");
+    COUNTRY("markcountry"),NAME("markname");
 
     MarkOrderByField(String requestParamName) {
         this.requestParamName = requestParamName;
