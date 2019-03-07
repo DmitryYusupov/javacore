@@ -21,7 +21,7 @@ public class MarkArrayRepo implements MarkRepo {
     private int markIndex = -1;
 
     @Override
-    public void add(Mark mark) {
+    public void insert(Mark mark) {
         if (markIndex == marksArray.length - 1) {
             Mark[] newArrMarks = new Mark[marksArray.length * 2];
             System.arraycopy(marksArray, 0, newArrMarks, 0, marksArray.length);
@@ -39,7 +39,7 @@ public class MarkArrayRepo implements MarkRepo {
     }
 
     @Override
-    public Mark findById(long id) {
+    public Mark findById(Long id) {
         Integer markIndex = findMarkIndexById(id);
         if (markIndex != null) {
             return marksArray[markIndex];
@@ -100,7 +100,7 @@ public class MarkArrayRepo implements MarkRepo {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         Integer markIndex = findMarkIndexById(id);
 
         if (markIndex != null) {

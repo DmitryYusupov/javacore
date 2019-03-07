@@ -20,14 +20,14 @@ public class MarkDefaultService implements MarkService {
     }
 
     @Override
-    public void add(Mark mark) {
+    public void insert(Mark mark) {
         if (mark != null) {
-            markRepo.add(mark);
+            markRepo.insert(mark);
 
             if (mark.getModels() != null) {
                 for (Model model : mark.getModels()) {
                     if (model != null) {
-                        modelRepo.add(model);
+                        modelRepo.insert(model);
                     }
                 }
             }

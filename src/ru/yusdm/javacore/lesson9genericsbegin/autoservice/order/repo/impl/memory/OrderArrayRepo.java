@@ -17,7 +17,7 @@ public class OrderArrayRepo implements OrderRepo {
     private int orderIndex = -1;
 
     @Override
-    public void add(Order order) {
+    public void insert(Order order) {
         if (orderIndex == ordersArray.length - 1) {
             Order[] newArrOrders = new Order[ordersArray.length * 2];
             System.arraycopy(ordersArray, 0, newArrOrders, 0, ordersArray.length);
@@ -30,7 +30,12 @@ public class OrderArrayRepo implements OrderRepo {
     }
 
     @Override
-    public Order findById(long id) {
+    public void update(Order entity) {
+
+    }
+
+    @Override
+    public Order findById(Long id) {
         Integer orderIndex = findOrderIndexById(id);
         if (orderIndex != null) {
             return ordersArray[orderIndex];
@@ -40,7 +45,7 @@ public class OrderArrayRepo implements OrderRepo {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         Integer orderIndex = findOrderIndexById(id);
 
         if (orderIndex != null) {

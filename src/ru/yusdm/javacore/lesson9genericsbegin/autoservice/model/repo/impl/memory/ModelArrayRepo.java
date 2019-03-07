@@ -17,7 +17,7 @@ public class ModelArrayRepo implements ModelRepo {
     private int modelIndex = -1;
 
     @Override
-    public void add(Model model) {
+    public void insert(Model model) {
         if (modelIndex == modelsArray.length - 1) {
             Model[] newArrModels = new Model[modelsArray.length * 2];
             System.arraycopy(modelsArray, 0, newArrModels, 0, modelsArray.length);
@@ -30,7 +30,7 @@ public class ModelArrayRepo implements ModelRepo {
     }
 
     @Override
-    public Model findById(long id) {
+    public Model findById(Long id) {
         Integer modelIndex = findModelIndexById(id);
         if (modelIndex != null) {
             return modelsArray[modelIndex];
@@ -50,7 +50,7 @@ public class ModelArrayRepo implements ModelRepo {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         Integer modelIndex = findModelIndexById(id);
 
         if (modelIndex != null) {

@@ -14,7 +14,7 @@ import static ru.yusdm.javacore.lesson9genericsbegin.autoservice.storage.Storage
 public class UserCollectionRepo implements UserRepo {
 
     @Override
-    public void add(User user) {
+    public void insert(User user) {
         user.setId(SequenceGenerator.getNextValue());
         usersList.add(user);
     }
@@ -25,7 +25,7 @@ public class UserCollectionRepo implements UserRepo {
     }
 
     @Override
-    public User findById(long id) {
+    public User findById(Long id) {
         return findUserById(id);
     }
 
@@ -35,7 +35,7 @@ public class UserCollectionRepo implements UserRepo {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         User found = findUserById(id);
 
         if (found != null) {

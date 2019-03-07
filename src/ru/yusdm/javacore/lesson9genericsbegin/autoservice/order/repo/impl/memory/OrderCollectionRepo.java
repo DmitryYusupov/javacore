@@ -14,13 +14,18 @@ import static ru.yusdm.javacore.lesson9genericsbegin.autoservice.storage.Storage
 public class OrderCollectionRepo implements OrderRepo {
 
     @Override
-    public void add(Order order) {
+    public void insert(Order order) {
         order.setId(SequenceGenerator.getNextValue());
         ordersList.add(order);
     }
 
     @Override
-    public Order findById(long id) {
+    public void update(Order entity) {
+
+    }
+
+    @Override
+    public Order findById(Long id) {
         return findOrderById(id);
     }
 
@@ -30,7 +35,7 @@ public class OrderCollectionRepo implements OrderRepo {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         Order found = findOrderById(id);
 
         if (found != null) {

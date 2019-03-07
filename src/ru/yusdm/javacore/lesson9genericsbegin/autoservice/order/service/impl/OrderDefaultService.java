@@ -16,9 +16,16 @@ public class OrderDefaultService implements OrderService {
     }
 
     @Override
-    public void add(Order order) {
+    public void insert(Order order) {
         if (order != null) {
-            orderRepo.add(order);
+            orderRepo.insert(order);
+        }
+    }
+
+    @Override
+    public void update(Order order) {
+        if (order.getId() != null) {
+            orderRepo.update(order);
         }
     }
 

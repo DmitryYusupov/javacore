@@ -18,13 +18,13 @@ public class MarkCollectionRepo implements MarkRepo {
     private MarkOrderingComponent orderingComponent = new MarkOrderingComponent();
 
     @Override
-    public void add(Mark mark) {
+    public void insert(Mark mark) {
         mark.setId(SequenceGenerator.getNextValue());
         marksList.add(mark);
     }
 
     @Override
-    public Mark findById(long id) {
+    public Mark findById(Long id) {
         return findMarkById(id);
     }
 
@@ -76,7 +76,7 @@ public class MarkCollectionRepo implements MarkRepo {
 
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         Mark found = findMarkById(id);
 
         if (found != null) {

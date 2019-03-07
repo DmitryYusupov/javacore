@@ -14,13 +14,13 @@ import static ru.yusdm.javacore.lesson9genericsbegin.autoservice.storage.Storage
 public class ModelCollectionRepo implements ModelRepo {
 
     @Override
-    public void add(Model model) {
+    public void insert(Model model) {
         model.setId(SequenceGenerator.getNextValue());
         modelsList.add(model);
     }
 
     @Override
-    public Model findById(long id) {
+    public Model findById(Long id) {
         return findModelById(id);
     }
 
@@ -35,7 +35,7 @@ public class ModelCollectionRepo implements ModelRepo {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         Model found = findModelById(id);
 
         if (found != null) {

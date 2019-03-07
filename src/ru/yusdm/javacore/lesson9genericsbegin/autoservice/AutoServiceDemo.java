@@ -44,7 +44,7 @@ public class AutoServiceDemo {
                 String[] userAttrs = csvUser.split("\\|");
 
                 int attrIndex = -1;
-                userService.add(new User(userAttrs[++attrIndex].trim(),
+                userService.insert(new User(userAttrs[++attrIndex].trim(),
                         userAttrs[++attrIndex].trim(),
                         Integer.parseInt(userAttrs[++attrIndex].trim())
                 ));
@@ -124,7 +124,7 @@ public class AutoServiceDemo {
                 mark.getModels()[i] = model;
             }
 
-            markService.add(mark);
+            markService.insert(mark);
         }
 
         public void fillStorage() {
@@ -142,7 +142,7 @@ public class AutoServiceDemo {
 
         public void deleteUsers() {
             userService.deleteById(1L);
-            userService.add(new User("SSSS", "AAAA", 333));
+            userService.insert(new User("SSSS", "AAAA", 333));
             userService.deleteById(33L);
         }
 

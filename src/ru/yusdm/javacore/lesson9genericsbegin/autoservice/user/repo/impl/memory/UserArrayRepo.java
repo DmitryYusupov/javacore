@@ -16,7 +16,7 @@ public class UserArrayRepo implements UserRepo {
     private int userIndex = -1;
 
     @Override
-    public void add(User user) {
+    public void insert(User user) {
         if (userIndex == usersArray.length - 1) {
             User[] newArrUsers = new User[usersArray.length * 2];
             System.arraycopy(usersArray, 0, newArrUsers, 0, usersArray.length);
@@ -34,7 +34,7 @@ public class UserArrayRepo implements UserRepo {
     }
 
     @Override
-    public User findById(long id) {
+    public User findById(Long id) {
         Integer userIndex = findUserIndexById(id);
         if (userIndex != null) {
             return usersArray[userIndex];
@@ -49,7 +49,7 @@ public class UserArrayRepo implements UserRepo {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         Integer userIndex = findUserIndexById(id);
 
         if (userIndex != null) {

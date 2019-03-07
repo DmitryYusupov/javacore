@@ -42,7 +42,7 @@ public class StringSortedWithNotEffectiveAlgorithm implements StringSorter {
             numericStrOriginStrMap.put(encodeStringAsNumeric(string), string);
         }
 
-        //we should make length of all strings equals, we will add zeros to the end
+        //we should make length of all strings equals, we will insert zeros to the end
         //map['1023456', 'some string']
         //map['1122300', 'Other string']
         Map<String, String> numericStrWithEqualsLengthOriginStrMap = new HashMap<>();
