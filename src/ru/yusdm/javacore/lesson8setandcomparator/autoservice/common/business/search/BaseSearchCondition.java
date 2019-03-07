@@ -2,27 +2,6 @@ package ru.yusdm.javacore.lesson8setandcomparator.autoservice.common.business.se
 
 public abstract class BaseSearchCondition {
     protected Long id;
-    /**
-     * Germany BMW
-     * Russia   Ural
-     * Germany AUDI
-     *
-     */
-
-    /**
-     * Germany BMW
-     * Germany AUDI
-     * Russia   Ural
-     *
-     */
-
-    /**
-     *  Germany AUDI
-     *  Germany BMW
-     * Russia   Ural
-     *
-     */
-
     protected OrderDirection orderDirection;
     protected OrderType orderType = OrderType.SIMPLE;
 

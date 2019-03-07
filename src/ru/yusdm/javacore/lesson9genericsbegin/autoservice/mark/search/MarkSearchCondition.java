@@ -2,7 +2,7 @@ package ru.yusdm.javacore.lesson9genericsbegin.autoservice.mark.search;
 
 import ru.yusdm.javacore.lesson9genericsbegin.autoservice.common.business.search.BaseSearchCondition;
 
-public class MarkSearchCondition extends BaseSearchCondition {
+public class MarkSearchCondition extends BaseSearchCondition<Long> {
 
     private String name;
     private String country;
