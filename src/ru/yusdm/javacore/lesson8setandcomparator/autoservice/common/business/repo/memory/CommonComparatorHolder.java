@@ -4,9 +4,6 @@ import java.util.Comparator;
 
 public final class CommonComparatorHolder {
 
-
-    private static final CommonComparatorHolder INSTANCE = new CommonComparatorHolder();
-
     private static Comparator<String> comparatorForNullableStrings = new Comparator<String>() {
         @Override
         public int compare(String s1, String s2) {
