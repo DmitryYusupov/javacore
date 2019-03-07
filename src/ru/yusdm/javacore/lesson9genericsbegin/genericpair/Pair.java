@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson9.genericpair;
+package ru.yusdm.javacore.lesson9genericsbegin.genericpair;
 
 /**
  * Created by Admin on 3/6/2019.

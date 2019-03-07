@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson9.genericmulti;
+package ru.yusdm.javacore.lesson9genericsbegin.genericmulti;
 
 /**
  * Created by Admin on 3/6/2019.

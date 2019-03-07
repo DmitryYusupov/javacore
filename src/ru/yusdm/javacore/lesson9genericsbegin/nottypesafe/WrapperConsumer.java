@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson9.nottypesafe;
+package ru.yusdm.javacore.lesson9genericsbegin.nottypesafe;
 
 /**
  * Created by Admin on 3/6/2019.

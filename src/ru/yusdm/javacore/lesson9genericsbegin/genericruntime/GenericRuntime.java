@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson9.genericruntime;
+package ru.yusdm.javacore.lesson9genericsbegin.genericruntime;
 
 import java.util.ArrayList;
 import java.util.List;

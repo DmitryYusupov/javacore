@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson9.wildcard;
+package ru.yusdm.javacore.lesson9genericsbegin.wildcard;
 
 import java.util.ArrayList;
 import java.util.List;

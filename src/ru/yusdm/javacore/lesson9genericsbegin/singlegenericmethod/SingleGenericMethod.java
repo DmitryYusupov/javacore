@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson9.singlegenericmethod;
+package ru.yusdm.javacore.lesson9genericsbegin.singlegenericmethod;
 
 import java.io.Serializable;
 
