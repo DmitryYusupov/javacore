@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson10.mycollectionutils;
+package ru.yusdm.javacore.lesson10genericsandexceptions.lesson.mycollectionutils;
 
 import java.util.ArrayList;
 import java.util.List;

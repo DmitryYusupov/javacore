@@ -1,6 +1,4 @@
-package ru.yusdm.javacore.lesson10.staticgeneric;
-
-import java.util.List;
+package ru.yusdm.javacore.lesson10genericsandexceptions.lesson.staticgeneric;
 
 /**
  * Created by Admin on 3/11/2019.

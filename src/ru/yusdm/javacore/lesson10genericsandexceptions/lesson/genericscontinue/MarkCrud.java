@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson10.genericscontinue;
+package ru.yusdm.javacore.lesson10genericsandexceptions.lesson.genericscontinue;
 
 import ru.yusdm.javacore.lesson8setandcomparator.autoservice.mark.domain.Mark;
 

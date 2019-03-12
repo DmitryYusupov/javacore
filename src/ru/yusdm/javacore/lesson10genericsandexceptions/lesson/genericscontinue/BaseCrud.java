@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson10.genericscontinue;
+package ru.yusdm.javacore.lesson10genericsandexceptions.lesson.genericscontinue;
 
 /**
  * Created by Admin on 3/11/2019.

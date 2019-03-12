@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson10.exceptions;
+package ru.yusdm.javacore.lesson10genericsandexceptions.lesson.exceptions;
 
 import java.io.*;
 import java.util.ArrayList;

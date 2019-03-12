@@ -1,6 +1,4 @@
-package ru.yusdm.javacore.lesson10.mycollectionutils;
-
-import com.oracle.jrockit.jfr.Producer;
+package ru.yusdm.javacore.lesson10genericsandexceptions.lesson.mycollectionutils;
 
 import java.util.ArrayList;
 import java.util.List;
