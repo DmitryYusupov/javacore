@@ -18,7 +18,7 @@ public class Country {
 
     public static void main(String[] args) {
         new Country(1L, "Russia", ARCTIC);
-        System.out.println("---------Simple demo-------");
+        System.out.println("---------Simple demoTryCatchFinally-------");
         System.out.println(ARCTIC.name());
         System.out.println(ARCTIC.toString());
         System.out.println(ARCTIC.ordinal());
@@ -28,13 +28,13 @@ public class Country {
             System.out.println(climate + " " + climate.ordinal());
         }
 
-        System.out.println("---------Ordinal demo-------");
+        System.out.println("---------Ordinal demoTryCatchFinally-------");
         Climate climate = Climate.ARCTIC;
         if (climate.ordinal() == 3){
             System.out.println("Very cold");
         }
 
-        System.out.println("---------Compare demo-------");
+        System.out.println("---------Compare demoTryCatchFinally-------");
         climate = Climate.ARCTIC;
         demoCompare(null);
     }
