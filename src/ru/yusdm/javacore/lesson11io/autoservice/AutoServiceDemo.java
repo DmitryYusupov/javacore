@@ -156,7 +156,6 @@ public class AutoServiceDemo {
         application.searchMarksWithOrderDesc();
         application.searchMarksWithComplexOrderAsc();
         application.searchMarksWithComplexOrderDesc();
-
     }
 
 }

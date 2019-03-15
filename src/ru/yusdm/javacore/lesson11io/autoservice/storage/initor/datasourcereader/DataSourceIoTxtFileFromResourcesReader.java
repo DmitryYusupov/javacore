@@ -6,7 +6,7 @@ import ru.yusdm.javacore.lesson11io.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson11io.autoservice.model.domain.ModelDiscriminator;
 import ru.yusdm.javacore.lesson11io.autoservice.model.domain.PassengerModel;
 import ru.yusdm.javacore.lesson11io.autoservice.model.domain.TruckModel;
-import ru.yusdm.javacore.lesson11io.autoservice.storage.initor.exception.cheked.InitDataCheckedException;
+import ru.yusdm.javacore.lesson11io.autoservice.storage.initor.exception.cheked.InvalidModelDiscriminatorException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -83,7 +83,7 @@ public class DataSourceIoTxtFileFromResourcesReader implements DataSourceReader<
         return marksWithModels;
     }
 
-    private Mark parseMark(List<String> markWithModels) throws InitDataCheckedException {
+    private Mark parseMark(List<String> markWithModels) throws InvalidModelDiscriminatorException {
         String markAsStr = markWithModels.get(0).replaceAll(MARK_PLACEHOLDER, "");
         markWithModels.remove(0);
 
@@ -91,7 +91,7 @@ public class DataSourceIoTxtFileFromResourcesReader implements DataSourceReader<
         return getMark(markAsStr, modelCsv);
     }
 
-    private Mark getMark(String markCsv, String[] modelsCsv) throws InitDataCheckedException {
+    private Mark getMark(String markCsv, String[] modelsCsv) throws InvalidModelDiscriminatorException {
         String[] attrs = markCsv.split("\\|");
         int attrIndex = -1;
 
@@ -123,9 +123,9 @@ public class DataSourceIoTxtFileFromResourcesReader implements DataSourceReader<
         return mark;
     }
 
-    private Model createModelByDiscriminator(String discriminatorAsStr) throws InitDataCheckedException {
+    private Model createModelByDiscriminator(String discriminatorAsStr) throws InvalidModelDiscriminatorException {
         if (ModelDiscriminator.isDiscriminatorNotExists(discriminatorAsStr)) {
-            throw new InitDataCheckedException(
+            throw new InvalidModelDiscriminatorException(
                     PARSE_MODEL_DISCRIMINATOR_ERROR.getCode(),
                     PARSE_MODEL_DISCRIMINATOR_ERROR.getDescriptionAsFormatStr(discriminatorAsStr)
             );
