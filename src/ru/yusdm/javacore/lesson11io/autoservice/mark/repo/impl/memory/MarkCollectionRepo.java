@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static ru.yusdm.javacore.lesson11io.autoservice.common.solutions.utils.StringUtils.isNotBlank;
 import static ru.yusdm.javacore.lesson11io.autoservice.storage.Storage.marksList;
 
 
@@ -50,19 +49,16 @@ public class MarkCollectionRepo implements MarkRepo {
     }
 
     private List<Mark> doSearch(MarkSearchCondition searchCondition) {
-        boolean searchByCountry = isNotBlank(searchCondition.getCountry());
-        boolean searchByName = isNotBlank(searchCondition.getName());
-
         List<Mark> result = new ArrayList<>();
         for (Mark mark : marksList) {
             if (mark != null) {
                 boolean found = true;
 
-                if (searchByCountry) {
+                if (searchCondition.searchByCountry()) {
                     found = searchCondition.getCountry().equals(mark.getCountry());
                 }
 
-                if (found && searchByName) {
+                if (found && searchCondition.searchByName()) {
                     found = searchCondition.getName().equals(mark.getName());
                 }
 

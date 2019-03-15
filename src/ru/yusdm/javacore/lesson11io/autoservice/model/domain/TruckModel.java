@@ -29,4 +29,9 @@ public class TruckModel extends Model {
     public void setTankSize(int tankSize) {
         this.tankSize = tankSize;
     }
+
+    @Override
+    protected void initDiscriminator() {
+        discriminator = ModelDiscriminator.TRUCK;
+    }
 }

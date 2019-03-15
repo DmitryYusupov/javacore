@@ -2,11 +2,16 @@ package ru.yusdm.javacore.lesson11io.autoservice.model.domain;
 
 import ru.yusdm.javacore.lesson11io.autoservice.common.business.domain.BaseDomain;
 
-public class Model extends BaseDomain<Long> {
-    private String name;
-    private String description;
-    private int productionYearStart;
-    private Integer productionYearEnd;
+public abstract class Model extends BaseDomain<Long> {
+    protected String name;
+    protected String description;
+    protected int productionYearStart;
+    protected Integer productionYearEnd;
+    protected ModelDiscriminator discriminator;
+
+    public Model() {
+        initDiscriminator();
+    }
 
     public String getName() {
         return name;
@@ -39,6 +44,12 @@ public class Model extends BaseDomain<Long> {
     public void setProductionYearEnd(Integer productionYearEnd) {
         this.productionYearEnd = productionYearEnd;
     }
+
+    public ModelDiscriminator getDiscriminator() {
+        return discriminator;
+    }
+
+    protected abstract void initDiscriminator();
 
     @Override
     public String toString() {

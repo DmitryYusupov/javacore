@@ -1,22 +1,31 @@
 package ru.yusdm.javacore.lesson11io.autoservice.mark.service.impl;
 
+import ru.yusdm.javacore.lesson11io.autoservice.common.business.exception.AutoServiceUncheckedException;
 import ru.yusdm.javacore.lesson11io.autoservice.mark.domain.Mark;
+import ru.yusdm.javacore.lesson11io.autoservice.mark.exception.MarkExceptionMeta;
+import ru.yusdm.javacore.lesson11io.autoservice.mark.exception.unchecked.DeleteMarkException;
 import ru.yusdm.javacore.lesson11io.autoservice.mark.repo.MarkRepo;
 import ru.yusdm.javacore.lesson11io.autoservice.mark.search.MarkSearchCondition;
 import ru.yusdm.javacore.lesson11io.autoservice.mark.service.MarkService;
 import ru.yusdm.javacore.lesson11io.autoservice.model.domain.Model;
-import ru.yusdm.javacore.lesson11io.autoservice.model.repo.ModelRepo;
+import ru.yusdm.javacore.lesson11io.autoservice.model.service.ModelService;
+import ru.yusdm.javacore.lesson11io.autoservice.order.repo.OrderRepo;
 
+import java.util.Collections;
 import java.util.List;
+
+import static ru.yusdm.javacore.lesson11io.autoservice.mark.exception.MarkExceptionMeta.DELETE_MARK_CONSTRAINT_ERROR;
 
 public class MarkDefaultService implements MarkService {
 
     private final MarkRepo markRepo;
-    private final ModelRepo modelRepo;
+    private final ModelService modelService;
+    private final OrderRepo orderRepo;
 
-    public MarkDefaultService(MarkRepo markRepo, ModelRepo modelRepo) {
+    public MarkDefaultService(MarkRepo markRepo, ModelService modelService, OrderRepo orderRepo) {
         this.markRepo = markRepo;
-        this.modelRepo = modelRepo;
+        this.modelService = modelService;
+        this.orderRepo = orderRepo;
     }
 
     @Override
@@ -27,7 +36,7 @@ public class MarkDefaultService implements MarkService {
             if (mark.getModels() != null) {
                 for (Model model : mark.getModels()) {
                     if (model != null) {
-                        modelRepo.insert(model);
+                        modelService.insert(model);
                     }
                 }
             }
@@ -51,9 +60,16 @@ public class MarkDefaultService implements MarkService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Long id) throws AutoServiceUncheckedException {
         if (id != null) {
-            markRepo.deleteById(id);
+            boolean noOrders = orderRepo.countByMark(id) == 0;
+
+            if (noOrders) {
+                deleteModelsByMark(id);
+                markRepo.deleteById(id);
+            } else {
+                throw new DeleteMarkException(DELETE_MARK_CONSTRAINT_ERROR);
+            }
         }
     }
 
@@ -72,6 +88,19 @@ public class MarkDefaultService implements MarkService {
     public void update(Mark mark) {
         if (mark.getId() != null) {
             markRepo.update(mark);
+        }
+    }
+
+    @Override
+    public void deleteModelsByMark(Long markId) throws AutoServiceUncheckedException {
+        Mark mark = findById(markId);
+        if (mark != null) {
+            List<Model> models = mark.getModels() == null ? Collections.emptyList() : mark.getModels();
+
+            for (Model model : models) {
+                modelService.deleteById(model.getId());
+            }
+
         }
     }
 }

@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface ModelService extends BaseService<Model, Long> {
 
-    List<Model> search(ModelSearchCondition searchCondition);
+    List<? extends Model> search(ModelSearchCondition searchCondition);
 
 }

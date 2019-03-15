@@ -7,5 +7,5 @@ import ru.yusdm.javacore.lesson11io.autoservice.model.search.ModelSearchConditio
 import java.util.List;
 
 public interface ModelRepo extends BaseRepo<Model, Long> {
-    List<Model> search(ModelSearchCondition searchCondition);
+    List<? extends Model> search(ModelSearchCondition searchCondition);
 }

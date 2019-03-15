@@ -2,11 +2,21 @@ package ru.yusdm.javacore.lesson11io.autoservice.mark.search;
 
 import ru.yusdm.javacore.lesson11io.autoservice.common.business.search.BaseSearchCondition;
 
+import static ru.yusdm.javacore.lesson11io.autoservice.common.solutions.utils.StringUtils.isNotBlank;
+
 public class MarkSearchCondition extends BaseSearchCondition<Long> {
 
     private String name;
     private String country;
     private MarkOrderByField orderByField;
+
+    public boolean searchByName() {
+        return isNotBlank(name);
+    }
+
+    public boolean searchByCountry() {
+        return isNotBlank(country);
+    }
 
     public String getName() {
         return name;

@@ -1,6 +1,7 @@
 package ru.yusdm.javacore.lesson11io.autoservice.model.domain;
 
 public class PassengerModel extends Model {
+
     private int numberOfAirbags;
     private int numberOfSeats;
     private String audioSystemName;
@@ -27,5 +28,10 @@ public class PassengerModel extends Model {
 
     public void setAudioSystemName(String audioSystemName) {
         this.audioSystemName = audioSystemName;
+    }
+
+    @Override
+    protected void initDiscriminator() {
+        discriminator = ModelDiscriminator.PASSENGER;
     }
 }

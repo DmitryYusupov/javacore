@@ -5,6 +5,7 @@ import ru.yusdm.javacore.lesson11io.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson11io.autoservice.order.repo.OrderRepo;
 import ru.yusdm.javacore.lesson11io.autoservice.order.search.OrderSearchCondition;
 import ru.yusdm.javacore.lesson11io.autoservice.storage.SequenceGenerator;
+import ru.yusdm.javacore.lesson7collectionsmap.autoservice.model.domain.Model;
 
 import java.util.Collections;
 import java.util.List;
@@ -79,5 +80,27 @@ public class OrderArrayRepo implements OrderRepo {
     @Override
     public List<Order> search(OrderSearchCondition searchCondition) {
         return Collections.emptyList();
+    }
+
+    @Override
+    public int countByModel(long modelId) {
+        int count = 0;
+        for (Order order : ordersArray) {
+            if (modelId == order.getModel().getId()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    @Override
+    public int countByMark(long markId) {
+        int count = 0;
+        for (Order order : ordersArray) {
+            if (markId == order.getMark().getId()) {
+                count++;
+            }
+        }
+        return count;
     }
 }

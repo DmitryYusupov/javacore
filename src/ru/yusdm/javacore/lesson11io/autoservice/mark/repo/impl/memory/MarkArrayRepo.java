@@ -11,12 +11,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static ru.yusdm.javacore.lesson11io.autoservice.common.solutions.utils.StringUtils.isNotBlank;
 import static ru.yusdm.javacore.lesson11io.autoservice.storage.Storage.marksArray;
 
 
 public class MarkArrayRepo implements MarkRepo {
-    private static final Mark[] EMPTY_MARKS_ARR = new Mark[0];
     private MarkOrderingComponent orderingComponent = new MarkOrderingComponent();
     private int markIndex = -1;
 
@@ -65,9 +63,6 @@ public class MarkArrayRepo implements MarkRepo {
     }
 
     private List<Mark> doSearch(MarkSearchCondition searchCondition) {
-        boolean searchByCountry = isNotBlank(searchCondition.getCountry());
-        boolean searchByName = isNotBlank(searchCondition.getName());
-
         Mark[] result = new Mark[marksArray.length];
         int resultIndex = 0;
 
@@ -75,11 +70,11 @@ public class MarkArrayRepo implements MarkRepo {
             if (mark != null) {
                 boolean found = true;
 
-                if (searchByCountry) {
+                if (searchCondition.searchByCountry()) {
                     found = searchCondition.getCountry().equals(mark.getCountry());
                 }
 
-                if (found && searchByName) {
+                if (found && searchCondition.searchByName()) {
                     found = searchCondition.getName().equals(mark.getName());
                 }
 

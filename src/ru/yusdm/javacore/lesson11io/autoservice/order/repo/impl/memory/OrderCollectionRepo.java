@@ -58,4 +58,27 @@ public class OrderCollectionRepo implements OrderRepo {
         }
         return null;
     }
+
+    @Override
+    public int countByModel(long modelId) {
+        int count = 0;
+        for (Order order : ordersList) {
+            if (modelId == order.getModel().getId()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    @Override
+    public int countByMark(long markId) {
+        int count = 0;
+        for (Order order : ordersList) {
+            if (markId == order.getMark().getId()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
 }

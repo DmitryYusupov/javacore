@@ -11,11 +11,15 @@ import ru.yusdm.javacore.lesson11io.autoservice.mark.search.MarkOrderByField;
 import ru.yusdm.javacore.lesson11io.autoservice.mark.search.MarkSearchCondition;
 import ru.yusdm.javacore.lesson11io.autoservice.mark.service.MarkService;
 import ru.yusdm.javacore.lesson11io.autoservice.model.domain.Model;
+import ru.yusdm.javacore.lesson11io.autoservice.model.domain.ModelDiscriminator;
+import ru.yusdm.javacore.lesson11io.autoservice.model.domain.PassengerModel;
+import ru.yusdm.javacore.lesson11io.autoservice.model.domain.TruckModel;
 import ru.yusdm.javacore.lesson11io.autoservice.model.service.ModelService;
 import ru.yusdm.javacore.lesson11io.autoservice.order.service.OrderService;
 import ru.yusdm.javacore.lesson11io.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson11io.autoservice.user.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AutoServiceDemo {
@@ -56,43 +60,44 @@ public class AutoServiceDemo {
 
                     new Pair("Toyota | Japan",
                             new String[]{
-                                    "Land cruiser 200   | Big like a gym | 1990 | -1",
+                                    "PASSENGER | Land cruiser 200 | Big like a gym | 1990 | -1",
                             }
                     ),
                     new Pair("Ural | Russia",
                             new String[]{
-                                    "53125 | Power yeaah | 1970 | -1"
+                                    " TRUCK | 53125 | Power yeaah | 1970 | -1"
                             }
                     ),
 
                     new Pair("BMW | Germany",
                             new String[]{
-                                    "745Li   | Expensiv | 1960 | -1",
+                                    " PASSENGER | 745Li  |Expensiv | 1960 | -1",
                             }
                     ),
                     new Pair("Mazda | Japan",
                             new String[]{
-                                    "Mazda 6   | Not bad | 1990 | -1",
+                                    "PASSENGER  | Mazda 6  | Not bad | 1990 | -1",
                             }
                     ),
 
                     new Pair("Mercedes-Benz | Germany",
                             new String[]{
-                                    "G-500 Amg   | Fast and brutal | 1960 | -1",
-                                    "SLR McLaren | Great Sound     | 2002 | 2008"
+                                    "TRUCK    | Actros       | Economic fueld  | 1960 | -1",
+                                    "PASSENGER| G-500 Amg    | Fast and brutal | 1960 | -1",
+                                    "PASSENGER| SLR McLaren  | Great Sound     | 2002 | 2008"
                             }
                     ),
                     new Pair("Kamaz | Russia",
                             new String[]{
-                                    "53125 | Power yeaah | 1970 | -1"
+                                    "TRUCK |53125 | Power yeaah | 1970 | -1"
                             }
                     ),
 
 
                     new Pair("Ford | USA",
                             new String[]{
-                                    "Focus   | Casual, economic | 2002 | -1",
-                                    "Scorpio | 90-th dream      | 1992 | 1998",
+                                    "PASSENGER | Focus   |Casual, economic | 2002 | -1",
+                                    "PASSENGER | Scorpio  | 90-th dream      | 1992 | 1998",
                             }
                     ),
             };
@@ -107,21 +112,43 @@ public class AutoServiceDemo {
             int attrIndex = -1;
 
             Mark mark = new Mark(attrs[++attrIndex].trim(), attrs[++attrIndex].trim());
-            mark.setModels(new Model[modelsCsv.length]);
+            mark.setModels(new ArrayList<>());
 
             for (int i = 0; i < modelsCsv.length; i++) {
                 String csvModel = modelsCsv[i];
                 attrIndex = -1;
                 attrs = csvModel.split("\\|");
 
-                Model model = new Model();
+                Model model = null;
+                ModelDiscriminator modelDiscriminator = ModelDiscriminator.valueOf(attrs[++attrIndex].trim());
+
+                switch (modelDiscriminator){
+
+                    case PASSENGER:
+                        model = new TruckModel();
+                        break;
+                    case TRUCK:
+                        model = new PassengerModel();
+                        break;
+                }
+
                 model.setName(attrs[++attrIndex].trim());
                 model.setDescription(attrs[++attrIndex].trim());
                 model.setProductionYearStart(Integer.parseInt(attrs[++attrIndex].trim()));
                 int productionYearEnd = Integer.parseInt(attrs[++attrIndex].trim());
                 model.setProductionYearEnd(productionYearEnd == -1 ? null : productionYearEnd);
 
-                mark.getModels()[i] = model;
+                switch (modelDiscriminator){
+
+                    case PASSENGER:
+                        TruckModel truckModel = (TruckModel) model;
+                        break;
+                    case TRUCK:
+                        PassengerModel passengerModel = (PassengerModel) model;
+                        break;
+                }
+
+                mark.getModels().add(model);
             }
 
             markService.insert(mark);

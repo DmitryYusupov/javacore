@@ -4,10 +4,12 @@ package ru.yusdm.javacore.lesson11io.autoservice.mark.domain;
 import ru.yusdm.javacore.lesson11io.autoservice.common.business.domain.BaseDomain;
 import ru.yusdm.javacore.lesson11io.autoservice.model.domain.Model;
 
+import java.util.List;
+
 public class Mark extends BaseDomain<Long> {
     private String name;
     private String country;
-    private Model[] models;
+    private List<Model> models;
 
     public Mark() {
     }
@@ -29,11 +31,11 @@ public class Mark extends BaseDomain<Long> {
         this.name = name;
     }
 
-    public Model[] getModels() {
+    public List<Model> getModels() {
         return models;
     }
 
-    public void setModels(Model[] models) {
+    public void setModels(List<Model> models) {
         this.models = models;
     }
 
