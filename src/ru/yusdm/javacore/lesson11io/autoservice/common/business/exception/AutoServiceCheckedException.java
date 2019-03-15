@@ -4,7 +4,7 @@ public abstract class AutoServiceCheckedException extends Exception {
 
     protected int code;
 
-    public AutoServiceCheckedException(String message, int code) {
+    public AutoServiceCheckedException(int code, String message) {
         super(message);
         this.code = code;
     }

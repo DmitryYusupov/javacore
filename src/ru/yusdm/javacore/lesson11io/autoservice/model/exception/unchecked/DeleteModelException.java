@@ -5,11 +5,11 @@ import ru.yusdm.javacore.lesson11io.autoservice.model.exception.ModelExceptionMe
 
 public class DeleteModelException extends AutoServiceUncheckedException {
 
-    public DeleteModelException(String message, int code) {
-        super(message, code);
+    public DeleteModelException(int code, String message) {
+        super(code, message);
     }
 
     public DeleteModelException(ModelExceptionMeta exceptionMeta) {
-        super(exceptionMeta.getDescription(), exceptionMeta.getCode());
+        super(exceptionMeta.getCode(), exceptionMeta.getDescription());
     }
 }

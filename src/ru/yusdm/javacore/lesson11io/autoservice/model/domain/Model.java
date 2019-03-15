@@ -53,12 +53,13 @@ public abstract class Model extends BaseDomain<Long> {
 
     @Override
     public String toString() {
-        return "Model{" +
-                "id=" + id +
+        return
+                 discriminator +
+                " id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", productionYearStart=" + productionYearStart +
-                ", productionYearEnd=" + productionYearEnd +
-                '}';
+                ", productionYearEnd=" + productionYearEnd
+                ;
     }
 }

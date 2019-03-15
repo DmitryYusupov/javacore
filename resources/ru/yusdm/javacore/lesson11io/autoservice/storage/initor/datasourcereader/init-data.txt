@@ -1,0 +1,27 @@
+Mark: Toyota | Japan
+PASSENGER |Land cruiser 200   | Big like a gym | 1990 | -1 | 4 | 8 | Sony
+
+Mark: Ural | Russia
+TRUCK | 53125 | Power yeaah | 1970 | -1  | 10000 | N | 300
+
+Mark: BMW | Germany
+PASSENGER |745Li   | Expensiv | 1960 | -1 | 8 | 4 | Panasonic
+
+Mark: Mazda | Japan
+PASSENGER |Mazda 6   | Not bad | 1990 | -1 | 4 | 4 | Pioneer
+
+Mark: Mercedes-Benz | Germany
+PASSENGER |G-500 Amg   | Fast and brutal         | 1960 | -1   | 12 | 4 | Sony
+PASSENGER |SLR McLaren | Great Sound             | 2002 | 2008 | 2  | 2 | LG
+TRUCK     |Actros      | Universal and powerfull | 2002 | 2008 | 8000 | Y | 250
+
+Mark: Kamaz | Russia
+TRUCK | 53125 | Power yeaah | 1970 | -1 | 3700 | N | 300
+
+Mark: Ford | USA
+PASSENGER |Focus   | Casual, economic | 2002 | -1   | 4 | 2 | Sony
+PASSENGER |Scorpio | 90-th dream      | 1992 | 1998 | 4 | 1 | Samsung
+
+Mark: Volvo | USA
+PASSENGER |XC 90   | Safety 5 stars            | 2012 | -1 | 6 | 10 | Sony
+TRUCK     |FH 12   | Comfortable and powerfull | 1992 | 1998 | 8900 | Y | 400

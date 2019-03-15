@@ -3,23 +3,20 @@ package ru.yusdm.javacore.lesson11io.autoservice;
 
 import ru.yusdm.javacore.lesson11io.autoservice.common.business.application.StorageType;
 import ru.yusdm.javacore.lesson11io.autoservice.common.business.application.servicefactory.ServiceSupplier;
+import ru.yusdm.javacore.lesson11io.autoservice.common.business.exception.AutoServiceCheckedException;
 import ru.yusdm.javacore.lesson11io.autoservice.common.business.search.OrderDirection;
 import ru.yusdm.javacore.lesson11io.autoservice.common.business.search.OrderType;
-import ru.yusdm.javacore.lesson11io.autoservice.common.solutions.dataclasses.Pair;
 import ru.yusdm.javacore.lesson11io.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson11io.autoservice.mark.search.MarkOrderByField;
 import ru.yusdm.javacore.lesson11io.autoservice.mark.search.MarkSearchCondition;
 import ru.yusdm.javacore.lesson11io.autoservice.mark.service.MarkService;
-import ru.yusdm.javacore.lesson11io.autoservice.model.domain.Model;
-import ru.yusdm.javacore.lesson11io.autoservice.model.domain.ModelDiscriminator;
-import ru.yusdm.javacore.lesson11io.autoservice.model.domain.PassengerModel;
-import ru.yusdm.javacore.lesson11io.autoservice.model.domain.TruckModel;
 import ru.yusdm.javacore.lesson11io.autoservice.model.service.ModelService;
 import ru.yusdm.javacore.lesson11io.autoservice.order.service.OrderService;
+import ru.yusdm.javacore.lesson11io.autoservice.storage.initor.StorageInitor;
+import ru.yusdm.javacore.lesson11io.autoservice.storage.initor.StorageInitorConstants;
 import ru.yusdm.javacore.lesson11io.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson11io.autoservice.user.service.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AutoServiceDemo {
@@ -55,108 +52,20 @@ public class AutoServiceDemo {
             }
         }
 
-        private void addMarksWithModels() {
-            Pair[] marksWithModels = new Pair[]{
-
-                    new Pair("Toyota | Japan",
-                            new String[]{
-                                    "PASSENGER | Land cruiser 200 | Big like a gym | 1990 | -1",
-                            }
-                    ),
-                    new Pair("Ural | Russia",
-                            new String[]{
-                                    " TRUCK | 53125 | Power yeaah | 1970 | -1"
-                            }
-                    ),
-
-                    new Pair("BMW | Germany",
-                            new String[]{
-                                    " PASSENGER | 745Li  |Expensiv | 1960 | -1",
-                            }
-                    ),
-                    new Pair("Mazda | Japan",
-                            new String[]{
-                                    "PASSENGER  | Mazda 6  | Not bad | 1990 | -1",
-                            }
-                    ),
-
-                    new Pair("Mercedes-Benz | Germany",
-                            new String[]{
-                                    "TRUCK    | Actros       | Economic fueld  | 1960 | -1",
-                                    "PASSENGER| G-500 Amg    | Fast and brutal | 1960 | -1",
-                                    "PASSENGER| SLR McLaren  | Great Sound     | 2002 | 2008"
-                            }
-                    ),
-                    new Pair("Kamaz | Russia",
-                            new String[]{
-                                    "TRUCK |53125 | Power yeaah | 1970 | -1"
-                            }
-                    ),
-
-
-                    new Pair("Ford | USA",
-                            new String[]{
-                                    "PASSENGER | Focus   |Casual, economic | 2002 | -1",
-                                    "PASSENGER | Scorpio  | 90-th dream      | 1992 | 1998",
-                            }
-                    ),
-            };
-
-            for (Pair markModelData : marksWithModels) {
-                addMark(markModelData.getLeft(), markModelData.getRight());
-            }
-        }
-
-        private void addMark(String markCsv, String[] modelsCsv) {
-            String[] attrs = markCsv.split("\\|");
-            int attrIndex = -1;
-
-            Mark mark = new Mark(attrs[++attrIndex].trim(), attrs[++attrIndex].trim());
-            mark.setModels(new ArrayList<>());
-
-            for (int i = 0; i < modelsCsv.length; i++) {
-                String csvModel = modelsCsv[i];
-                attrIndex = -1;
-                attrs = csvModel.split("\\|");
-
-                Model model = null;
-                ModelDiscriminator modelDiscriminator = ModelDiscriminator.valueOf(attrs[++attrIndex].trim());
-
-                switch (modelDiscriminator){
-
-                    case PASSENGER:
-                        model = new TruckModel();
-                        break;
-                    case TRUCK:
-                        model = new PassengerModel();
-                        break;
-                }
-
-                model.setName(attrs[++attrIndex].trim());
-                model.setDescription(attrs[++attrIndex].trim());
-                model.setProductionYearStart(Integer.parseInt(attrs[++attrIndex].trim()));
-                int productionYearEnd = Integer.parseInt(attrs[++attrIndex].trim());
-                model.setProductionYearEnd(productionYearEnd == -1 ? null : productionYearEnd);
-
-                switch (modelDiscriminator){
-
-                    case PASSENGER:
-                        TruckModel truckModel = (TruckModel) model;
-                        break;
-                    case TRUCK:
-                        PassengerModel passengerModel = (PassengerModel) model;
-                        break;
-                }
-
-                mark.getModels().add(model);
-            }
-
-            markService.insert(mark);
-        }
-
-        public void fillStorage() {
+        public void fillStorage() throws Exception {
             addUsers();
-            addMarksWithModels();
+            StorageInitor storageInitor = new StorageInitor(markService);
+            try {
+                storageInitor.initStorage(StorageInitorConstants.INIT_DATA_TXT_FILE, StorageInitor.DataSourceType.TXT_FILE);
+            }
+            catch (AutoServiceCheckedException e){
+                System.out.println("ERROR while init storage: " + e.getMessage());
+                throw e;
+            }
+            catch (Exception e) {
+                System.out.println("Error: Unknown magic :" +e.getMessage());
+                throw e;
+            }
         }
 
         public void printUsers() {
@@ -229,7 +138,7 @@ public class AutoServiceDemo {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Application application = new Application();
         application.fillStorage();
 

@@ -34,4 +34,11 @@ public class TruckModel extends Model {
     protected void initDiscriminator() {
         discriminator = ModelDiscriminator.TRUCK;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " weight=" + weight +
+                ", embeddedKitchen=" + embeddedKitchen +
+                ", tankSize=" + tankSize;
+    }
 }

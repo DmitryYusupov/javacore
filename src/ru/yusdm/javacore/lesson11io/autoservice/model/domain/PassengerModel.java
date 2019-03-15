@@ -34,4 +34,13 @@ public class PassengerModel extends Model {
     protected void initDiscriminator() {
         discriminator = ModelDiscriminator.PASSENGER;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                "numberOfAirbags=" + numberOfAirbags +
+                ", numberOfSeats=" + numberOfSeats +
+                ", audioSystemName='" + audioSystemName + '\'';
+
+    }
 }
