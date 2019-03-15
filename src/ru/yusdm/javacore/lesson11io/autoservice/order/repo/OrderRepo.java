@@ -15,4 +15,5 @@ public interface OrderRepo extends BaseRepo<Order, Long> {
 
     int countByMark(long markId);
 
+    void deleteByUserId(long userId);
 }

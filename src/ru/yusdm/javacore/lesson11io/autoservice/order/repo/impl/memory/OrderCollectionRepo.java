@@ -81,4 +81,7 @@ public class OrderCollectionRepo implements OrderRepo {
         return count;
     }
 
+    @Override
+    public void deleteByUserId(long userId) {
+    }
 }

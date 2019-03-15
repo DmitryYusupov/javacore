@@ -26,7 +26,7 @@ public class MemoryCollectionServiceFactory implements ServiceFactory {
 
     private ModelService modelService = new ModelDefaultService(modelRepo, orderRepo);
     private OrderService orderService = new OrderDefaultService(orderRepo);
-    private UserService userService = new UserDefaultService(userRepo);
+    private UserService userService = new UserDefaultService(userRepo, orderService);
     private MarkService markService = new MarkDefaultService(markRepo, modelService, orderRepo);
 
     @Override

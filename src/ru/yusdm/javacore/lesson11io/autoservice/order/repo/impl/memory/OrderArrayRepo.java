@@ -5,7 +5,6 @@ import ru.yusdm.javacore.lesson11io.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson11io.autoservice.order.repo.OrderRepo;
 import ru.yusdm.javacore.lesson11io.autoservice.order.search.OrderSearchCondition;
 import ru.yusdm.javacore.lesson11io.autoservice.storage.SequenceGenerator;
-import ru.yusdm.javacore.lesson7collectionsmap.autoservice.model.domain.Model;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +13,7 @@ import static ru.yusdm.javacore.lesson11io.autoservice.storage.Storage.ordersArr
 
 
 public class OrderArrayRepo implements OrderRepo {
-    private static final Order[] EMPTY_ORDERS_ARR = new Order[0];
+
     private int orderIndex = -1;
 
     @Override
@@ -102,5 +101,10 @@ public class OrderArrayRepo implements OrderRepo {
             }
         }
         return count;
+    }
+
+    @Override
+    public void deleteByUserId(long userId) {
+
     }
 }

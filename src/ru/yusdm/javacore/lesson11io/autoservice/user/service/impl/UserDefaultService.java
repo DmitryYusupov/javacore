@@ -1,5 +1,6 @@
 package ru.yusdm.javacore.lesson11io.autoservice.user.service.impl;
 
+import ru.yusdm.javacore.lesson11io.autoservice.order.service.OrderService;
 import ru.yusdm.javacore.lesson11io.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson11io.autoservice.user.repo.UserRepo;
 import ru.yusdm.javacore.lesson11io.autoservice.user.search.UserSearchCondition;
@@ -10,9 +11,11 @@ import java.util.List;
 public class UserDefaultService implements UserService {
 
     private final UserRepo userRepo;
+    private final OrderService orderService;
 
-    public UserDefaultService(UserRepo userRepo) {
+    public UserDefaultService(UserRepo userRepo, OrderService orderService) {
         this.userRepo = userRepo;
+        this.orderService = orderService;
     }
 
     @Override

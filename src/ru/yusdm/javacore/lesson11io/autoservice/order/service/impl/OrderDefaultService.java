@@ -58,6 +58,13 @@ public class OrderDefaultService implements OrderService {
     }
 
     @Override
+    public void deleteByUserId(Long userId) {
+        if (userId != null) {
+            orderRepo.deleteByUserId(userId);
+        }
+    }
+
+    @Override
     public void printAll() {
         orderRepo.printAll();
     }

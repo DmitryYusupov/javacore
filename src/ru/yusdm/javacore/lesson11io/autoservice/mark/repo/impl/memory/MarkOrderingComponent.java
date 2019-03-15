@@ -31,10 +31,10 @@ public class MarkOrderingComponent {
             switch (markSearchCondition.getOrderDirection()) {
 
                 case ASC:
-                    Collections.sort(marks, markComparator);
+                    marks.sort(markComparator);
                     break;
                 case DESC:
-                    Collections.sort(marks, markComparator.reversed());
+                    marks.sort(markComparator.reversed());
                     break;
             }
         }
