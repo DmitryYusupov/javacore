@@ -2,7 +2,6 @@ package ru.yusdm.javacore.lesson11io.autoservice.mark.service.impl;
 
 import ru.yusdm.javacore.lesson11io.autoservice.common.business.exception.AutoServiceUncheckedException;
 import ru.yusdm.javacore.lesson11io.autoservice.mark.domain.Mark;
-import ru.yusdm.javacore.lesson11io.autoservice.mark.exception.MarkExceptionMeta;
 import ru.yusdm.javacore.lesson11io.autoservice.mark.exception.unchecked.DeleteMarkException;
 import ru.yusdm.javacore.lesson11io.autoservice.mark.repo.MarkRepo;
 import ru.yusdm.javacore.lesson11io.autoservice.mark.search.MarkSearchCondition;
@@ -65,7 +64,7 @@ public class MarkDefaultService implements MarkService {
             boolean noOrders = orderRepo.countByMark(id) == 0;
 
             if (noOrders) {
-                deleteModelsByMark(id);
+                removeAllModelsFromMark(id);
                 markRepo.deleteById(id);
             } else {
                 throw new DeleteMarkException(DELETE_MARK_CONSTRAINT_ERROR);
@@ -92,7 +91,7 @@ public class MarkDefaultService implements MarkService {
     }
 
     @Override
-    public void deleteModelsByMark(Long markId) throws AutoServiceUncheckedException {
+    public void removeAllModelsFromMark(Long markId) throws AutoServiceUncheckedException {
         Mark mark = findById(markId);
         if (mark != null) {
             List<Model> models = mark.getModels() == null ? Collections.emptyList() : mark.getModels();

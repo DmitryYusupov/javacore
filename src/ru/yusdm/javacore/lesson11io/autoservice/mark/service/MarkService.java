@@ -11,5 +11,5 @@ public interface MarkService extends BaseService<Mark, Long> {
 
     List<Mark> search(MarkSearchCondition searchCondition);
 
-    void deleteModelsByMark(Long markId) throws AutoServiceUncheckedException;
+    void removeAllModelsFromMark(Long markId) throws AutoServiceUncheckedException;
 }
