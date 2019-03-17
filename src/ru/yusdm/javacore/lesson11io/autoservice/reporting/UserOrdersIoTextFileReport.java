@@ -36,6 +36,7 @@ public class UserOrdersIoTextFileReport implements ReportComponent {
     @Override
     public File generateReport() throws Exception {
         File tempFile = File.createTempFile(System.currentTimeMillis() + "_user_orders_report", "_io.txt");
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
             List<String> report = getReportData();
 
@@ -58,7 +59,6 @@ public class UserOrdersIoTextFileReport implements ReportComponent {
             for (User user : users) {
                 report.add(USER_SEPARATOR);
                 report.add(userToReportLine(user));
-                report.add("\n");
                 report.addAll(getOrderInformation(user));
             }
         }
