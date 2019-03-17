@@ -139,4 +139,8 @@ public class ModelCollectionRepo implements ModelRepo {
         return null;
     }
 
+    @Override
+    public List<Model> findAll() {
+        return modelsList;
+    }
 }

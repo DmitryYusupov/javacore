@@ -58,4 +58,9 @@ public class UserCollectionRepo implements UserRepo {
         }
         return null;
     }
+
+    @Override
+    public List<User> findAll() {
+        return usersList;
+    }
 }

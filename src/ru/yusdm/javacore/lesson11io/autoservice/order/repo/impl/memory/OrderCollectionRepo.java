@@ -5,6 +5,7 @@ import ru.yusdm.javacore.lesson11io.autoservice.order.repo.OrderRepo;
 import ru.yusdm.javacore.lesson11io.autoservice.order.search.OrderSearchCondition;
 import ru.yusdm.javacore.lesson11io.autoservice.storage.SequenceGenerator;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -83,5 +84,23 @@ public class OrderCollectionRepo implements OrderRepo {
 
     @Override
     public void deleteByUserId(long userId) {
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return ordersList;
+    }
+
+    @Override
+    public List<Order> findByUserId(long userId) {
+        List<Order> foundOrders = new ArrayList<>();
+
+        for (Order order : ordersList) {
+            if (order.getUser().getId().equals(userId)) {
+                foundOrders.add(order);
+            }
+        }
+
+        return foundOrders;
     }
 }

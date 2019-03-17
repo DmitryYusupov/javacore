@@ -8,4 +8,10 @@ public abstract class AutoServiceCheckedException extends Exception {
         super(message);
         this.code = code;
     }
+
+    public AutoServiceCheckedException(int code, String message, Exception cause) {
+        super(message);
+        this.code = code;
+        initCause(cause);
+    }
 }

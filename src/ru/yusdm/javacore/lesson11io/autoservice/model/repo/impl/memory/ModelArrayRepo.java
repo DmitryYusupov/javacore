@@ -184,4 +184,8 @@ public class ModelArrayRepo implements ModelRepo {
         return null;
     }
 
+    @Override
+    public List<Model> findAll() {
+        return new ArrayList<>(Arrays.asList(modelsArray));
+    }
 }

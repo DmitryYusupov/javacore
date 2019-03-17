@@ -103,4 +103,9 @@ public class MarkDefaultService implements MarkService {
 
         }
     }
+
+    @Override
+    public List<Mark> findAll() {
+        return markRepo.findAll();
+    }
 }

@@ -2,6 +2,8 @@ package ru.yusdm.javacore.lesson11io.autoservice.common.solutions.service;
 
 import ru.yusdm.javacore.lesson11io.autoservice.common.business.exception.AutoServiceUncheckedException;
 
+import java.util.List;
+
 public interface BaseService<TYPE, ID> {
 
     void insert(TYPE entity);
@@ -15,6 +17,8 @@ public interface BaseService<TYPE, ID> {
     void delete(TYPE entity);
 
     void printAll();
+
+    List<TYPE> findAll();
 
 }
 

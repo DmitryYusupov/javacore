@@ -11,13 +11,19 @@ import ru.yusdm.javacore.lesson11io.autoservice.mark.search.MarkOrderByField;
 import ru.yusdm.javacore.lesson11io.autoservice.mark.search.MarkSearchCondition;
 import ru.yusdm.javacore.lesson11io.autoservice.mark.service.MarkService;
 import ru.yusdm.javacore.lesson11io.autoservice.model.service.ModelService;
+import ru.yusdm.javacore.lesson11io.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson11io.autoservice.order.service.OrderService;
+import ru.yusdm.javacore.lesson11io.autoservice.reporting.ReportProvider;
 import ru.yusdm.javacore.lesson11io.autoservice.storage.initor.StorageInitor;
 import ru.yusdm.javacore.lesson11io.autoservice.storage.initor.StorageInitorConstants;
 import ru.yusdm.javacore.lesson11io.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson11io.autoservice.user.service.UserService;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+
+import static ru.yusdm.javacore.lesson11io.autoservice.common.solutions.utils.RandomUtils.getRandomInt;
 
 public class AutoServiceDemo {
 
@@ -30,6 +36,22 @@ public class AutoServiceDemo {
         private MarkService markService = ServiceSupplier.getInstance().getMarkService();
         private ModelService modelService = ServiceSupplier.getInstance().getModelService();
         private OrderService orderService = ServiceSupplier.getInstance().getOrderService();
+
+        public void fillStorage() throws Exception {
+            addUsers();
+            StorageInitor storageInitor = new StorageInitor(markService);
+            try {
+                storageInitor.initStorageWithMarksAndModels(StorageInitorConstants.INIT_DATA_TXT_FILE, StorageInitor.DataSourceType.TXT_FILE);
+            } catch (AutoServiceCheckedException e) {
+                System.out.println("ERROR while init storage: " + e.getMessage());
+                throw e;
+            } catch (Exception e) {
+                System.out.println("Error: Unknown magic :" + e.getMessage());
+                throw e;
+            }
+            appendOrdersToUsers();
+
+        }
 
         private void addUsers() {
             String[] usersAsCsv = new String[]{
@@ -52,20 +74,35 @@ public class AutoServiceDemo {
             }
         }
 
-        public void fillStorage() throws Exception {
-            addUsers();
-            StorageInitor storageInitor = new StorageInitor(markService);
-            try {
-                storageInitor.initStorage(StorageInitorConstants.INIT_DATA_TXT_FILE, StorageInitor.DataSourceType.TXT_FILE);
+        private void appendOrdersToUsers() {
+            List<Mark> marks = markService.findAll();
+            List<User> users = userService.findAll();
+
+            List<Order> orders = new ArrayList<>();
+            int i = 0;
+            for (User user : users) {
+                i++;
+                orders.add(prepareOrderForUser(user, marks));
+
+                if (i % 2 == 0) {
+                    orders.add(prepareOrderForUser(user, marks));
+                }
             }
-            catch (AutoServiceCheckedException e){
-                System.out.println("ERROR while init storage: " + e.getMessage());
-                throw e;
+
+            for (Order order : orders) {
+                orderService.insert(order);
             }
-            catch (Exception e) {
-                System.out.println("Error: Unknown magic :" +e.getMessage());
-                throw e;
-            }
+        }
+
+        private Order prepareOrderForUser(User user, List<Mark> marks) {
+            Order order = new Order();
+            order.setUser(user);
+            Mark mark = marks.get(getRandomInt(0, marks.size() - 1));
+            order.setMark(mark);
+            order.setModel(mark.getModels().get(getRandomInt(0, mark.getModels().size() - 1)));
+            order.setPrice(getRandomInt(1, 100000));
+
+            return order;
         }
 
         public void printUsers() {
@@ -136,6 +173,28 @@ public class AutoServiceDemo {
                 System.out.println(mark.getAsStrWithoutModles());
             }
         }
+
+        public void demoReporting() {
+            ReportProvider reportProvider = new ReportProvider(userService, orderService, markService, modelService);
+
+            File fileWithReport = null;
+            try {
+                fileWithReport = reportProvider.getUserOrdersTextFileReport();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+
+                if (fileWithReport != null) {
+                    System.out.println("File with report '" + fileWithReport.getAbsolutePath() + "'");
+                    /*
+                    //uncomment line to delete temp file
+                    boolean deleted = fileWithReport.delete();
+                    if (!deleted) {
+                        System.out.println("OOps, can't delete file " + fileWithReport.getAbsolutePath());
+                    }*/
+                }
+            }
+        }
     }
 
     public static void main(String[] args) throws Exception {
@@ -156,6 +215,8 @@ public class AutoServiceDemo {
         application.searchMarksWithOrderDesc();
         application.searchMarksWithComplexOrderAsc();
         application.searchMarksWithComplexOrderDesc();
+
+        application.demoReporting();
     }
 
 }

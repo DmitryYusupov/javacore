@@ -5,6 +5,7 @@ import ru.yusdm.javacore.lesson11io.autoservice.order.repo.OrderRepo;
 import ru.yusdm.javacore.lesson11io.autoservice.order.search.OrderSearchCondition;
 import ru.yusdm.javacore.lesson11io.autoservice.order.service.OrderService;
 
+import java.util.Collections;
 import java.util.List;
 
 public class OrderDefaultService implements OrderService {
@@ -67,5 +68,19 @@ public class OrderDefaultService implements OrderService {
     @Override
     public void printAll() {
         orderRepo.printAll();
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return orderRepo.findAll();
+    }
+
+    @Override
+    public List<Order> getOrdersByUser(Long userId) {
+        if (userId != null) {
+            return orderRepo.findByUserId(userId);
+        }
+
+        return Collections.emptyList();
     }
 }

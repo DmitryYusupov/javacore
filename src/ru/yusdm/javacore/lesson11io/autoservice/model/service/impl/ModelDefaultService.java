@@ -76,4 +76,9 @@ public class ModelDefaultService implements ModelService {
             modelRepo.update(model);
         }
     }
+
+    @Override
+    public List<Model> findAll() {
+        return modelRepo.findAll();
+    }
 }

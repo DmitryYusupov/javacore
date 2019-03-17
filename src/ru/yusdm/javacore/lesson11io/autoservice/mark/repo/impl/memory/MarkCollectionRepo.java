@@ -96,5 +96,8 @@ public class MarkCollectionRepo implements MarkRepo {
         return null;
     }
 
-
+    @Override
+    public List<Mark> findAll() {
+        return marksList;
+    }
 }

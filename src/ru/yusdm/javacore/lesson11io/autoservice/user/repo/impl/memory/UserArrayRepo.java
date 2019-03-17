@@ -6,6 +6,8 @@ import ru.yusdm.javacore.lesson11io.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson11io.autoservice.user.repo.UserRepo;
 import ru.yusdm.javacore.lesson11io.autoservice.user.search.UserSearchCondition;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -80,4 +82,8 @@ public class UserArrayRepo implements UserRepo {
         return null;
     }
 
+    @Override
+    public List<User> findAll() {
+        return new ArrayList<>(Arrays.asList(usersArray));
+    }
 }

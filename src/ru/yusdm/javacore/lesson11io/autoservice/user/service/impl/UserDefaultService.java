@@ -65,4 +65,8 @@ public class UserDefaultService implements UserService {
         userRepo.printAll();
     }
 
+    @Override
+    public List<User> findAll() {
+        return userRepo.findAll();
+    }
 }

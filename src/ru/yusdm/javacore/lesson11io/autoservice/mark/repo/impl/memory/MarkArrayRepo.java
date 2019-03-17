@@ -125,4 +125,8 @@ public class MarkArrayRepo implements MarkRepo {
         return null;
     }
 
+    @Override
+    public List<Mark> findAll() {
+        return new ArrayList<>(Arrays.asList(marksArray));
+    }
 }

@@ -21,7 +21,7 @@ public class StorageInitor {
         TXT_FILE, XML_FILE, JSON_FILE
     }
 
-    public void initStorage(String filePath, DataSourceType dataSourceType) throws Exception {
+    public void initStorageWithMarksAndModels(String filePath, DataSourceType dataSourceType) throws Exception {
         List<Mark> marksToPersist = getMarksFromStorage(filePath, dataSourceType);
 
         if (!marksToPersist.isEmpty()) {
