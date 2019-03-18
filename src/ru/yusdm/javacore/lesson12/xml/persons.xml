@@ -1,0 +1,35 @@
+<persons>
+    <person>
+        <lastName>Ivanov</lastName>
+        <name>Ivan</name>
+        <children>
+            <child>
+                <name>Ivan child</name>
+                <age>22</age>
+                <school>Highest</school>
+            </child>
+            <child>
+                <name>Petr child2</name>
+                <age>22</age>
+                <school>Highest</school>
+            </child>
+        </children>
+    </person>
+
+    <person mode="super">
+        <lastName>Petrov</lastName>
+        <name>Petr</name>
+        <children>
+            <child hobby="football">
+                <name>Petr child</name>
+                <age>42</age>
+                <school>Highest</school>
+            </child>
+            <child hobby="drinkball">
+                <name>Semen child2</name>
+                <age>62</age>
+                <school>Highest</school>
+            </child>
+        </children>
+    </person>
+</persons>
