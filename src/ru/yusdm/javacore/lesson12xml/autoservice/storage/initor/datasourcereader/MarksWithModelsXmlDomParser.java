@@ -83,9 +83,7 @@ public class MarksWithModelsXmlDomParser implements FileParser<List<Mark>> {
             model.setDescription(getOnlyElementTextContent(modelXml, "description"));
 
             String stringValue = getOnlyElementTextContent(modelXml, "productionYearStart");
-            if (stringValue != null) {
-                model.setProductionYearStart(parseInt(stringValue));
-            }
+            model.setProductionYearStart(parseInt(stringValue));
 
             stringValue = getOnlyElementTextContentOrNull(modelXml, "productionYearEnd");
             if (stringValue != null) {
@@ -94,7 +92,8 @@ public class MarksWithModelsXmlDomParser implements FileParser<List<Mark>> {
 
             return model;
         } else {
-            throw new InvalidModelDiscriminatorException(PARSE_MODEL_DISCRIMINATOR_ERROR.getCode(), PARSE_MODEL_DISCRIMINATOR_ERROR.getDescription());
+            throw new InvalidModelDiscriminatorException(PARSE_MODEL_DISCRIMINATOR_ERROR.getCode(),
+                    PARSE_MODEL_DISCRIMINATOR_ERROR.getDescriptionAsFormatStr(type));
         }
     }
 
