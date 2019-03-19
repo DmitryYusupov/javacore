@@ -15,7 +15,7 @@ import ru.yusdm.javacore.lesson12xml.autoservice.model.service.ModelService;
 import ru.yusdm.javacore.lesson12xml.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson12xml.autoservice.order.service.OrderService;
 import ru.yusdm.javacore.lesson12xml.autoservice.reporting.ReportProvider;
-import ru.yusdm.javacore.lesson12xml.autoservice.storage.initor.StorageInitor;
+import ru.yusdm.javacore.lesson12xml.autoservice.storage.initor.StorageInitializer;
 import ru.yusdm.javacore.lesson12xml.autoservice.storage.initor.StorageInitorConstants;
 import ru.yusdm.javacore.lesson12xml.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson12xml.autoservice.user.service.UserService;
@@ -42,12 +42,12 @@ public class AutoServiceDemo {
 
         public void fillStorage() throws Exception {
             addUsers();
-            StorageInitor storageInitor = new StorageInitor(markService);
+            StorageInitializer storageInitor = new StorageInitializer(markService);
             File fileWithInitData = null;
             try {
                 fileWithInitData = FileUtils
-                        .createFileFromResource("init-data", ".txt", StorageInitorConstants.INIT_DATA_TXT_FILE);
-                storageInitor.initStorageWithMarksAndModels(fileWithInitData.getAbsolutePath(), StorageInitor.DataSourceType.TXT_FILE);
+                        .createFileFromResource("init-data", ".txt", StorageInitorConstants.INIT_DATA_XML_FILE);
+                storageInitor.initStorageWithMarksAndModels(fileWithInitData.getAbsolutePath(), StorageInitializer.DataSourceType.XML_FILE);
             } catch (AutoServiceCheckedException e) {
                 System.out.println("ERROR while init storage: " + e.getMessage());
                 throw e;

@@ -3,22 +3,22 @@ package ru.yusdm.javacore.lesson12xml.autoservice.storage.initor;
 
 import ru.yusdm.javacore.lesson12xml.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson12xml.autoservice.mark.service.MarkService;
-import ru.yusdm.javacore.lesson12xml.autoservice.storage.initor.datasourcereader.DataSourceIoTxtFileFromResourcesReader;
-import ru.yusdm.javacore.lesson12xml.autoservice.storage.initor.datasourcereader.DataSourceReader;
+import ru.yusdm.javacore.lesson12xml.autoservice.storage.initor.datasourcereader.FileParser;
+import ru.yusdm.javacore.lesson12xml.autoservice.storage.initor.datasourcereader.MarksWithModelsTxtFileParser;
+import ru.yusdm.javacore.lesson12xml.autoservice.storage.initor.datasourcereader.MarksWithModelsXmlDomParser;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class StorageInitor {
+public class StorageInitializer {
 
     private MarkService markService;
 
-    public StorageInitor(MarkService markService) {
+    public StorageInitializer(MarkService markService) {
         this.markService = markService;
     }
 
     public enum DataSourceType {
-        TXT_FILE, XML_FILE, JSON_FILE
+        TXT_FILE, XML_FILE
     }
 
     public void initStorageWithMarksAndModels(String filePath, DataSourceType dataSourceType) throws Exception {
@@ -33,28 +33,22 @@ public class StorageInitor {
 
     private List<Mark> getMarksFromStorage(String filePath, DataSourceType dataSourceType) throws Exception {
 
-        List<Mark> marks = new ArrayList<>();
-        DataSourceReader<List<Mark>> dataSourceReader = null;
+        FileParser<List<Mark>> dataSourceReader = null;
 
         switch (dataSourceType) {
 
             case TXT_FILE: {
-                dataSourceReader = new DataSourceIoTxtFileFromResourcesReader();
+                dataSourceReader = new MarksWithModelsTxtFileParser();
                 break;
             }
+
             case XML_FILE: {
-                break;
-            }
-            case JSON_FILE: {
+                dataSourceReader = new MarksWithModelsXmlDomParser();
                 break;
             }
         }
 
-        if (dataSourceReader != null) {
-            marks = dataSourceReader.getDataFromFile(filePath);
-        }
-
-        return marks;
+        return dataSourceReader.parseFile(filePath);
     }
 
 }

@@ -1,8 +1,5 @@
 package ru.yusdm.javacore.lesson12xml.autoservice.model.domain;
 
-import ru.yusdm.javacore.lesson12xml.autoservice.model.domain.Model;
-import ru.yusdm.javacore.lesson12xml.autoservice.model.domain.ModelDiscriminator;
-
 public class PassengerModel extends Model {
 
     private int numberOfAirbags;

@@ -5,7 +5,7 @@ Mark: Ural | Russia
 TRUCK | 53125 | Power yeaah | 1970 | -1  | 10000 | N | 300
 
 Mark: BMW | Germany
-PASSENGER |745Li   | Expensiv | 1960 | -1 | 8 | 4 | Panasonic
+PASSENGER |745Li   | Expensive | 1960 | -1 | 8 | 4 | Panasonic
 
 Mark: Mazda | Japan
 PASSENGER |Mazda 6   | Not bad | 1990 | -1 | 4 | 4 | Pioneer
@@ -22,6 +22,6 @@ Mark: Ford | USA
 PASSENGER |Focus   | Casual, economic | 2002 | -1   | 4 | 2 | Sony
 PASSENGER |Scorpio | 90-th dream      | 1992 | 1998 | 4 | 1 | Samsung
 
-Mark: Volvo | USA
+Mark: Volvo | Sweden
 PASSENGER |XC 90   | Safety 5 stars            | 2012 | -1 | 6 | 10 | Sony
 TRUCK     |FH 12   | Comfortable and powerfull | 1992 | 1998 | 8900 | Y | 400
