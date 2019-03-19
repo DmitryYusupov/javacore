@@ -39,8 +39,8 @@ public class MarksWithModelsXmlDomParser implements FileParser<List<Mark>> {
     private Mark getMarkFromXmlElement(Node xmlMark) throws Exception {
         Mark mark = new Mark();
 
-        mark.setName(getOnlyElementTextContentOrNull((Element) xmlMark, "name"));
-        mark.setCountry(getOnlyElementTextContentOrNull((Element) xmlMark, "country"));
+        mark.setName(getOnlyElementTextContent((Element) xmlMark, "name"));
+        mark.setCountry(getOnlyElementTextContent((Element) xmlMark, "country"));
 
         NodeList models = ((Element) xmlMark).getElementsByTagName("model");
         if (models.getLength() > 0) {
