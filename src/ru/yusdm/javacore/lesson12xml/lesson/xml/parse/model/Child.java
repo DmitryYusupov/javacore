@@ -5,6 +5,13 @@ package ru.yusdm.javacore.lesson12xml.lesson.xml.parse.model;
  */
 public class Child {
 
+//    JAXB
+//
+//    1) schema.xsd
+//    2) Java classes
+//    3) Marshalling/demarshlling
+
+    //GSon
     private String name;
     private String school;
     private int age;

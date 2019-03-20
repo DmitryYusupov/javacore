@@ -2,6 +2,7 @@ package ru.yusdm.javacore.lesson12xml.lesson.xml.parse.parsing;
 
 import ru.yusdm.javacore.lesson11ionio.autoservice.common.solutions.utils.FileUtils;
 import ru.yusdm.javacore.lesson12xml.lesson.xml.parse.model.Person;
+import ru.yusdm.javacore.lesson12xml.lesson.xml.parse.parsing.stax.StaxXmlParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +18,7 @@ public class XmlParserDemo {
         File fileWithXml = null;
         try {
             fileWithXml = FileUtils.createFileFromResource("persons", ".xml", "/ru/yusdm/javacore/lesson12xml/lesson/xml/parse/parsing/persons.xml");
-            List<Person> persons = new DomXmlParser().parse(fileWithXml.getAbsolutePath());
+            List<Person> persons = new StaxXmlParser().parse(fileWithXml.getAbsolutePath());
             for (Person person : persons) {
                 System.out.println(person + "\n");
             }

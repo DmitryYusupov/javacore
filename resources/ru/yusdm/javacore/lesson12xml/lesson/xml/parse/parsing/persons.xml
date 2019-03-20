@@ -3,7 +3,7 @@
         <lastName>Ivanov</lastName>
         <name>Ivan</name>
         <children>
-            <child>
+            <child hobby="3333">
                 <name>Ivan child</name>
                 <age>22</age>
                 <school>Highest</school>
