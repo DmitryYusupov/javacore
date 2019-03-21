@@ -11,6 +11,8 @@ import javax.xml.stream.XMLStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ru.yusdm.javacore.lesson12up13xml.autoservice.common.solutions.xml.stax.XmlStaxUtils.readContent;
+
 /**
  * Created by Admin on 3/20/2019.
  */
@@ -163,36 +165,5 @@ public class StaxXmlParser implements XmlParser<List<Person>> {
         throw new RuntimeException("I didn't find suitable end tag");
     }
 
-    /**
-     * Read data which is located between couple of tags:
-     * <p>
-     * Ex:
-     * <name>Ivan Ivanovich</name>
-     *
-     * @param reader
-     * @return content between couple of tags
-     * @throws XMLStreamException
-     */
-    private String readContent(XMLStreamReader reader) throws XMLStreamException {
-
-        StringBuilder content = new StringBuilder();
-
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-
-            switch (eventType) {
-                case XMLStreamConstants.CHARACTERS:
-                case XMLStreamConstants.CDATA: {
-                    content.append(reader.getText());
-                    break;
-                }
-
-                case XMLStreamConstants.END_ELEMENT: {
-                    return content.toString();
-                }
-            }
-        }
-        throw new RuntimeException("I didn't find suitable end tag");
-    }
 
 }
