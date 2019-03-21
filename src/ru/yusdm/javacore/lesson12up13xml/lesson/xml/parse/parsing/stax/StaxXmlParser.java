@@ -1,5 +1,6 @@
 package ru.yusdm.javacore.lesson12up13xml.lesson.xml.parse.parsing.stax;
 
+import ru.yusdm.javacore.lesson12up13xml.autoservice.common.solutions.xml.stax.parse.CustomStaxReader;
 import ru.yusdm.javacore.lesson12up13xml.lesson.xml.parse.model.Child;
 import ru.yusdm.javacore.lesson12up13xml.lesson.xml.parse.model.Person;
 import ru.yusdm.javacore.lesson12up13xml.lesson.xml.parse.parsing.XmlParser;

@@ -9,7 +9,7 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.yusdm.javacore.lesson12up13xml.autoservice.common.solutions.utils.xml.XmlStaxUtils.readCharacters;
+import static ru.yusdm.javacore.lesson12up13xml.autoservice.common.solutions.xml.stax.XmlStaxUtils.readCharacters;
 
 public class MarksWithModelXmlStaxParser implements FileParser<List<Mark>> {
 

@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson12up13xml.lesson.xml.parse.parsing.stax;
+package ru.yusdm.javacore.lesson12up13xml.autoservice.common.solutions.xml.stax.parse;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;

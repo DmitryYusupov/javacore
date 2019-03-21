@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson12up13xml.autoservice.common.solutions.utils.xml;
+package ru.yusdm.javacore.lesson12up13xml.autoservice.common.solutions.xml.stax;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;

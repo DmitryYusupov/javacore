@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
-import static ru.yusdm.javacore.lesson12up13xml.autoservice.common.solutions.utils.xml.XmlDomUtils.*;
-import static ru.yusdm.javacore.lesson12up13xml.autoservice.common.solutions.utils.xml.XmlDomUtils.getOnlyElementTextContent;
+import static ru.yusdm.javacore.lesson12up13xml.autoservice.common.solutions.xml.dom.XmlDomUtils.*;
+import static ru.yusdm.javacore.lesson12up13xml.autoservice.common.solutions.xml.dom.XmlDomUtils.getOnlyElementTextContent;
 import static ru.yusdm.javacore.lesson12up13xml.autoservice.storage.initor.exception.InitDataExceptionMeta.PARSE_MODEL_DISCRIMINATOR_ERROR;
 
 public class MarksWithModelsXmlDomParser implements FileParser<List<Mark>> {

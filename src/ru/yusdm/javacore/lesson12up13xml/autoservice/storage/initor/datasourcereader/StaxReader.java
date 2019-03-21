@@ -1,6 +1,6 @@
 package ru.yusdm.javacore.lesson12up13xml.autoservice.storage.initor.datasourcereader;
 
-import ru.yusdm.javacore.lesson12up13xml.autoservice.common.solutions.utils.xml.XmlStaxUtils;
+import ru.yusdm.javacore.lesson12up13xml.autoservice.common.solutions.xml.stax.XmlStaxUtils;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;

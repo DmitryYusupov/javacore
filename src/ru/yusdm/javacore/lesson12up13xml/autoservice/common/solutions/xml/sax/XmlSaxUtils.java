@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson12up13xml.autoservice.common.solutions.utils.xml;
+package ru.yusdm.javacore.lesson12up13xml.autoservice.common.solutions.xml.sax;
 
 import org.xml.sax.SAXException;
 

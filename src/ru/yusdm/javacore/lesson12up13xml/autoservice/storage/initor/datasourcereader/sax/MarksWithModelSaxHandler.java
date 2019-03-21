@@ -43,6 +43,7 @@ public class MarksWithModelSaxHandler extends DefaultHandler {
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+        content.setLength(0);
         tagStack.add(qName);
 
         switch (stackAsStringPath()) {
@@ -143,7 +144,6 @@ public class MarksWithModelSaxHandler extends DefaultHandler {
             }
         }
         tagStack.removeLast();
-        content.setLength(0);
     }
 
     private PassengerModel getPassengerModel() {
@@ -157,7 +157,12 @@ public class MarksWithModelSaxHandler extends DefaultHandler {
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
         String value = new String(ch, start, length);
-        content.append(value.trim());
+        content.append(value.replaceAll("\\n",""));
+    }
+
+    @Override
+    public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
+        super.ignorableWhitespace(ch, start, length);
     }
 
     public List<Mark> getMarks() {

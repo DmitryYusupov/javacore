@@ -46,8 +46,8 @@ public class StorageInitializer {
 
             case XML_FILE: {
                 //dataSourceReader = new MarksWithModelsXmlDomParser();
-                //dataSourceReader = new MarksWithModelXmlStaxParser();
-                dataSourceReader = new MarksWithModelsXmlSaxParser();
+                dataSourceReader = new MarksWithModelXmlStaxParser();
+            //    dataSourceReader = new MarksWithModelsXmlSaxParser();
                 break;
             }
         }
