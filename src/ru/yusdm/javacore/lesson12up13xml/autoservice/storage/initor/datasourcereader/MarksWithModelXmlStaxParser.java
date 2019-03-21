@@ -37,8 +37,7 @@ public class MarksWithModelXmlStaxParser implements FileParser<List<Mark>> {
                     case XMLStreamReader.START_ELEMENT: {
                         String tagName = reader.getLocalName();
                         if ("marks".equals(tagName)) {
-                            result = new ArrayList<>();
-                            result.addAll(readDocument(reader));
+                            result = new ArrayList<>(readDocument(reader));
                         }
                         break;
                     }
@@ -130,14 +129,7 @@ public class MarksWithModelXmlStaxParser implements FileParser<List<Mark>> {
 
     private Model readModel(XMLStreamReader reader) throws XMLStreamException {
         String type = reader.getAttributeValue(null, "type");
-        ModelDiscriminator modelDiscriminator = ModelDiscriminator.valueOf(type);
-
-        Model model;
-        if (PASSENGER.equals(modelDiscriminator)) {
-            model = new PassengerModel();
-        } else {
-            model = new TruckModel();
-        }
+        Model model = createModel(type);
 
         while (reader.hasNext()) {
             int eventType = reader.next();
@@ -161,6 +153,16 @@ public class MarksWithModelXmlStaxParser implements FileParser<List<Mark>> {
             }
         }
         throw NO_END_TAG_FOUND_EXCEPTION;
+    }
+
+    private Model createModel(String type) {
+        ModelDiscriminator modelDiscriminator = ModelDiscriminator.valueOf(type);
+
+        if (PASSENGER.equals(modelDiscriminator)) {
+            return new PassengerModel();
+        } else {
+            return new TruckModel();
+        }
     }
 
     private void appendCommonModelData(Model model, String tagName, XMLStreamReader reader) throws XMLStreamException {
@@ -194,11 +196,5 @@ public class MarksWithModelXmlStaxParser implements FileParser<List<Mark>> {
             model.setTankSize(Integer.parseInt(readContent(reader)));
         }
     }
-
-    protected String name;
-    protected String description;
-    protected int productionYearStart;
-    protected Integer productionYearEnd;
-
 
 }
