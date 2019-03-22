@@ -6,6 +6,6 @@ import ru.yusdm.javacore.lesson4oopinheritence.lesson.inheritence.visibility.pac
 public class ParentChildInOtherPackage extends Parent {
 
     void sayHello() {
-        System.out.println("Not override, because of method is not visible");
+        System.out.println("Not overrideoverload, because of method is not visible");
     }
 }
