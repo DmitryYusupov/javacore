@@ -1,11 +1,13 @@
 package ru.yusdm.javacore.lesson14serialization.autoservice;
 
 
+import ru.yusdm.javacore.lesson14serialization.autoservice.common.application.ApplicationConfigurations;
 import ru.yusdm.javacore.lesson14serialization.autoservice.common.business.application.StorageType;
 import ru.yusdm.javacore.lesson14serialization.autoservice.common.business.application.servicefactory.ServiceSupplier;
 import ru.yusdm.javacore.lesson14serialization.autoservice.common.business.exception.AutoServiceCheckedException;
 import ru.yusdm.javacore.lesson14serialization.autoservice.common.business.search.OrderDirection;
 import ru.yusdm.javacore.lesson14serialization.autoservice.common.business.search.OrderType;
+import ru.yusdm.javacore.lesson14serialization.autoservice.common.business.search.Paginator;
 import ru.yusdm.javacore.lesson14serialization.autoservice.common.solutions.utils.FileUtils;
 import ru.yusdm.javacore.lesson14serialization.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson14serialization.autoservice.mark.search.MarkOrderByField;
@@ -16,7 +18,6 @@ import ru.yusdm.javacore.lesson14serialization.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson14serialization.autoservice.order.service.OrderService;
 import ru.yusdm.javacore.lesson14serialization.autoservice.reporting.ReportProvider;
 import ru.yusdm.javacore.lesson14serialization.autoservice.storage.initor.StorageInitializer;
-import ru.yusdm.javacore.lesson14serialization.autoservice.storage.initor.StorageInitorConstants;
 import ru.yusdm.javacore.lesson14serialization.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson14serialization.autoservice.user.service.UserService;
 
@@ -26,6 +27,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ru.yusdm.javacore.lesson14serialization.autoservice.common.application.ApplicationConfigurations.INIT_DATA_XML_FILE;
+import static ru.yusdm.javacore.lesson14serialization.autoservice.common.application.ApplicationConfigurations.PAGE_SIZE;
 import static ru.yusdm.javacore.lesson14serialization.autoservice.common.solutions.utils.RandomUtils.getRandomInt;
 
 public class AutoServiceDemo {
@@ -46,7 +49,7 @@ public class AutoServiceDemo {
             File fileWithInitData = null;
             try {
                 fileWithInitData = FileUtils
-                        .createFileFromResource("init-data", ".txt", StorageInitorConstants.INIT_DATA_XML_FILE);
+                        .createFileFromResource("init-data", ".txt", INIT_DATA_XML_FILE);
                 storageInitor.initStorageWithMarksAndModels(fileWithInitData.getAbsolutePath(), StorageInitializer.DataSourceType.XML_FILE);
             } catch (AutoServiceCheckedException e) {
                 System.out.println("ERROR while init storage: " + e.getMessage());
@@ -184,6 +187,33 @@ public class AutoServiceDemo {
             }
         }
 
+        public void searchMarksWithPaginator() {
+            System.out.println("\n-----------Search marks with paginator---------------------");
+            int totalMarks = markService.countAll();
+            int totalPages = (int) Math.ceil((float) totalMarks / PAGE_SIZE);
+
+            MarkSearchCondition searchCondition = new MarkSearchCondition();
+            searchCondition.setPaginator(new Paginator());
+
+            for (int i = 0; i < totalPages; i++) {
+                searchCondition.getPaginator().setOffset(PAGE_SIZE * i);
+                List<Mark> found = markService.search(searchCondition);
+
+                if (!found.isEmpty()) {
+                    int factLimit = found.size();
+                    System.out.println("Display records on page from ["
+                            + searchCondition.getPaginator().getOffset() + " - " +
+                            (searchCondition.getPaginator().getOffset() + factLimit) + "]");
+                    for (Mark mark : found) {
+                        System.out.println(mark.getAsStrWithoutModles());
+                    }
+                    System.out.println("----------");
+                }
+
+
+            }
+        }
+
         public void demoReporting() {
             ReportProvider reportProvider = new ReportProvider(userService, orderService, markService, modelService);
 
@@ -211,7 +241,7 @@ public class AutoServiceDemo {
         Application application = new Application();
         application.fillStorage();
 
-        System.out.println("--------Users------------");
+  /*      System.out.println("--------Users------------");
         application.printUsers();
 
         System.out.println("--------Marks------------");
@@ -224,9 +254,10 @@ public class AutoServiceDemo {
         application.searchMarksWithOrderAsc();
         application.searchMarksWithOrderDesc();
         application.searchMarksWithComplexOrderAsc();
-        application.searchMarksWithComplexOrderDesc();
-
-        application.demoReporting();
+        application.searchMarksWithComplexOrderDesc();*/
+        System.out.println("----Demo mark pagination -----");
+        application.searchMarksWithPaginator();
+//        application.demoReporting();
     }
 
 }

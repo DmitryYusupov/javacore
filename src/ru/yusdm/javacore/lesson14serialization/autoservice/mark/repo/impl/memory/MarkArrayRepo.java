@@ -1,6 +1,8 @@
 package ru.yusdm.javacore.lesson14serialization.autoservice.mark.repo.impl.memory;
 
+import ru.yusdm.javacore.lesson14serialization.autoservice.common.business.search.Paginator;
 import ru.yusdm.javacore.lesson14serialization.autoservice.common.solutions.utils.ArrayUtils;
+import ru.yusdm.javacore.lesson14serialization.autoservice.common.solutions.utils.CollectionUtils;
 import ru.yusdm.javacore.lesson14serialization.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson14serialization.autoservice.mark.repo.MarkRepo;
 import ru.yusdm.javacore.lesson14serialization.autoservice.mark.search.MarkSearchCondition;
@@ -48,18 +50,14 @@ public class MarkArrayRepo implements MarkRepo {
 
     @Override
     public List<Mark> search(MarkSearchCondition searchCondition) {
-        if (searchCondition.getId() != null) {
-            return Collections.singletonList(findById(searchCondition.getId()));
-        } else {
-            List<Mark> result = doSearch(searchCondition);
-            boolean needOrdering = !result.isEmpty() && searchCondition.needOrdering();
+        List<Mark> result = doSearch(searchCondition);
+        boolean needOrdering = !result.isEmpty() && searchCondition.needOrdering();
 
-            if (needOrdering) {
-                orderingComponent.applyOrdering(result, searchCondition);
-            }
-
-            return result;
+        if (needOrdering) {
+            orderingComponent.applyOrdering(result, searchCondition);
         }
+
+        return result;
     }
 
     private List<Mark> doSearch(MarkSearchCondition searchCondition) {
@@ -86,12 +84,20 @@ public class MarkArrayRepo implements MarkRepo {
         }
 
         if (resultIndex > 0) {
-            Mark toReturn[] = new Mark[resultIndex];
+            Mark[] toReturn = new Mark[resultIndex];
             System.arraycopy(result, 0, toReturn, 0, resultIndex);
-            return new ArrayList<>(Arrays.asList(toReturn));
+            List<Mark> resultAsList = new ArrayList<>(Arrays.asList(toReturn));
+
+            if (!resultAsList.isEmpty() && searchCondition.shouldPaginate()) {
+                return getPageableData(resultAsList, searchCondition.getPaginator());
+            }
         }
 
         return Collections.emptyList();
+    }
+
+    private List<Mark> getPageableData(List<Mark> marks, Paginator paginator) {
+        return CollectionUtils.getPageableData(marks, paginator.getLimit(), paginator.getOffset());
     }
 
     @Override
@@ -128,5 +134,10 @@ public class MarkArrayRepo implements MarkRepo {
     @Override
     public List<Mark> findAll() {
         return new ArrayList<>(Arrays.asList(marksArray));
+    }
+
+    @Override
+    public int countAll() {
+        return marksArray.length;
     }
 }

@@ -48,7 +48,11 @@ public class OrderDefaultService implements OrderService {
 
     @Override
     public List<Order> search(OrderSearchCondition searchCondition) {
-        return orderRepo.search(searchCondition);
+        if (searchCondition.getId() != null) {
+            return Collections.singletonList(orderRepo.findById(searchCondition.getId()));
+        } else {
+            return orderRepo.search(searchCondition);
+        }
     }
 
     @Override
@@ -82,5 +86,10 @@ public class OrderDefaultService implements OrderService {
         }
 
         return Collections.emptyList();
+    }
+
+    @Override
+    public int countAll() {
+        return orderRepo.countAll();
     }
 }

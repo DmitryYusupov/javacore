@@ -6,6 +6,8 @@ import ru.yusdm.javacore.lesson14serialization.autoservice.user.repo.UserRepo;
 import ru.yusdm.javacore.lesson14serialization.autoservice.user.search.UserSearchCondition;
 import ru.yusdm.javacore.lesson14serialization.autoservice.user.service.UserService;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class UserDefaultService implements UserService {
@@ -42,8 +44,12 @@ public class UserDefaultService implements UserService {
     }
 
     @Override
-    public List<User> search(UserSearchCondition searchCondition) {
-        return userRepo.search(searchCondition);
+    public List<? extends User> search(UserSearchCondition searchCondition) {
+        if (searchCondition.getId() != null) {
+            return Collections.singletonList(userRepo.findById(searchCondition.getId()));
+        } else {
+            return userRepo.search(searchCondition);
+        }
     }
 
     @Override
@@ -68,5 +74,10 @@ public class UserDefaultService implements UserService {
     @Override
     public List<User> findAll() {
         return userRepo.findAll();
+    }
+
+    @Override
+    public int countAll() {
+        return userRepo.countAll();
     }
 }

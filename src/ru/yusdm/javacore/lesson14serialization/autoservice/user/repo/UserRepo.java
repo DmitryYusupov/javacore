@@ -7,5 +7,5 @@ import ru.yusdm.javacore.lesson14serialization.autoservice.user.search.UserSearc
 import java.util.List;
 
 public interface UserRepo extends BaseRepo<User, Long> {
-    List<User> search(UserSearchCondition searchCondition);
+    List<? extends User> search(UserSearchCondition searchCondition);
 }

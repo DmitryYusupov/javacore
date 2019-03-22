@@ -1,9 +1,13 @@
 package ru.yusdm.javacore.lesson14serialization.autoservice.order.repo.impl.memory;
 
+import ru.yusdm.javacore.lesson14serialization.autoservice.common.business.search.Paginator;
+import ru.yusdm.javacore.lesson14serialization.autoservice.common.solutions.utils.CollectionUtils;
+import ru.yusdm.javacore.lesson14serialization.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson14serialization.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson14serialization.autoservice.order.repo.OrderRepo;
 import ru.yusdm.javacore.lesson14serialization.autoservice.order.search.OrderSearchCondition;
 import ru.yusdm.javacore.lesson14serialization.autoservice.storage.SequenceGenerator;
+import ru.yusdm.javacore.lesson14serialization.autoservice.user.domain.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +36,21 @@ public class OrderCollectionRepo implements OrderRepo {
 
     @Override
     public List<Order> search(OrderSearchCondition searchCondition) {
-        return Collections.emptyList();
+        List<Order> orders = doSearch(searchCondition);
+
+        if (!orders.isEmpty() && searchCondition.shouldPaginate()) {
+            orders = getPageableData(orders, searchCondition.getPaginator());
+        }
+
+        return orders;
+    }
+
+    private List<Order> doSearch(OrderSearchCondition searchCondition) {
+        return ordersList;
+    }
+
+    private List<Order> getPageableData(List<Order> orders, Paginator paginator) {
+        return CollectionUtils.getPageableData(orders, paginator.getLimit(), paginator.getOffset());
     }
 
     @Override
@@ -102,5 +120,10 @@ public class OrderCollectionRepo implements OrderRepo {
         }
 
         return foundOrders;
+    }
+
+    @Override
+    public int countAll() {
+        return ordersList.size();
     }
 }

@@ -126,4 +126,9 @@ public class OrderArrayRepo implements OrderRepo {
 
         return foundOrders;
     }
+
+    @Override
+    public int countAll() {
+        return ordersArray.length;
+    }
 }

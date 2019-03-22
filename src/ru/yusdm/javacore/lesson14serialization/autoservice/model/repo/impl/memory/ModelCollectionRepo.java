@@ -1,5 +1,8 @@
 package ru.yusdm.javacore.lesson14serialization.autoservice.model.repo.impl.memory;
 
+import ru.yusdm.javacore.lesson14serialization.autoservice.common.business.search.Paginator;
+import ru.yusdm.javacore.lesson14serialization.autoservice.common.solutions.utils.CollectionUtils;
+import ru.yusdm.javacore.lesson14serialization.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson14serialization.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson14serialization.autoservice.model.domain.ModelDiscriminator;
 import ru.yusdm.javacore.lesson14serialization.autoservice.model.domain.PassengerModel;
@@ -39,17 +42,28 @@ public class ModelCollectionRepo implements ModelRepo {
 
         ModelDiscriminator modelDiscriminator = searchCondition.getModelDiscriminator();
 
+        List<? extends Model> result = modelsList;
+
         switch (modelDiscriminator) {
             case PASSENGER: {
-                return searchPassengerModels((PassengerModelSearchCondition) searchCondition);
+                result = searchPassengerModels((PassengerModelSearchCondition) searchCondition);
+                break;
             }
             case TRUCK: {
-                return searchTruckModels((TruckModelSearchCondition) searchCondition);
-            }
-            default: {
-                return modelsList;
+                result = searchTruckModels((TruckModelSearchCondition) searchCondition);
+                break;
             }
         }
+
+        if (!result.isEmpty() && searchCondition.shouldPaginate()) {
+            result = getPageableData(result, searchCondition.getPaginator());
+        }
+
+        return result;
+    }
+
+    private List<? extends Model> getPageableData(List<? extends Model> models, Paginator paginator) {
+        return CollectionUtils.getPageableData(models, paginator.getLimit(), paginator.getOffset());
     }
 
     private List<TruckModel> searchTruckModels(TruckModelSearchCondition searchCondition) {
@@ -142,5 +156,10 @@ public class ModelCollectionRepo implements ModelRepo {
     @Override
     public List<Model> findAll() {
         return modelsList;
+    }
+
+    @Override
+    public int countAll() {
+        return modelsList.size();
     }
 }

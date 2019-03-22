@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <init-data>
     <marks>
-
         <mark>
             <name>Toyota  </name>
             <country>Japan</country>
@@ -16,8 +15,6 @@
                 </model>
             </models>
         </mark>
-
-
         <mark>
             <name>Ural</name>
             <country>Russia</country>
@@ -32,8 +29,6 @@
                 </model>
             </models>
         </mark>
-
-
         <mark>
             <name>BMW</name>
             <country>Germany</country>
@@ -48,8 +43,6 @@
                 </model>
             </models>
         </mark>
-
-
         <mark>
             <name>Mazda</name>
             <country>Japan</country>
@@ -64,8 +57,6 @@
                 </model>
             </models>
         </mark>
-
-
         <mark>
             <name>Mercedes-Benz</name>
             <country>Germany</country>
@@ -98,8 +89,6 @@
                 </model>
             </models>
         </mark>
-
-
         <mark>
             <name>Kamaz</name>
             <country>Russia</country>
@@ -114,8 +103,6 @@
                 </model>
             </models>
         </mark>
-
-
         <mark>
             <name>Ford</name>
             <country>USA</country>
@@ -139,7 +126,6 @@
                 </model>
             </models>
         </mark>
-
         <mark>
             <name>Volvo</name>
             <country>Sweden</country>
@@ -162,7 +148,5 @@
                 </model>
             </models>
         </mark>
-
     </marks>
-
 </init-data>

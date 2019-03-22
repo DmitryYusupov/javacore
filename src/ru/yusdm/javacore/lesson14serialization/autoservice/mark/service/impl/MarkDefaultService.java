@@ -80,7 +80,11 @@ public class MarkDefaultService implements MarkService {
 
     @Override
     public List<Mark> search(MarkSearchCondition searchCondition) {
-        return markRepo.search(searchCondition);
+        if (searchCondition.getId() != null) {
+            return Collections.singletonList(markRepo.findById(searchCondition.getId()));
+        } else {
+            return markRepo.search(searchCondition);
+        }
     }
 
     @Override
@@ -106,5 +110,10 @@ public class MarkDefaultService implements MarkService {
     @Override
     public List<Mark> findAll() {
         return markRepo.findAll();
+    }
+
+    @Override
+    public int countAll() {
+        return markRepo.countAll();
     }
 }

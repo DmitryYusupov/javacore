@@ -1,6 +1,9 @@
 package ru.yusdm.javacore.lesson14serialization.autoservice.user.repo.impl.memory;
 
+import ru.yusdm.javacore.lesson14serialization.autoservice.common.business.search.Paginator;
+import ru.yusdm.javacore.lesson14serialization.autoservice.common.solutions.utils.CollectionUtils;
 import ru.yusdm.javacore.lesson14serialization.autoservice.storage.SequenceGenerator;
+import ru.yusdm.javacore.lesson14serialization.autoservice.storage.Storage;
 import ru.yusdm.javacore.lesson14serialization.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson14serialization.autoservice.user.repo.UserRepo;
 import ru.yusdm.javacore.lesson14serialization.autoservice.user.search.UserSearchCondition;
@@ -30,8 +33,22 @@ public class UserCollectionRepo implements UserRepo {
     }
 
     @Override
-    public List<User> search(UserSearchCondition searchCondition) {
-        return Collections.emptyList();
+    public List<? extends User> search(UserSearchCondition searchCondition) {
+        List<? extends User> users = doSearch(searchCondition);
+
+        if (!users.isEmpty() && searchCondition.shouldPaginate()) {
+            users = getPageableData(users, searchCondition.getPaginator());
+        }
+
+        return users;
+    }
+
+    private List<? extends User> getPageableData(List<? extends User> users, Paginator paginator) {
+        return CollectionUtils.getPageableData(users, paginator.getLimit(), paginator.getOffset());
+    }
+
+    private List<User> doSearch(UserSearchCondition searchCondition) {
+        return usersList;
     }
 
     @Override
@@ -62,5 +79,10 @@ public class UserCollectionRepo implements UserRepo {
     @Override
     public List<User> findAll() {
         return usersList;
+    }
+
+    @Override
+    public int countAll() {
+        return usersList.size();
     }
 }

@@ -8,6 +8,7 @@ import ru.yusdm.javacore.lesson14serialization.autoservice.model.search.ModelSea
 import ru.yusdm.javacore.lesson14serialization.autoservice.model.service.ModelService;
 import ru.yusdm.javacore.lesson14serialization.autoservice.order.repo.OrderRepo;
 
+import java.util.Collections;
 import java.util.List;
 
 import static ru.yusdm.javacore.lesson14serialization.autoservice.model.exception.ModelExceptionMeta.DELETE_MODEL_CONSTRAINT_ERROR;
@@ -66,7 +67,11 @@ public class ModelDefaultService implements ModelService {
 
     @Override
     public List<? extends Model> search(ModelSearchCondition searchCondition) {
-        return modelRepo.search(searchCondition);
+        if (searchCondition.getId() != null) {
+            return Collections.singletonList(modelRepo.findById(searchCondition.getId()));
+        } else {
+            return modelRepo.search(searchCondition);
+        }
     }
 
     @Override
@@ -79,5 +84,10 @@ public class ModelDefaultService implements ModelService {
     @Override
     public List<Model> findAll() {
         return modelRepo.findAll();
+    }
+
+    @Override
+    public int countAll() {
+        return modelRepo.countAll();
     }
 }

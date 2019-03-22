@@ -20,5 +20,7 @@ public interface BaseService<TYPE, ID> {
 
     List<TYPE> findAll();
 
+    int countAll();
+
 }
 

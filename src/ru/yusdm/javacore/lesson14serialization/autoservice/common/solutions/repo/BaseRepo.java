@@ -15,4 +15,6 @@ public interface BaseRepo<TYPE, ID> {
     void printAll();
 
     List<TYPE> findAll();
+
+    int countAll();
 }
