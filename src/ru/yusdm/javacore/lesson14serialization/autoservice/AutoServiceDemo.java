@@ -1,7 +1,6 @@
 package ru.yusdm.javacore.lesson14serialization.autoservice;
 
 
-import ru.yusdm.javacore.lesson14serialization.autoservice.common.application.ApplicationConfigurations;
 import ru.yusdm.javacore.lesson14serialization.autoservice.common.business.application.StorageType;
 import ru.yusdm.javacore.lesson14serialization.autoservice.common.business.application.servicefactory.ServiceSupplier;
 import ru.yusdm.javacore.lesson14serialization.autoservice.common.business.exception.AutoServiceCheckedException;
@@ -204,13 +203,12 @@ public class AutoServiceDemo {
                     System.out.println("Display records on page from ["
                             + searchCondition.getPaginator().getOffset() + " - " +
                             (searchCondition.getPaginator().getOffset() + factLimit) + "]");
+
                     for (Mark mark : found) {
                         System.out.println(mark.getAsStrWithoutModles());
                     }
                     System.out.println("----------");
                 }
-
-
             }
         }
 

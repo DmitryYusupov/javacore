@@ -1,0 +1,10 @@
+1) Go to Jdk folder(C:\Program Files\Java\jdk1.8.0_112\bin)
+2) Find xjc.exe, if it is in the path, then its OK, else add it to path
+3) Check if it works
+   -Open cmd window and enter commonad  "xjc -version"
+4) Open cmd and Go to folder where XSD file exists ("javacore\resources\ru\yusdm\javacore\lesson14serialization\homework\jaxb")
+5) Exec command:
+   xjc -d C:/generated -p ru.yusdm.javacore.lesson14serialization.homework.jaxb.generatedclasses init-data.xsd
+
+  -Here we define folder where we put generated classes and package name of classes.
+6) Go to folder 'C:/generated' and copy classes to package folder in project

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="model">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="description" type="xs:string"/>
+                <xs:element name="productionYearStart" type="xs:int"/>
+                <xs:element name="productionYearEnd" type="xs:int" minOccurs="0"/>
+                <xs:element name="numberOfAirbags" type="xs:int" minOccurs="0"/>
+                <xs:element name="numberOfSeats" type="xs:int" minOccurs="0"/>
+                <xs:element name="audioSystemName" type="xs:string" minOccurs="0"/>
+                <xs:element name="weight" type="xs:int" minOccurs="0"/>
+                <xs:element name="embeddedKitchen" type="xs:string" minOccurs="0"/>
+                <xs:element name="tankSize" type="xs:int" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="type" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="mark">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="country" type="xs:string"/>
+
+                <xs:element name="models">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="model" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="init-data">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="marks">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="mark" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
