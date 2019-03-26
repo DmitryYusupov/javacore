@@ -1,21 +1,21 @@
-package ru.yusdm.javacore.lesson14serialization.autoservice.model.repo.impl.memory;
+package ru.yusdm.javacore.lesson15concurrency.autoservice.model.repo.impl.memory;
 
-import ru.yusdm.javacore.lesson14serialization.autoservice.common.business.search.Paginator;
-import ru.yusdm.javacore.lesson14serialization.autoservice.common.solutions.utils.CollectionUtils;
-import ru.yusdm.javacore.lesson14serialization.autoservice.model.domain.Model;
-import ru.yusdm.javacore.lesson14serialization.autoservice.model.domain.ModelDiscriminator;
-import ru.yusdm.javacore.lesson14serialization.autoservice.model.domain.PassengerModel;
-import ru.yusdm.javacore.lesson14serialization.autoservice.model.domain.TruckModel;
-import ru.yusdm.javacore.lesson14serialization.autoservice.model.repo.ModelRepo;
-import ru.yusdm.javacore.lesson14serialization.autoservice.model.search.ModelSearchCondition;
-import ru.yusdm.javacore.lesson14serialization.autoservice.model.search.PassengerModelSearchCondition;
-import ru.yusdm.javacore.lesson14serialization.autoservice.model.search.TruckModelSearchCondition;
-import ru.yusdm.javacore.lesson14serialization.autoservice.storage.SequenceGenerator;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.common.business.search.Paginator;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.common.solutions.utils.CollectionUtils;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.model.domain.Model;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.model.domain.ModelDiscriminator;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.model.domain.PassengerModel;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.model.domain.TruckModel;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.model.repo.ModelRepo;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.model.search.ModelSearchCondition;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.model.search.PassengerModelSearchCondition;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.model.search.TruckModelSearchCondition;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.storage.SequenceGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.yusdm.javacore.lesson14serialization.autoservice.storage.Storage.modelsList;
+import static ru.yusdm.javacore.lesson15concurrency.autoservice.storage.Storage.modelsList;
 
 
 public class ModelCollectionRepo implements ModelRepo {

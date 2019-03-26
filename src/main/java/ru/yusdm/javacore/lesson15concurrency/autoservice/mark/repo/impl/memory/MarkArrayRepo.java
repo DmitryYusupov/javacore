@@ -1,19 +1,19 @@
-package ru.yusdm.javacore.lesson14serialization.autoservice.mark.repo.impl.memory;
+package ru.yusdm.javacore.lesson15concurrency.autoservice.mark.repo.impl.memory;
 
-import ru.yusdm.javacore.lesson14serialization.autoservice.common.business.search.Paginator;
-import ru.yusdm.javacore.lesson14serialization.autoservice.common.solutions.utils.ArrayUtils;
-import ru.yusdm.javacore.lesson14serialization.autoservice.common.solutions.utils.CollectionUtils;
-import ru.yusdm.javacore.lesson14serialization.autoservice.mark.domain.Mark;
-import ru.yusdm.javacore.lesson14serialization.autoservice.mark.repo.MarkRepo;
-import ru.yusdm.javacore.lesson14serialization.autoservice.mark.search.MarkSearchCondition;
-import ru.yusdm.javacore.lesson14serialization.autoservice.storage.SequenceGenerator;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.common.business.search.Paginator;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.common.solutions.utils.ArrayUtils;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.common.solutions.utils.CollectionUtils;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.mark.domain.Mark;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.mark.repo.MarkRepo;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.mark.search.MarkSearchCondition;
+import ru.yusdm.javacore.lesson15concurrency.autoservice.storage.SequenceGenerator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static ru.yusdm.javacore.lesson14serialization.autoservice.storage.Storage.marksArray;
+import static ru.yusdm.javacore.lesson15concurrency.autoservice.storage.Storage.marksArray;
 
 
 public class MarkArrayRepo implements MarkRepo {
