@@ -76,7 +76,7 @@ public class MapDemoEqualsAndHashCode {
     public static void demoCantFindElemnt2(){
         Map<PersonNoEquals, String> map = new HashMap<>();
 
-        PersonNoEquals person1 = new PersonNoEquals("A","A");
+        PersonNoEquals person1 = new PersonNoEquals("A_JoinDemo","A_JoinDemo");
         map.put(person1, "One");
 
         PersonNoEquals person2 = new PersonNoEquals("B","B");
@@ -96,7 +96,7 @@ public class MapDemoEqualsAndHashCode {
     private static void putSameKeyToMap(){
         Map<String, String> map = new HashMap<>();
 
-        System.out.println(map.put("a","A"));
+        System.out.println(map.put("a","A_JoinDemo"));
         System.out.println(map.put("a","B"));
         System.out.println(map.size());
         System.out.println(map.get("a"));
@@ -127,7 +127,7 @@ public class MapDemoEqualsAndHashCode {
     public static void demoCantFindElement3(){
         Map<PersonNoHashCode, String> map = new HashMap<>();
 
-        PersonNoHashCode person1 = new PersonNoHashCode("A","A");
+        PersonNoHashCode person1 = new PersonNoHashCode("A_JoinDemo","A_JoinDemo");
         map.put(person1, "One");
 
         PersonNoHashCode person2 = new PersonNoHashCode("B","B");
@@ -199,7 +199,7 @@ public class MapDemoEqualsAndHashCode {
     public static void demoCanFindElement4(){
         Map<PersonWithHashCodeAndEquals, String> map = new HashMap<>();
 
-        PersonWithHashCodeAndEquals person1 = new PersonWithHashCodeAndEquals("A","A");
+        PersonWithHashCodeAndEquals person1 = new PersonWithHashCodeAndEquals("A_JoinDemo","A_JoinDemo");
         map.put(person1, "One");
 
         PersonWithHashCodeAndEquals person2 = new PersonWithHashCodeAndEquals("B","B");

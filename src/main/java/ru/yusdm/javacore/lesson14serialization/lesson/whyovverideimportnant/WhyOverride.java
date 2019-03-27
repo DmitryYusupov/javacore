@@ -39,7 +39,7 @@ public class WhyOverride {
     private static class A {
 
         public void test() {
-            System.out.println("I am A");
+            System.out.println("I am A_JoinDemo");
         }
     }
 
