@@ -26,8 +26,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.yusdm.javacore.lesson15concurrency.autoservice.common.application.ApplicationConfigurations.INIT_DATA_XML_FILE;
-import static ru.yusdm.javacore.lesson15concurrency.autoservice.common.application.ApplicationConfigurations.PAGE_SIZE;
+import static ru.yusdm.javacore.lesson15concurrency.autoservice.common.application.ApplicationConfigurations.*;
+import static ru.yusdm.javacore.lesson15concurrency.autoservice.common.solutions.utils.FileUtils.createFileFromResource;
 import static ru.yusdm.javacore.lesson15concurrency.autoservice.common.solutions.utils.RandomUtils.getRandomInt;
 
 public class AutoServiceDemo {
@@ -45,11 +45,10 @@ public class AutoServiceDemo {
         public void fillStorage() throws Exception {
             addUsers();
             StorageInitializer storageInitor = new StorageInitializer(markService);
-            File fileWithInitData = null;
+            List<File> filesWithInitData = null;
             try {
-                fileWithInitData = FileUtils
-                        .createFileFromResource("init-data", ".txt", INIT_DATA_XML_FILE);
-                storageInitor.initStorageWithMarksAndModels(fileWithInitData.getAbsolutePath(), StorageInitializer.DataSourceType.XML_FILE);
+                filesWithInitData = getFilesWithDataToInit();
+                storageInitor.initStorageWithMarksAndModels(filesWithInitData, StorageInitializer.DataSourceType.XML_FILE);
             } catch (AutoServiceCheckedException e) {
                 System.out.println("ERROR while init storage: " + e.getMessage());
                 throw e;
@@ -57,12 +56,24 @@ public class AutoServiceDemo {
                 System.out.println("Error: Unknown magic :" + e.getMessage());
                 throw e;
             } finally {
-                if (fileWithInitData != null) {
-                    Files.delete(Paths.get(fileWithInitData.toURI()));
+                if (filesWithInitData != null) {
+                    for (File file : filesWithInitData) {
+                        Files.delete(Paths.get(file.toURI()));
+                    }
                 }
             }
-            appendOrdersToUsers();
 
+            appendOrdersToUsers();
+        }
+
+        private List<File> getFilesWithDataToInit() throws Exception {
+            String files[] = new String[]{INIT_DATA_XML_FILE_PART_1, INIT_DATA_XML_FILE_PART_2};
+            List<File> result = new ArrayList<>();
+
+            for (String file : files) {
+                result.add(createFileFromResource("init-data", ".txt", file));
+            }
+            return result;
         }
 
         private void addUsers() {
