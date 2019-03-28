@@ -16,7 +16,6 @@ public class MarkModelFileParser implements Runnable {
     private File fileToParse;
     private volatile Exception parseException;
 
-
     public MarkModelFileParser(StorageInitializer.DataSourceType dataSourceType, File file) {
         this.dataSourceType = dataSourceType;
         thread = new Thread(this);
@@ -33,7 +32,7 @@ public class MarkModelFileParser implements Runnable {
         }
     }
 
-    public List<Mark> getMarks() {
+    public synchronized List<Mark> getMarks() {
         return marks;
     }
 
