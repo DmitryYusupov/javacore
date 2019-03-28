@@ -135,7 +135,7 @@ public class ListDemo {
 
     public static void deleteElementFromListWithIter() {
         List<String> namesInLine = new ArrayList<>();
-        namesInLine.add("A");
+        namesInLine.add("A_JoinDemo");
         namesInLine.add("B");
         namesInLine.add("C");
         namesInLine.add("D");
@@ -160,7 +160,7 @@ public class ListDemo {
 
     public static void deleteElementFromListWithRemoveAll() {
         List<String> namesInLine = new ArrayList<>();
-        namesInLine.add("A");
+        namesInLine.add("A_JoinDemo");
         namesInLine.add("B");
         namesInLine.add("C");
         namesInLine.add("D");

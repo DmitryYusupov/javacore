@@ -9,7 +9,6 @@ public class OopQuadraticEquationResolver_4 {
     public void resolve(double a, double b, double c) {
 
         assignInternalVars(a, b, c);
-
         Discriminant discriminant = new Discriminant();
         discriminant.calcDiscriminant();
 
