@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class L_DeadLockSolution {
 
-    public static final Object sync = "sync";
+
 
     private static class Account {
         private Long id;
@@ -28,23 +28,50 @@ public class L_DeadLockSolution {
         }
     }
 
+    private static class Transfer extends Thread{
 
-    private static Thread transfer(Account src, Account dest, int money) {
-        Thread thread = new Thread(new Runnable() {
+        private static final Object sync = "sync";
+        private Account src;
+        private Account dest;
+        private int money;
 
-            @Override
-            public void run() {
+        public void transfer(Account src, Account dest, int money) {
+            this.src = src;
+            this.dest = dest;
+            this.money = money;
+            start();
+        }
 
-                Map<Integer, Account> hashCodeAccountMap = new HashMap<>();
-                hashCodeAccountMap.put(src.hashCode(), src);
-                hashCodeAccountMap.put(dest.hashCode(), dest);
+        @Override
+        public void run() {
 
-                Set<Integer> hashCodeSet = new TreeSet<>(hashCodeAccountMap.keySet());
-                Iterator<Integer> iter = hashCodeSet.iterator();
+            Map<Integer, Account> hashCodeAccountMap = new HashMap<>();
+            hashCodeAccountMap.put(src.hashCode(), src);
+            hashCodeAccountMap.put(dest.hashCode(), dest);
 
-                int firstHash = iter.next();
-                int secondHash = iter.next();
-                if (firstHash != secondHash) {
+            Set<Integer> hashCodeSet = new TreeSet<>(hashCodeAccountMap.keySet());
+            Iterator<Integer> iter = hashCodeSet.iterator();
+
+            int firstHash = iter.next();
+            int secondHash = iter.next();
+            if (firstHash != secondHash) {
+                synchronized (hashCodeAccountMap.get(firstHash)) {
+
+                    printWithThreadName("Get money form account " + src.id);
+                    customSleep(1);
+
+                    synchronized (hashCodeAccountMap.get(secondHash)) {
+                        customSleep(1);
+                        src.value = src.value - money;
+
+                        printWithThreadName("Transfer money to account " + dest.id);
+                        customSleep(3);
+                        dest.value = dest.value + money;
+                        printWithThreadName("Transfer successfully finished");
+                    }
+                }
+            } else {
+                synchronized (sync) {
                     synchronized (hashCodeAccountMap.get(firstHash)) {
 
                         printWithThreadName("Get money form account " + src.id);
@@ -60,31 +87,9 @@ public class L_DeadLockSolution {
                             printWithThreadName("Transfer successfully finished");
                         }
                     }
-                } else {
-                    synchronized (sync) {
-                        synchronized (hashCodeAccountMap.get(firstHash)) {
-
-                            printWithThreadName("Get money form account " + src.id);
-                            customSleep(1);
-
-                            synchronized (hashCodeAccountMap.get(secondHash)) {
-                                customSleep(1);
-                                src.value = src.value - money;
-
-                                printWithThreadName("Transfer money to account " + dest.id);
-                                customSleep(3);
-                                dest.value = dest.value + money;
-                                printWithThreadName("Transfer successfully finished");
-                            }
-                        }
-                    }
                 }
             }
-
-        });
-
-        thread.start();
-        return thread;
+        }
     }
 
     public static void main(String[] args) {
@@ -92,8 +97,11 @@ public class L_DeadLockSolution {
         Account dest = new Account(2L, 900);
 
 
-        Thread transfer1 = transfer(src, dest, 100);
-        Thread transfer2 = transfer(dest, src, 100);
+        Transfer transfer1 = new Transfer();
+        transfer1.transfer(src, dest, 100);
+
+        Transfer transfer2 = new Transfer();
+        transfer2.transfer(dest, src, 100);
 
         try {
             transfer1.join();
