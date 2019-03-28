@@ -6,6 +6,7 @@ import ru.yusdm.javacore.lesson15up16concurrency.autoservice.user.repo.UserRepo;
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.user.search.UserSearchCondition;
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.user.service.UserService;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +24,13 @@ public class UserDefaultService implements UserService {
     public void insert(User user) {
         if (user != null) {
             userRepo.insert(user);
+        }
+    }
+
+    @Override
+    public void insert(Collection<User> users) {
+        if (users != null && !users.isEmpty()) {
+            userRepo.insert(users);
         }
     }
 

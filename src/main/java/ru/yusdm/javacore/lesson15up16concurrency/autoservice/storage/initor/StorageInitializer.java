@@ -26,12 +26,7 @@ public class StorageInitializer {
     public void initStorageWithMarksAndModels(List<File> files, DataSourceType dataSourceType) throws Exception {
         List<MarkModelFileParser> markModelFileParsers = prepareAsyncParsers(files, dataSourceType);
         List<Mark> marksToPersist = asyncParseFilesAndWaitForResult(markModelFileParsers);
-
-        if (!marksToPersist.isEmpty()) {
-            for (Mark mark : marksToPersist) {
-                markService.insert(mark);
-            }
-        }
+        markService.insert(marksToPersist);
     }
 
     private List<MarkModelFileParser> prepareAsyncParsers(List<File> files, DataSourceType dataSourceType) {

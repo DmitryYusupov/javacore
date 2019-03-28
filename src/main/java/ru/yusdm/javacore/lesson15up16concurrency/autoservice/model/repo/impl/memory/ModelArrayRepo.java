@@ -13,10 +13,7 @@ import ru.yusdm.javacore.lesson15up16concurrency.autoservice.model.search.Passen
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.model.search.TruckModelSearchCondition;
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.storage.SequenceGenerator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static ru.yusdm.javacore.lesson15up16concurrency.autoservice.storage.Storage.modelsArray;
 import static ru.yusdm.javacore.lesson15up16concurrency.autoservice.storage.Storage.modelsList;
@@ -37,6 +34,13 @@ public class ModelArrayRepo implements ModelRepo {
         modelIndex++;
         model.setId(SequenceGenerator.getNextValue());
         modelsArray[modelIndex] = model;
+    }
+
+    @Override
+    public void insert(Collection<Model> models) {
+        for (Model model : models) {
+            insert(model);
+        }
     }
 
     @Override

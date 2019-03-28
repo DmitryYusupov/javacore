@@ -8,6 +8,7 @@ import ru.yusdm.javacore.lesson15up16concurrency.autoservice.model.search.ModelS
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.model.service.ModelService;
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.order.repo.OrderRepo;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,6 +28,13 @@ public class ModelDefaultService implements ModelService {
     public void insert(Model model) {
         if (model != null) {
             modelRepo.insert(model);
+        }
+    }
+
+    @Override
+    public void insert(Collection<Model> models) {
+        if (models != null && !models.isEmpty()) {
+            modelRepo.insert(models);
         }
     }
 

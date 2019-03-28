@@ -111,9 +111,7 @@ public class AutoServiceDemo {
                 }
             }
 
-            for (Order order : orders) {
-                orderService.insert(order);
-            }
+            orderService.insert(orders);
         }
 
         private Order prepareOrderForUser(User user, List<Mark> marks) {

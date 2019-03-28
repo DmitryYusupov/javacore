@@ -5,6 +5,7 @@ import ru.yusdm.javacore.lesson15up16concurrency.autoservice.order.repo.OrderRep
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.order.search.OrderSearchCondition;
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.order.service.OrderService;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,6 +21,13 @@ public class OrderDefaultService implements OrderService {
     public void insert(Order order) {
         if (order != null) {
             orderRepo.insert(order);
+        }
+    }
+
+    @Override
+    public void insert(Collection<Order> orders) {
+        if (orders != null && !orders.isEmpty()) {
+            orderRepo.insert(orders);
         }
     }
 

@@ -6,10 +6,7 @@ import ru.yusdm.javacore.lesson15up16concurrency.autoservice.order.repo.OrderRep
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.order.search.OrderSearchCondition;
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.storage.SequenceGenerator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static ru.yusdm.javacore.lesson15up16concurrency.autoservice.storage.Storage.ordersArray;
 
@@ -29,6 +26,13 @@ public class OrderArrayRepo implements OrderRepo {
         orderIndex++;
         order.setId(SequenceGenerator.getNextValue());
         ordersArray[orderIndex] = order;
+    }
+
+    @Override
+    public void insert(Collection<Order> orders) {
+        for (Order order : orders) {
+            insert(order);
+        }
     }
 
     @Override

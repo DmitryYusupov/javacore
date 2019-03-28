@@ -7,6 +7,7 @@ import ru.yusdm.javacore.lesson15up16concurrency.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.user.repo.UserRepo;
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.user.search.UserSearchCondition;
 
+import java.util.Collection;
 import java.util.List;
 
 import static ru.yusdm.javacore.lesson15up16concurrency.autoservice.storage.Storage.usersList;
@@ -18,6 +19,13 @@ public class UserCollectionRepo implements UserRepo {
     public void insert(User user) {
         user.setId(SequenceGenerator.getNextValue());
         usersList.add(user);
+    }
+
+    @Override
+    public void insert(Collection<User> users) {
+        for (User user : users) {
+            insert(user);
+        }
     }
 
     @Override

@@ -8,10 +8,7 @@ import ru.yusdm.javacore.lesson15up16concurrency.autoservice.mark.repo.MarkRepo;
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.mark.search.MarkSearchCondition;
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.storage.SequenceGenerator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static ru.yusdm.javacore.lesson15up16concurrency.autoservice.storage.Storage.marksArray;
 
@@ -31,6 +28,13 @@ public class MarkArrayRepo implements MarkRepo {
         markIndex++;
         mark.setId(SequenceGenerator.getNextValue());
         marksArray[markIndex] = mark;
+    }
+
+    @Override
+    public void insert(Collection<Mark> marks) {
+        for (Mark mark : marks) {
+            insert(mark);
+        }
     }
 
     @Override

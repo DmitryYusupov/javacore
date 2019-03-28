@@ -13,6 +13,7 @@ import ru.yusdm.javacore.lesson15up16concurrency.autoservice.model.search.TruckM
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.storage.SequenceGenerator;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static ru.yusdm.javacore.lesson15up16concurrency.autoservice.storage.Storage.modelsList;
@@ -24,6 +25,13 @@ public class ModelCollectionRepo implements ModelRepo {
     public void insert(Model model) {
         model.setId(SequenceGenerator.getNextValue());
         modelsList.add(model);
+    }
+
+    @Override
+    public void insert(Collection<Model> models) {
+        for (Model model : models) {
+            insert(model);
+        }
     }
 
     @Override

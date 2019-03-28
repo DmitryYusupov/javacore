@@ -10,6 +10,7 @@ import ru.yusdm.javacore.lesson15up16concurrency.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.model.service.ModelService;
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.order.repo.OrderRepo;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,11 +33,22 @@ public class MarkDefaultService implements MarkService {
         if (mark != null) {
             markRepo.insert(mark);
 
-            if (mark.getModels() != null) {
+            if (mark.getModels() != null && !mark.getModels().isEmpty()) {
                 for (Model model : mark.getModels()) {
-                    if (model != null) {
-                        modelService.insert(model);
-                    }
+                    modelService.insert(model);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void insert(Collection<Mark> marks) {
+        if (marks != null && !marks.isEmpty()) {
+            for (Mark mark : marks) {
+                markRepo.insert(mark);
+
+                if (mark.getModels() != null && !mark.getModels().isEmpty()) {
+                    modelService.insert(mark.getModels());
                 }
             }
         }

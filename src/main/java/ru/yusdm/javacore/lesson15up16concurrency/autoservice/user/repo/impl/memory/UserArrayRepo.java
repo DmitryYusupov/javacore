@@ -8,10 +8,7 @@ import ru.yusdm.javacore.lesson15up16concurrency.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.user.repo.UserRepo;
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.user.search.UserSearchCondition;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static ru.yusdm.javacore.lesson15up16concurrency.autoservice.storage.Storage.usersArray;
 
@@ -30,6 +27,13 @@ public class UserArrayRepo implements UserRepo {
         userIndex++;
         user.setId(SequenceGenerator.getNextValue());
         usersArray[userIndex] = user;
+    }
+
+    @Override
+    public void insert(Collection<User> users) {
+        for (User user : users) {
+            insert(user);
+        }
     }
 
     @Override

@@ -9,6 +9,7 @@ import ru.yusdm.javacore.lesson15up16concurrency.autoservice.storage.SequenceGen
 import ru.yusdm.javacore.lesson15up16concurrency.autoservice.storage.Storage;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static ru.yusdm.javacore.lesson15up16concurrency.autoservice.storage.Storage.marksList;
@@ -22,6 +23,13 @@ public class MarkCollectionRepo implements MarkRepo {
     public void insert(Mark mark) {
         mark.setId(SequenceGenerator.getNextValue());
         marksList.add(mark);
+    }
+
+    @Override
+    public void insert(Collection<Mark> marks) {
+        for (Mark mark : marks) {
+            insert(mark);
+        }
     }
 
     @Override
