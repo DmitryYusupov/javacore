@@ -1,11 +1,8 @@
 package ru.yusdm.javacore.lesson15up16concurrency.lesson.threads.part3;
 
-import com.sun.xml.internal.ws.util.CompletedFuture;
-
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
+import java.util.Collections;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.TimeUnit;
 
 /**
