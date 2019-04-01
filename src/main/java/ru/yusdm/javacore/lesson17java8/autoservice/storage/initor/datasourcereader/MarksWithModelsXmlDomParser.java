@@ -4,6 +4,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import ru.yusdm.javacore.lesson17java8.autoservice.common.solutions.parser.FileParser;
 import ru.yusdm.javacore.lesson17java8.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson17java8.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson17java8.autoservice.model.domain.ModelDiscriminator;

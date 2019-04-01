@@ -2,7 +2,7 @@ package ru.yusdm.javacore.lesson17java8.autoservice.storage.initor.datasourcerea
 
 import ru.yusdm.javacore.lesson17java8.autoservice.common.solutions.xml.sax.XmlSaxUtils;
 import ru.yusdm.javacore.lesson17java8.autoservice.mark.domain.Mark;
-import ru.yusdm.javacore.lesson17java8.autoservice.storage.initor.datasourcereader.FileParser;
+import ru.yusdm.javacore.lesson17java8.autoservice.common.solutions.parser.FileParser;
 
 import javax.xml.parsers.SAXParser;
 import java.io.File;

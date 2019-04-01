@@ -1,7 +1,7 @@
 package ru.yusdm.javacore.lesson17java8.autoservice.storage.initor;
 
 import ru.yusdm.javacore.lesson17java8.autoservice.mark.domain.Mark;
-import ru.yusdm.javacore.lesson17java8.autoservice.storage.initor.datasourcereader.FileParser;
+import ru.yusdm.javacore.lesson17java8.autoservice.common.solutions.parser.FileParser;
 import ru.yusdm.javacore.lesson17java8.autoservice.storage.initor.datasourcereader.MarksWithModelXmlStaxParser;
 import ru.yusdm.javacore.lesson17java8.autoservice.storage.initor.datasourcereader.MarksWithModelsTxtFileParser;
 
