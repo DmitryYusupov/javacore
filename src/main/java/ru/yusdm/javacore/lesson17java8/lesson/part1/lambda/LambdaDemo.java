@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson17java8.lesson.lambda;
+package ru.yusdm.javacore.lesson17java8.lesson.part1.lambda;
 
 import java.util.ArrayList;
 import java.util.Comparator;

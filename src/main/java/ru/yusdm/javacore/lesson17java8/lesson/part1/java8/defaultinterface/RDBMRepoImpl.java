@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson17java8.lesson.java8.defaultinterface;
+package ru.yusdm.javacore.lesson17java8.lesson.part1.java8.defaultinterface;
 
 import ru.yusdm.javacore.lesson5oopinterface.lesson.dataclass.Person;
 

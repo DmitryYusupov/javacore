@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson17java8.lesson.java8.functionalinterface;
+package ru.yusdm.javacore.lesson17java8.lesson.part1.java8.functionalinterface;
 
 @FunctionalInterface
 public interface Extractor {

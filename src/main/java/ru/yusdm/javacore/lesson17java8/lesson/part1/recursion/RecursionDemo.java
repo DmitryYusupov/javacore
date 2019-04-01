@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson17java8.lesson.recursion;
+package ru.yusdm.javacore.lesson17java8.lesson.part1.recursion;
 
 import java.io.File;
 
