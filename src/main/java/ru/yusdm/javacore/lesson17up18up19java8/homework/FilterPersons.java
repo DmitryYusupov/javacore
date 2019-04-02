@@ -52,9 +52,9 @@ public class FilterPersons {
         persons.add(new Person("Dmitry", "Ivanov", 25));
 
 
-        List<Person> filtered = filter(persons, (p) -> p.age > 15);
-        filter(filtered, (p) -> p.lastName.equals("Ivanov"));
-        filtered = filter(filtered, (p) -> p.name.equals("Dmitry"));
+        List<Person> filtered = filterWithPredicate(persons, (p) -> p.age > 15);
+        filterWithPredicate(filtered, (p) -> p.lastName.equals("Ivanov"));
+        filtered = filterWithPredicate(filtered, (p) -> p.name.equals("Dmitry"));
 
         for (Person p : filtered) {
             System.out.println(p);
@@ -71,10 +71,22 @@ public class FilterPersons {
         persons.add(new Person("Dmitry", "Ivanov", 20));
         persons.add(new Person("Dmitry", "Ivanov", 25));
 
+        List<Predicate<Person>> conditions = Arrays.asList(
+                (p) -> p.age > 15,
+                (p) -> p.lastName.equals("Ivanov"),
+                (p) -> p.name.equals("Dmitry")
+        );
 
-        List<Person> filtered = filterWithPredicate(persons, (p) -> p.age > 15);
-        filterWithPredicate(filtered, (p) -> p.lastName.equals("Ivanov"));
-        filtered = filterWithPredicate(filtered, (p) -> p.name.equals("Dmitry"));
+        List<Person> filtered = filter(persons, (p) -> {
+            boolean include = true;
+            for (Predicate<Person> cond : conditions) {
+                include = cond.test(p);
+                if (!include) {
+                    break;
+                }
+            }
+            return include;
+        });
 
         for (Person p : filtered) {
             System.out.println(p);
