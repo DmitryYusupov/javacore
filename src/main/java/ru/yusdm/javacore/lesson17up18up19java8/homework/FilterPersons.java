@@ -32,14 +32,18 @@ public class FilterPersons {
     public static void main(String[] args) {
         System.out.println("----Before java 8 ----------");
         demoBeforeJava8();
+
         System.out.println("----With java 8 ----------");
         demoWithJava8();
 
-        System.out.println("----With java 8 with predicats ----------");
-        demoWithJava8WithPredicates();
+        System.out.println("----With java 8 with list of predicats ----------");
+        demoWithJava8WithListOfPredicates();
+
+        System.out.println("----With java 8 with list of predicats ----------");
+        demoWithJava8PredicateInsteadOfFunction();
     }
 
-    private static void demoWithJava8WithPredicates() {
+    private static void demoWithJava8PredicateInsteadOfFunction() {
         List<Person> persons = new ArrayList<>();
         persons.add(new Person("Ivan", "Ivanov", 5));
         persons.add(new Person("Ivan", "Ivanov", 10));
@@ -48,22 +52,29 @@ public class FilterPersons {
         persons.add(new Person("Dmitry", "Ivanov", 25));
 
 
-        List<Predicate<Person>> filterConditions = Arrays.asList(
-                (p) -> p.age > 15,
-                (p) -> p.lastName.equals("Ivanov"),
-                (p) -> p.name.equals("Dmitry")
-        );
+        List<Person> filtered = filter(persons, (p) -> p.age > 15);
+        filter(filtered, (p) -> p.lastName.equals("Ivanov"));
+        filtered = filter(filtered, (p) -> p.name.equals("Dmitry"));
 
-        List<Person> filtered = filter(persons, (p) -> {
-            boolean result = true;
-            for (Predicate<Person> condition : filterConditions) {
-                result = condition.test(p);
-                if (!result) {
-                    break;
-                }
-            }
-            return result;
-        });
+        for (Person p : filtered) {
+            System.out.println(p);
+        }
+
+    }
+
+
+    private static void demoWithJava8WithListOfPredicates() {
+        List<Person> persons = new ArrayList<>();
+        persons.add(new Person("Ivan", "Ivanov", 5));
+        persons.add(new Person("Ivan", "Ivanov", 10));
+        persons.add(new Person("Ivan", "Ivanov", 15));
+        persons.add(new Person("Dmitry", "Ivanov", 20));
+        persons.add(new Person("Dmitry", "Ivanov", 25));
+
+
+        List<Person> filtered = filterWithPredicate(persons, (p) -> p.age > 15);
+        filterWithPredicate(filtered, (p) -> p.lastName.equals("Ivanov"));
+        filtered = filterWithPredicate(filtered, (p) -> p.name.equals("Dmitry"));
 
         for (Person p : filtered) {
             System.out.println(p);
@@ -98,6 +109,16 @@ public class FilterPersons {
         return filtered;
     }
 
+    private static List<Person> filterWithPredicate(List<Person> persons, Predicate<Person> condition) {
+        List<Person> filtered = new ArrayList<>();
+
+        for (Person person : persons) {
+            if (condition.test(person)) {
+                filtered.add(person);
+            }
+        }
+        return filtered;
+    }
 
     private static void demoBeforeJava8() {
         List<Person> persons = new ArrayList<>();
