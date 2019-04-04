@@ -2,6 +2,7 @@ package ru.yusdm.javacore.lesson17up18up19java8.autoservice.model.domain;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public enum ModelDiscriminator {
     PASSENGER, TRUCK;
@@ -14,16 +15,8 @@ public enum ModelDiscriminator {
         }
     }
 
-    public static ModelDiscriminator getDiscriminatorByName(String discriminatorName) {
-        return stringModelDiscriminatorMap.get(discriminatorName);
-    }
-
-    public static boolean isDiscriminatorExists(String discriminator) {
-        return getDiscriminatorByName(discriminator) != null;
-    }
-
-    public static boolean isDiscriminatorNotExists(String discriminator) {
-        return !isDiscriminatorExists(discriminator);
+    public static Optional<ModelDiscriminator> getDiscriminatorByName(String discriminatorName) {
+        return Optional.ofNullable(stringModelDiscriminatorMap.get(discriminatorName));
     }
 
 

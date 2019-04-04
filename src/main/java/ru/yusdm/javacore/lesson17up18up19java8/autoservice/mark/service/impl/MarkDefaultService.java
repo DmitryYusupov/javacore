@@ -6,12 +6,15 @@ import ru.yusdm.javacore.lesson17up18up19java8.autoservice.mark.exception.unchec
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.mark.repo.MarkRepo;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.mark.search.MarkSearchCondition;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.mark.service.MarkService;
-import ru.yusdm.javacore.lesson17up18up19java8.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.model.service.ModelService;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.order.repo.OrderRepo;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static ru.yusdm.javacore.lesson17up18up19java8.autoservice.mark.exception.MarkExceptionMeta.DELETE_MARK_CONSTRAINT_ERROR;
 
 public class MarkDefaultService implements MarkService {
@@ -31,13 +34,11 @@ public class MarkDefaultService implements MarkService {
         if (mark != null) {
             markRepo.insert(mark);
 
-            if (mark.getModels() != null && !mark.getModels().isEmpty()) {
-
-                for (Model model : mark.getModels()) {
+            if (isNotEmpty(mark.getModels())) {
+                mark.getModels().forEach(model -> {
                     model.setMarkId(mark.getId());
                     modelService.insert(model);
-                }
-
+                });
             }
         }
 
@@ -50,7 +51,7 @@ public class MarkDefaultService implements MarkService {
             for (Mark mark : marks) {
                 markRepo.insert(mark);
 
-                if (mark.getModels() != null && !mark.getModels().isEmpty()) {
+                if (isNotEmpty(mark.getModels())) {
                     mark.getModels().replaceAll(model -> {
                         model.setMarkId(mark.getId());
                         return model;
@@ -116,7 +117,7 @@ public class MarkDefaultService implements MarkService {
     @Override
     public void removeAllModelsFromMark(Long markId) throws AutoServiceUncheckedException {
         findById(markId).ifPresent(mark -> {
-            if (mark.getModels()!=null){
+            if (mark.getModels() != null) {
                 mark.getModels().forEach(model -> modelService.deleteById(model.getId()));
             }
         });

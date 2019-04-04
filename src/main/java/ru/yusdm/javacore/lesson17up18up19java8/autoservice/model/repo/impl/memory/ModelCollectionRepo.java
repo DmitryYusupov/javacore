@@ -32,9 +32,7 @@ public class ModelCollectionRepo implements ModelRepo {
 
     @Override
     public void insert(Collection<Model> models) {
-        for (Model model : models) {
-            insert(model);
-        }
+        models.forEach(this::insert);
     }
 
     @Override
@@ -145,9 +143,7 @@ public class ModelCollectionRepo implements ModelRepo {
 
     @Override
     public void printAll() {
-        for (Model model : modelsList) {
-            System.out.println(model);
-        }
+        modelsList.forEach(System.out::println);
     }
 
     private Optional<Model> findModelById(long modelId) {

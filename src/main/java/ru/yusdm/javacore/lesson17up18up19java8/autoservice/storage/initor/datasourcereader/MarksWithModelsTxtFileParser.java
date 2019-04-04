@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.initor.exception.InitDataExceptionMeta.PARSE_MODEL_DISCRIMINATOR_ERROR;
 
@@ -125,18 +126,17 @@ public class MarksWithModelsTxtFileParser implements FileParser<List<Mark>> {
     }
 
     private Model createModelByDiscriminator(String discriminatorAsStr) throws InvalidModelDiscriminatorException {
-        if (ModelDiscriminator.isDiscriminatorNotExists(discriminatorAsStr)) {
-            throw new InvalidModelDiscriminatorException(
-                    PARSE_MODEL_DISCRIMINATOR_ERROR.getCode(),
-                    PARSE_MODEL_DISCRIMINATOR_ERROR.getDescriptionAsFormatStr(discriminatorAsStr)
-            );
-        } else {
-            ModelDiscriminator discriminator = ModelDiscriminator.getDiscriminatorByName(discriminatorAsStr);
-            if (ModelDiscriminator.TRUCK.equals(discriminator)) {
-                return new TruckModel();
-            }
-            return new PassengerModel();
-        }
+        return ModelDiscriminator.getDiscriminatorByName(discriminatorAsStr)
+                .map(modelDiscriminator -> {
+                            if (ModelDiscriminator.TRUCK.equals(modelDiscriminator)) {
+                                return new TruckModel();
+                            }
+                            return new PassengerModel();
+                        }
+                )
+                .orElseThrow(() -> new InvalidModelDiscriminatorException(
+                        PARSE_MODEL_DISCRIMINATOR_ERROR.getCode(),
+                        PARSE_MODEL_DISCRIMINATOR_ERROR.getDescriptionAsFormatStr(discriminatorAsStr)));
     }
 
     private void appendPassengerAttributes(PassengerModel model, String[] attrs, int attrIndex) {

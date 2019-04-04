@@ -10,6 +10,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Collections.emptyList;
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
+
 public class OrderDefaultService implements OrderService {
 
     private final OrderRepo orderRepo;
@@ -29,7 +32,7 @@ public class OrderDefaultService implements OrderService {
 
     @Override
     public void insert(Collection<Order> orders) {
-        if (orders != null && !orders.isEmpty()) {
+        if (isNotEmpty(orders)) {
             orderRepo.insert(orders);
         }
     }
@@ -60,7 +63,7 @@ public class OrderDefaultService implements OrderService {
     @Override
     public List<Order> search(OrderSearchCondition searchCondition) {
         if (searchCondition.getId() != null) {
-            return orderRepo.findById(searchCondition.getId()).map(Collections::singletonList).orElse(Collections.emptyList());
+            return orderRepo.findById(searchCondition.getId()).map(Collections::singletonList).orElse(emptyList());
         } else {
             return orderRepo.search(searchCondition);
         }
@@ -96,7 +99,7 @@ public class OrderDefaultService implements OrderService {
             return orderRepo.findByUserId(userId);
         }
 
-        return Collections.emptyList();
+        return emptyList();
     }
 
     @Override

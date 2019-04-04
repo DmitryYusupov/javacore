@@ -29,11 +29,4 @@ public enum ClientType {
         return description;
     }
 
-    public static boolean isStrBelongsToEnumValues(String enumItemAsStr) {
-        return strNameEnumItemMap.containsKey(enumItemAsStr);
-    }
-
-    public static ClientType getEnumFromEnumName(String enumName) {
-        return strNameEnumItemMap.get(enumName);
-    }
 }

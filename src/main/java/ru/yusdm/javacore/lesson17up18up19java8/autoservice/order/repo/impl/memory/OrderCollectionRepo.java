@@ -7,10 +7,7 @@ import ru.yusdm.javacore.lesson17up18up19java8.autoservice.order.repo.OrderRepo;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.order.search.OrderSearchCondition;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.SequenceGenerator;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.Storage.ordersList;
 
@@ -27,9 +24,7 @@ public class OrderCollectionRepo implements OrderRepo {
 
     @Override
     public void insert(Collection<Order> orders) {
-        for (Order order : orders) {
-            insert(order);
-        }
+        orders.forEach(this::insert);
     }
 
     @Override
@@ -68,9 +63,7 @@ public class OrderCollectionRepo implements OrderRepo {
 
     @Override
     public void printAll() {
-        for (Order order : ordersList) {
-            System.out.println(order);
-        }
+        ordersList.forEach(System.out::println);
     }
 
     private Optional<Order> findOrderById(long orderId) {

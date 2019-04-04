@@ -32,9 +32,7 @@ public class OrderArrayRepo implements OrderRepo {
 
     @Override
     public void insert(Collection<Order> orders) {
-        for (Order order : orders) {
-            insert(order);
-        }
+        orders.forEach(this::insert);
     }
 
     @Override
@@ -44,21 +42,12 @@ public class OrderArrayRepo implements OrderRepo {
 
     @Override
     public Optional<Order> findById(Long id) {
-        Integer orderIndex = findOrderIndexById(id);
-        if (orderIndex != null) {
-            return Optional.of(ordersArray[orderIndex]);
-        }
-
-        return Optional.empty();
+        return findOrderIndexById(id).map(index -> ordersArray[index]);
     }
 
     @Override
     public void deleteById(Long id) {
-        Integer orderIndex = findOrderIndexById(id);
-
-        if (orderIndex != null) {
-            deleteOrderByIndex(orderIndex);
-        }
+        findOrderIndexById(id).ifPresent(this::deleteOrderByIndex);
     }
 
     private void deleteOrderByIndex(int index) {
@@ -68,20 +57,16 @@ public class OrderArrayRepo implements OrderRepo {
 
     @Override
     public void printAll() {
-        for (Order order : ordersArray) {
-            if (order != null) {
-                System.out.println(order);
-            }
-        }
+        Arrays.stream(ordersArray).filter(Objects::nonNull).forEach(System.out::println);
     }
 
-    private Integer findOrderIndexById(long orderId) {
+    private Optional<Integer> findOrderIndexById(long orderId) {
         for (int i = 0; i < ordersArray.length; i++) {
             if (ordersArray[i] != null && Long.valueOf(orderId).equals(ordersArray[i].getId())) {
-                return i;
+                return Optional.of(i);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

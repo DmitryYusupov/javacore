@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 import static ru.yusdm.javacore.lesson17up18up19java8.autoservice.model.exception.ModelExceptionMeta.DELETE_MODEL_CONSTRAINT_ERROR;
 
 public class ModelDefaultService implements ModelService {
@@ -36,7 +37,7 @@ public class ModelDefaultService implements ModelService {
 
     @Override
     public void insert(Collection<Model> models) {
-        if (models != null && !models.isEmpty()) {
+        if (isNotEmpty(models)) {
             modelRepo.insert(models);
         }
     }

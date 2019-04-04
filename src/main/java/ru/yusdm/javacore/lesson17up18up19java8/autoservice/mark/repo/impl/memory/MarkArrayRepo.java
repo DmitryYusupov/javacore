@@ -34,9 +34,7 @@ public class MarkArrayRepo implements MarkRepo {
 
     @Override
     public void insert(Collection<Mark> marks) {
-        for (Mark mark : marks) {
-            insert(mark);
-        }
+        marks.forEach(this::insert);
     }
 
     @Override
@@ -46,12 +44,7 @@ public class MarkArrayRepo implements MarkRepo {
 
     @Override
     public Optional<Mark> findById(Long id) {
-        Integer markIndex = findMarkIndexById(id);
-        if (markIndex != null) {
-            return Optional.of(marksArray[markIndex]);
-        }
-
-        return Optional.empty();
+        return findMarkIndexById(id).map(markIndex -> marksArray[markIndex]);
     }
 
     @Override
@@ -109,11 +102,7 @@ public class MarkArrayRepo implements MarkRepo {
 
     @Override
     public void deleteById(Long id) {
-        Integer markIndex = findMarkIndexById(id);
-
-        if (markIndex != null) {
-            deleteMarkByIndex(markIndex);
-        }
+        findMarkIndexById(id).ifPresent(this::deleteMarkByIndex);
     }
 
     private void deleteMarkByIndex(int index) {
@@ -123,19 +112,16 @@ public class MarkArrayRepo implements MarkRepo {
 
     @Override
     public void printAll() {
-        for (Mark mark : marksArray)
-            if (mark != null) {
-                System.out.println(mark);
-            }
+        Arrays.stream(marksArray).filter(Objects::nonNull).forEach(System.out::println);
     }
 
-    private Integer findMarkIndexById(long markId) {
+    private Optional<Integer> findMarkIndexById(long markId) {
         for (int i = 0; i < marksArray.length; i++) {
             if (marksArray[i] != null && Long.valueOf(markId).equals(marksArray[i].getId())) {
-                return i;
+                return Optional.of(i);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

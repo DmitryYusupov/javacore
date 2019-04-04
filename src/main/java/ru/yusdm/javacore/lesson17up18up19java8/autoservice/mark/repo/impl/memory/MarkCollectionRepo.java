@@ -30,9 +30,7 @@ public class MarkCollectionRepo implements MarkRepo {
 
     @Override
     public void insert(Collection<Mark> marks) {
-        for (Mark mark : marks) {
-            insert(mark);
-        }
+        marks.forEach(this::insert);
     }
 
     @Override
@@ -98,9 +96,7 @@ public class MarkCollectionRepo implements MarkRepo {
 
     @Override
     public void printAll() {
-        for (Mark mark : marksList) {
-            System.out.println(mark);
-        }
+        marksList.forEach(System.out::println);
     }
 
     private Optional<Mark> findMarkById(long markId) {

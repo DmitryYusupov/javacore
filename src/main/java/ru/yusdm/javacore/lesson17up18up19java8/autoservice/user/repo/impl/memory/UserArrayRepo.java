@@ -33,9 +33,7 @@ public class UserArrayRepo implements UserRepo {
 
     @Override
     public void insert(Collection<User> users) {
-        for (User user : users) {
-            insert(user);
-        }
+        users.forEach(this::insert);
     }
 
     @Override
@@ -45,12 +43,7 @@ public class UserArrayRepo implements UserRepo {
 
     @Override
     public Optional<User> findById(Long id) {
-        Integer userIndex = findUserIndexById(id);
-        if (userIndex != null) {
-            return Optional.of(usersArray[userIndex]);
-        }
-
-        return Optional.empty();
+        return findUserIndexById(id).map(userInd -> usersArray[userIndex]);
     }
 
     @Override
@@ -74,11 +67,7 @@ public class UserArrayRepo implements UserRepo {
 
     @Override
     public void deleteById(Long id) {
-        Integer userIndex = findUserIndexById(id);
-
-        if (userIndex != null) {
-            deleteUserByIndex(userIndex);
-        }
+        findUserIndexById(id).ifPresent(this::deleteUserByIndex);
     }
 
     private void deleteUserByIndex(int index) {
@@ -88,20 +77,16 @@ public class UserArrayRepo implements UserRepo {
 
     @Override
     public void printAll() {
-        for (User user : usersArray) {
-            if (user != null) {
-                System.out.println(user);
-            }
-        }
+        Arrays.stream(usersArray).filter(Objects::nonNull).forEach(System.out::println);
     }
 
-    private Integer findUserIndexById(long userId) {
+    private Optional<Integer> findUserIndexById(long userId) {
         for (int i = 0; i < usersArray.length; i++) {
             if (usersArray[i] != null && Long.valueOf(userId).equals(usersArray[i].getId())) {
-                return i;
+                return Optional.of(i);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

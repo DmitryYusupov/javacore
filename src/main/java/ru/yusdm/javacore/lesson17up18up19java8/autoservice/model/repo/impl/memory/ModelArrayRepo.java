@@ -40,19 +40,12 @@ public class ModelArrayRepo implements ModelRepo {
 
     @Override
     public void insert(Collection<Model> models) {
-        for (Model model : models) {
-            insert(model);
-        }
+        models.forEach(this::insert);
     }
 
     @Override
     public Optional<Model> findById(Long id) {
-        Integer modelIndex = findModelIndexById(id);
-        if (modelIndex != null) {
-            return Optional.of(modelsArray[modelIndex]);
-        }
-
-        return Optional.empty();
+        return findModelIndexById(id).map(modelIndex -> modelsArray[modelIndex]);
     }
 
     @Override
@@ -173,11 +166,7 @@ public class ModelArrayRepo implements ModelRepo {
 
     @Override
     public void deleteById(Long id) {
-        Integer modelIndex = findModelIndexById(id);
-
-        if (modelIndex != null) {
-            deleteModelByIndex(modelIndex);
-        }
+        findModelIndexById(id).ifPresent(this::deleteModelByIndex);
     }
 
     private void deleteModelByIndex(int index) {
@@ -187,20 +176,16 @@ public class ModelArrayRepo implements ModelRepo {
 
     @Override
     public void printAll() {
-        for (Model model : modelsArray) {
-            if (model != null) {
-                System.out.println(model);
-            }
-        }
+        Arrays.stream(modelsArray).filter(Objects::nonNull).forEach(System.out::println);
     }
 
-    private Integer findModelIndexById(long modelId) {
+    private Optional<Integer> findModelIndexById(long modelId) {
         for (int i = 0; i < modelsArray.length; i++) {
             if (modelsArray[i] != null && Long.valueOf(modelId).equals(modelsArray[i].getId())) {
-                return i;
+                return Optional.of(i);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

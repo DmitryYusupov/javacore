@@ -26,9 +26,7 @@ public class UserCollectionRepo implements UserRepo {
 
     @Override
     public void insert(Collection<User> users) {
-        for (User user : users) {
-            insert(user);
-        }
+        users.forEach(this::insert);
     }
 
     @Override
@@ -67,9 +65,7 @@ public class UserCollectionRepo implements UserRepo {
 
     @Override
     public void printAll() {
-        for (User user : usersList) {
-            System.out.println(user);
-        }
+        usersList.forEach(System.out::println);
     }
 
     private Optional<User> findUserById(long userId) {
