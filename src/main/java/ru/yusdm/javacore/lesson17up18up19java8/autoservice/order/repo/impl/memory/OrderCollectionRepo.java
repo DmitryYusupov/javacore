@@ -10,6 +10,7 @@ import ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.SequenceGener
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import static ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.Storage.ordersList;
 
@@ -37,7 +38,7 @@ public class OrderCollectionRepo implements OrderRepo {
     }
 
     @Override
-    public Order findById(Long id) {
+    public Optional<Order> findById(Long id) {
         return findOrderById(id);
     }
 
@@ -62,11 +63,7 @@ public class OrderCollectionRepo implements OrderRepo {
 
     @Override
     public void deleteById(Long id) {
-        Order found = findOrderById(id);
-
-        if (found != null) {
-            ordersList.remove(found);
-        }
+        findOrderById(id).map(order -> ordersList.remove(order));
     }
 
     @Override
@@ -76,13 +73,13 @@ public class OrderCollectionRepo implements OrderRepo {
         }
     }
 
-    private Order findOrderById(long orderId) {
+    private Optional<Order> findOrderById(long orderId) {
         for (Order order : ordersList) {
             if (Long.valueOf(orderId).equals(order.getId())) {
-                return order;
+                return Optional.of(order);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

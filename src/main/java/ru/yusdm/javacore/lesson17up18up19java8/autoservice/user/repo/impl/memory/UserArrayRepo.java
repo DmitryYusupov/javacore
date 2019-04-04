@@ -44,13 +44,13 @@ public class UserArrayRepo implements UserRepo {
     }
 
     @Override
-    public User findById(Long id) {
+    public Optional<User> findById(Long id) {
         Integer userIndex = findUserIndexById(id);
         if (userIndex != null) {
-            return usersArray[userIndex];
+            return Optional.of(usersArray[userIndex]);
         }
 
-        return null;
+        return Optional.empty();
     }
 
     @Override

@@ -45,13 +45,13 @@ public class MarkArrayRepo implements MarkRepo {
     }
 
     @Override
-    public Mark findById(Long id) {
+    public Optional<Mark> findById(Long id) {
         Integer markIndex = findMarkIndexById(id);
         if (markIndex != null) {
-            return marksArray[markIndex];
+            return Optional.of(marksArray[markIndex]);
         }
 
-        return null;
+        return Optional.empty();
     }
 
     @Override

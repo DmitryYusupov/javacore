@@ -8,6 +8,7 @@ import ru.yusdm.javacore.lesson17up18up19java8.autoservice.order.service.OrderSe
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class OrderDefaultService implements OrderService {
 
@@ -41,11 +42,11 @@ public class OrderDefaultService implements OrderService {
     }
 
     @Override
-    public Order findById(Long id) {
+    public Optional<Order> findById(Long id) {
         if (id != null) {
             return orderRepo.findById(id);
         } else {
-            return null;
+            return Optional.empty();
         }
     }
 
@@ -59,7 +60,7 @@ public class OrderDefaultService implements OrderService {
     @Override
     public List<Order> search(OrderSearchCondition searchCondition) {
         if (searchCondition.getId() != null) {
-            return Collections.singletonList(orderRepo.findById(searchCondition.getId()));
+            return orderRepo.findById(searchCondition.getId()).map(Collections::singletonList).orElse(Collections.emptyList());
         } else {
             return orderRepo.search(searchCondition);
         }

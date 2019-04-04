@@ -10,9 +10,7 @@ import ru.yusdm.javacore.lesson17up18up19java8.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.model.service.ModelService;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.order.repo.OrderRepo;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static ru.yusdm.javacore.lesson17up18up19java8.autoservice.mark.exception.MarkExceptionMeta.DELETE_MARK_CONSTRAINT_ERROR;
 
@@ -64,11 +62,11 @@ public class MarkDefaultService implements MarkService {
     }
 
     @Override
-    public Mark findById(Long id) {
+    public Optional<Mark> findById(Long id) {
         if (id != null) {
             return markRepo.findById(id);
         } else {
-            return null;
+            return Optional.empty();
         }
     }
 
@@ -102,7 +100,7 @@ public class MarkDefaultService implements MarkService {
     @Override
     public List<Mark> search(MarkSearchCondition searchCondition) {
         if (searchCondition.getId() != null) {
-            return Collections.singletonList(markRepo.findById(searchCondition.getId()));
+            return markRepo.findById(searchCondition.getId()).map(Collections::singletonList).orElse(Collections.emptyList());
         } else {
             return markRepo.search(searchCondition);
         }
@@ -117,15 +115,11 @@ public class MarkDefaultService implements MarkService {
 
     @Override
     public void removeAllModelsFromMark(Long markId) throws AutoServiceUncheckedException {
-        Mark mark = findById(markId);
-        if (mark != null) {
-            List<Model> models = mark.getModels() == null ? Collections.emptyList() : mark.getModels();
-
-            for (Model model : models) {
-                modelService.deleteById(model.getId());
+        findById(markId).ifPresent(mark -> {
+            if (mark.getModels()!=null){
+                mark.getModels().forEach(model -> modelService.deleteById(model.getId()));
             }
-
-        }
+        });
     }
 
     @Override

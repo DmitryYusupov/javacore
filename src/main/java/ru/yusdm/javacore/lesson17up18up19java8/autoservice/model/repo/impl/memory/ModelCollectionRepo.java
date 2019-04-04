@@ -15,6 +15,7 @@ import ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.SequenceGener
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import static ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.Storage.modelsList;
 
@@ -37,7 +38,7 @@ public class ModelCollectionRepo implements ModelRepo {
     }
 
     @Override
-    public Model findById(Long id) {
+    public Optional<Model> findById(Long id) {
         return findModelById(id);
     }
 
@@ -139,11 +140,7 @@ public class ModelCollectionRepo implements ModelRepo {
 
     @Override
     public void deleteById(Long id) {
-        Model found = findModelById(id);
-
-        if (found != null) {
-            modelsList.remove(found);
-        }
+        findModelById(id).map(model -> modelsList.remove(model));
     }
 
     @Override
@@ -153,13 +150,13 @@ public class ModelCollectionRepo implements ModelRepo {
         }
     }
 
-    private Model findModelById(long modelId) {
+    private Optional<Model> findModelById(long modelId) {
         for (Model model : modelsList) {
             if (Long.valueOf(modelId).equals(model.getId())) {
-                return model;
+                return Optional.of(model);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

@@ -9,6 +9,7 @@ import ru.yusdm.javacore.lesson17up18up19java8.autoservice.user.search.UserSearc
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import static ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.Storage.usersList;
 
@@ -36,7 +37,7 @@ public class UserCollectionRepo implements UserRepo {
     }
 
     @Override
-    public User findById(Long id) {
+    public Optional<User> findById(Long id) {
         return findUserById(id);
     }
 
@@ -61,11 +62,7 @@ public class UserCollectionRepo implements UserRepo {
 
     @Override
     public void deleteById(Long id) {
-        User found = findUserById(id);
-
-        if (found != null) {
-            usersList.remove(found);
-        }
+        findUserById(id).map(user -> usersList.remove(user));
     }
 
     @Override
@@ -75,13 +72,13 @@ public class UserCollectionRepo implements UserRepo {
         }
     }
 
-    private User findUserById(long userId) {
+    private Optional<User> findUserById(long userId) {
         for (User user : usersList) {
             if (Long.valueOf(userId).equals(user.getId())) {
-                return user;
+                return Optional.of(user);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

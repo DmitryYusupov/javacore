@@ -2,6 +2,7 @@ package ru.yusdm.javacore.lesson17up18up19java8.autoservice.common.solutions.rep
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface BaseRepo<TYPE, ID> {
 
@@ -11,7 +12,7 @@ public interface BaseRepo<TYPE, ID> {
 
     void update(TYPE entity);
 
-    TYPE findById(ID id);
+    Optional<TYPE> findById(ID id);
 
     void deleteById(ID id);
 

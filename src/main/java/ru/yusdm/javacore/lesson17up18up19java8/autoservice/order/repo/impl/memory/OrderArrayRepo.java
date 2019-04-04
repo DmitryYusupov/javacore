@@ -43,13 +43,13 @@ public class OrderArrayRepo implements OrderRepo {
     }
 
     @Override
-    public Order findById(Long id) {
+    public Optional<Order> findById(Long id) {
         Integer orderIndex = findOrderIndexById(id);
         if (orderIndex != null) {
-            return ordersArray[orderIndex];
+            return Optional.of(ordersArray[orderIndex]);
         }
 
-        return null;
+        return Optional.empty();
     }
 
     @Override

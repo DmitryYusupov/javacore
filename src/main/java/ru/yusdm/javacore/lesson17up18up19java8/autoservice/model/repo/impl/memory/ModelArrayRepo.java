@@ -46,13 +46,13 @@ public class ModelArrayRepo implements ModelRepo {
     }
 
     @Override
-    public Model findById(Long id) {
+    public Optional<Model> findById(Long id) {
         Integer modelIndex = findModelIndexById(id);
         if (modelIndex != null) {
-            return modelsArray[modelIndex];
+            return Optional.of(modelsArray[modelIndex]);
         }
 
-        return null;
+        return Optional.empty();
     }
 
     @Override

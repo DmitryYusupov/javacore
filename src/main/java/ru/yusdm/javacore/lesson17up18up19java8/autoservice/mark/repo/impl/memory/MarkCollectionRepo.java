@@ -11,6 +11,7 @@ import ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.Storage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import static ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.Storage.marksList;
 
@@ -35,7 +36,7 @@ public class MarkCollectionRepo implements MarkRepo {
     }
 
     @Override
-    public Mark findById(Long id) {
+    public Optional<Mark> findById(Long id) {
         return findMarkById(id);
     }
 
@@ -91,11 +92,8 @@ public class MarkCollectionRepo implements MarkRepo {
 
     @Override
     public void deleteById(Long id) {
-        Mark found = findMarkById(id);
-
-        if (found != null) {
-            marksList.remove(found);
-        }
+        Optional<Mark> foundOptional = findMarkById(id);
+        foundOptional.map(mark -> marksList.remove(mark));
     }
 
     @Override
@@ -105,13 +103,13 @@ public class MarkCollectionRepo implements MarkRepo {
         }
     }
 
-    private Mark findMarkById(long markId) {
+    private Optional<Mark> findMarkById(long markId) {
         for (Mark mark : marksList) {
             if (Long.valueOf(markId).equals(mark.getId())) {
-                return mark;
+                return Optional.of(mark);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

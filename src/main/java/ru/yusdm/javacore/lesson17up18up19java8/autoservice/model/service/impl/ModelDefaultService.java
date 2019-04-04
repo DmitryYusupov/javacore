@@ -11,6 +11,7 @@ import ru.yusdm.javacore.lesson17up18up19java8.autoservice.order.repo.OrderRepo;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static ru.yusdm.javacore.lesson17up18up19java8.autoservice.model.exception.ModelExceptionMeta.DELETE_MODEL_CONSTRAINT_ERROR;
 
@@ -41,11 +42,11 @@ public class ModelDefaultService implements ModelService {
     }
 
     @Override
-    public Model findById(Long id) {
+    public Optional<Model> findById(Long id) {
         if (id != null) {
             return modelRepo.findById(id);
         } else {
-            return null;
+            return Optional.empty();
         }
     }
 
@@ -78,7 +79,7 @@ public class ModelDefaultService implements ModelService {
     @Override
     public List<? extends Model> search(ModelSearchCondition searchCondition) {
         if (searchCondition.getId() != null) {
-            return Collections.singletonList(modelRepo.findById(searchCondition.getId()));
+            return modelRepo.findById(searchCondition.getId()).map(Collections::singletonList).orElse(Collections.emptyList());
         } else {
             return modelRepo.search(searchCondition);
         }

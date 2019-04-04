@@ -4,6 +4,7 @@ import ru.yusdm.javacore.lesson17up18up19java8.autoservice.common.business.excep
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface BaseService<TYPE, ID> {
 
@@ -13,7 +14,7 @@ public interface BaseService<TYPE, ID> {
 
     void update(TYPE entity);
 
-    TYPE findById(ID id);
+    Optional<TYPE> findById(ID id);
 
     void deleteById(ID id) throws AutoServiceUncheckedException;
 
