@@ -100,12 +100,7 @@ public class MarkCollectionRepo implements MarkRepo {
     }
 
     private Optional<Mark> findMarkById(long markId) {
-        for (Mark mark : marksList) {
-            if (Long.valueOf(markId).equals(mark.getId())) {
-                return Optional.of(mark);
-            }
-        }
-        return Optional.empty();
+        return marksList.stream().filter(mark -> Long.valueOf(markId).equals(mark.getId())).findAny();
     }
 
     @Override

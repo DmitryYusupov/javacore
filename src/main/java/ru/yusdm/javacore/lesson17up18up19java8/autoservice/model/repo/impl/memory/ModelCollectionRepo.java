@@ -147,12 +147,7 @@ public class ModelCollectionRepo implements ModelRepo {
     }
 
     private Optional<Model> findModelById(long modelId) {
-        for (Model model : modelsList) {
-            if (Long.valueOf(modelId).equals(model.getId())) {
-                return Optional.of(model);
-            }
-        }
-        return Optional.empty();
+        return modelsList.stream().filter(model -> Long.valueOf(modelId).equals(model.getId())).findAny();
     }
 
     @Override

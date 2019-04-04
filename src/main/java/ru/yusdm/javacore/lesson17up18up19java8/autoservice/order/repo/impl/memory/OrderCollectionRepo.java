@@ -8,7 +8,9 @@ import ru.yusdm.javacore.lesson17up18up19java8.autoservice.order.search.OrderSea
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.SequenceGenerator;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
 import static ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.Storage.ordersList;
 
 
@@ -67,34 +69,17 @@ public class OrderCollectionRepo implements OrderRepo {
     }
 
     private Optional<Order> findOrderById(long orderId) {
-        for (Order order : ordersList) {
-            if (Long.valueOf(orderId).equals(order.getId())) {
-                return Optional.of(order);
-            }
-        }
-        return Optional.empty();
+        return ordersList.stream().filter(order -> Long.valueOf(orderId).equals(order.getId())).findAny();
     }
 
     @Override
     public int countByModel(long modelId) {
-        int count = 0;
-        for (Order order : ordersList) {
-            if (modelId == order.getModel().getId()) {
-                count++;
-            }
-        }
-        return count;
+        return (int) ordersList.stream().filter(order -> modelId == order.getModel().getId()).count();
     }
 
     @Override
     public int countByMark(long markId) {
-        int count = 0;
-        for (Order order : ordersList) {
-            if (markId == order.getMark().getId()) {
-                count++;
-            }
-        }
-        return count;
+        return (int) ordersList.stream().filter(order -> markId == order.getMark().getId()).count();
     }
 
     @Override
@@ -108,15 +93,7 @@ public class OrderCollectionRepo implements OrderRepo {
 
     @Override
     public List<Order> findByUserId(long userId) {
-        List<Order> foundOrders = new ArrayList<>();
-
-        for (Order order : ordersList) {
-            if (order.getUser().getId().equals(userId)) {
-                foundOrders.add(order);
-            }
-        }
-
-        return foundOrders;
+        return ordersList.stream().filter(order -> order.getUser().getId().equals(userId)).collect(toList());
     }
 
     @Override

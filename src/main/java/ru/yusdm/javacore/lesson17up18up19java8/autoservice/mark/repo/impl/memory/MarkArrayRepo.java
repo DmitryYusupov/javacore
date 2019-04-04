@@ -3,12 +3,14 @@ package ru.yusdm.javacore.lesson17up18up19java8.autoservice.mark.repo.impl.memor
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.common.business.search.Paginator;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.common.solutions.utils.ArrayUtils;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.common.solutions.utils.CollectionUtils;
+import ru.yusdm.javacore.lesson17up18up19java8.autoservice.common.solutions.utils.OptionalUtils;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.mark.repo.MarkRepo;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.mark.search.MarkSearchCondition;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.SequenceGenerator;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 import static ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.Storage.marksArray;
 
@@ -55,7 +57,6 @@ public class MarkArrayRepo implements MarkRepo {
         if (needOrdering) {
             orderingComponent.applyOrdering(result, searchCondition);
         }
-
 
         if (!result.isEmpty() && searchCondition.shouldPaginate()) {
             return getPageableData(result, searchCondition.getPaginator());
@@ -116,12 +117,11 @@ public class MarkArrayRepo implements MarkRepo {
     }
 
     private Optional<Integer> findMarkIndexById(long markId) {
-        for (int i = 0; i < marksArray.length; i++) {
-            if (marksArray[i] != null && Long.valueOf(markId).equals(marksArray[i].getId())) {
-                return Optional.of(i);
-            }
-        }
-        return Optional.empty();
+        OptionalInt optionalInt = IntStream.range(0, marksArray.length).filter(i ->
+                marksArray[i] != null && Long.valueOf(markId).equals(marksArray[i].getId())
+        ).findAny();
+
+        return OptionalUtils.valueOf(optionalInt);
     }
 
     @Override

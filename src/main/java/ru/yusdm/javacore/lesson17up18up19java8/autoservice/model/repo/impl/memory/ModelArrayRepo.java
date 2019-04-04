@@ -3,6 +3,7 @@ package ru.yusdm.javacore.lesson17up18up19java8.autoservice.model.repo.impl.memo
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.common.business.search.Paginator;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.common.solutions.utils.ArrayUtils;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.common.solutions.utils.CollectionUtils;
+import ru.yusdm.javacore.lesson17up18up19java8.autoservice.common.solutions.utils.OptionalUtils;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.model.domain.ModelDiscriminator;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.model.domain.PassengerModel;
@@ -14,6 +15,7 @@ import ru.yusdm.javacore.lesson17up18up19java8.autoservice.model.search.TruckMod
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.SequenceGenerator;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 import static ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.Storage.modelsArray;
 import static ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.Storage.modelsList;
@@ -80,7 +82,6 @@ public class ModelArrayRepo implements ModelRepo {
     private List<? extends Model> getPageableData(List<? extends Model> models, Paginator paginator) {
         return CollectionUtils.getPageableData(models, paginator.getLimit(), paginator.getOffset());
     }
-
 
     private List<TruckModel> searchTruckModels(TruckModelSearchCondition searchCondition) {
         TruckModel[] foundModels = new TruckModel[modelsArray.length];
@@ -180,12 +181,11 @@ public class ModelArrayRepo implements ModelRepo {
     }
 
     private Optional<Integer> findModelIndexById(long modelId) {
-        for (int i = 0; i < modelsArray.length; i++) {
-            if (modelsArray[i] != null && Long.valueOf(modelId).equals(modelsArray[i].getId())) {
-                return Optional.of(i);
-            }
-        }
-        return Optional.empty();
+        OptionalInt optionalInt = IntStream.range(0, modelsArray.length).filter(i ->
+                modelsArray[i] != null && Long.valueOf(modelId).equals(modelsArray[i].getId())
+        ).findAny();
+
+        return OptionalUtils.valueOf(optionalInt);
     }
 
     @Override

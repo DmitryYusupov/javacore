@@ -3,12 +3,14 @@ package ru.yusdm.javacore.lesson17up18up19java8.autoservice.user.repo.impl.memor
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.common.business.search.Paginator;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.common.solutions.utils.ArrayUtils;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.common.solutions.utils.CollectionUtils;
+import ru.yusdm.javacore.lesson17up18up19java8.autoservice.common.solutions.utils.OptionalUtils;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.SequenceGenerator;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.user.repo.UserRepo;
 import ru.yusdm.javacore.lesson17up18up19java8.autoservice.user.search.UserSearchCondition;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 import static ru.yusdm.javacore.lesson17up18up19java8.autoservice.storage.Storage.usersArray;
 
@@ -81,12 +83,11 @@ public class UserArrayRepo implements UserRepo {
     }
 
     private Optional<Integer> findUserIndexById(long userId) {
-        for (int i = 0; i < usersArray.length; i++) {
-            if (usersArray[i] != null && Long.valueOf(userId).equals(usersArray[i].getId())) {
-                return Optional.of(i);
-            }
-        }
-        return Optional.empty();
+        OptionalInt optionalInt = IntStream.range(0, usersArray.length).filter(i ->
+                usersArray[i] != null && Long.valueOf(userId).equals(usersArray[i].getId())
+        ).findAny();
+
+        return OptionalUtils.valueOf(optionalInt);
     }
 
     @Override

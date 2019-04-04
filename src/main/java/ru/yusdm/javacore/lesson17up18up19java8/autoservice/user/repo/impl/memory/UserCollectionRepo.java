@@ -69,12 +69,7 @@ public class UserCollectionRepo implements UserRepo {
     }
 
     private Optional<User> findUserById(long userId) {
-        for (User user : usersList) {
-            if (Long.valueOf(userId).equals(user.getId())) {
-                return Optional.of(user);
-            }
-        }
-        return Optional.empty();
+        return usersList.stream().filter(user -> Long.valueOf(userId).equals(user.getId())).findAny();
     }
 
     @Override
