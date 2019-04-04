@@ -55,46 +55,53 @@ public class MarksWithModelsXmlDomParser implements FileParser<List<Mark>> {
     }
 
     private Model getModelFromXmlElement(Element modelXml) throws Exception {
-
-        String type = modelXml.getAttribute("type");
-        if (ModelDiscriminator.isDiscriminatorExists(type)) {
-            Model model = null;
-            switch (ModelDiscriminator.valueOf(type)) {
-
-                case PASSENGER: {
-                    model = new PassengerModel();
-                    PassengerModel passenger = (PassengerModel) model;
-                    passenger.setNumberOfSeats(parseInt(getOnlyElementTextContent(modelXml, "numberOfSeats")));
-                    passenger.setNumberOfAirbags(parseInt(getOnlyElementTextContent(modelXml, "numberOfAirbags")));
-                    passenger.setAudioSystemName(getOnlyElementTextContent(modelXml, "audioSystemName"));
-                    break;
-                }
-                case TRUCK: {
-                    model = new TruckModel();
-                    TruckModel truck = (TruckModel) model;
-                    truck.setTankSize(parseInt(getOnlyElementTextContent(modelXml, "tankSize")));
-                    truck.setEmbeddedKitchen("Y".equals(getOnlyElementTextContent(modelXml, "embeddedKitchen")));
-                    truck.setWeight(parseInt(getOnlyElementTextContent(modelXml, "weight")));
-                    break;
-                }
-            }
-
-            model.setName(getOnlyElementTextContent(modelXml, "name"));
-            model.setDescription(getOnlyElementTextContent(modelXml, "description"));
-
-            String stringValue = getOnlyElementTextContent(modelXml, "productionYearStart");
-            model.setProductionYearStart(parseInt(stringValue));
-
-            stringValue = getOnlyElementTextContentOrNull(modelXml, "productionYearEnd");
-            if (stringValue != null) {
-                model.setProductionYearEnd(parseInt(stringValue));
-            }
-
-            return model;
-        } else {
-            throw new InvalidModelDiscriminatorException(PARSE_MODEL_DISCRIMINATOR_ERROR.getCode(),
-                    PARSE_MODEL_DISCRIMINATOR_ERROR.getDescriptionAsFormatStr(type));
-        }
+        return ModelDiscriminator.getDiscriminatorByName(modelXml.getAttribute("type"))
+                .map(modelDiscriminator -> createModelByDiscriminatorAndXmlElement(modelDiscriminator, modelXml))
+                .orElseThrow(() -> new InvalidModelDiscriminatorException(PARSE_MODEL_DISCRIMINATOR_ERROR.getCode(),
+                        PARSE_MODEL_DISCRIMINATOR_ERROR.getDescriptionAsFormatStr(modelXml.getAttribute("type"))));
     }
 
+    private Model createModelByDiscriminatorAndXmlElement(ModelDiscriminator modelDiscriminator, Element modelXml) {
+        Model model = null;
+        switch (modelDiscriminator) {
+            case PASSENGER: {
+                model = new PassengerModel();
+                fillPassengerModel((PassengerModel) model, modelXml);
+                break;
+            }
+            case TRUCK: {
+                model = new TruckModel();
+                fillTruckModel((TruckModel) model, modelXml);
+                break;
+            }
+        }
+        fillCommonModelData(model, modelXml);
+        return model;
+    }
+
+    private void fillPassengerModel(PassengerModel passenger, Element modelXml) {
+        passenger.setNumberOfSeats(parseInt(getOnlyElementTextContent(modelXml, "numberOfSeats")));
+        passenger.setNumberOfAirbags(parseInt(getOnlyElementTextContent(modelXml, "numberOfAirbags")));
+        passenger.setAudioSystemName(getOnlyElementTextContent(modelXml, "audioSystemName"));
+    }
+
+    private void fillTruckModel(TruckModel truck, Element modelXml) {
+        truck.setTankSize(parseInt(getOnlyElementTextContent(modelXml, "tankSize")));
+        truck.setEmbeddedKitchen("Y".equals(getOnlyElementTextContent(modelXml, "embeddedKitchen")));
+        truck.setWeight(parseInt(getOnlyElementTextContent(modelXml, "weight")));
+    }
+
+    private void fillCommonModelData(Model model, Element modelXml) {
+        model.setName(getOnlyElementTextContent(modelXml, "name"));
+        model.setDescription(getOnlyElementTextContent(modelXml, "description"));
+
+        String stringValue = getOnlyElementTextContent(modelXml, "productionYearStart");
+        model.setProductionYearStart(parseInt(stringValue));
+
+        stringValue = getOnlyElementTextContentOrNull(modelXml, "productionYearEnd");
+        if (stringValue != null) {
+            model.setProductionYearEnd(parseInt(stringValue));
+        }
+
+    }
 }
