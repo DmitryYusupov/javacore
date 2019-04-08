@@ -1,6 +1,6 @@
-package ru.yusdm.javacore.lesson20.lesson;
+package ru.yusdm.javacore.lesson20up21reflection.lesson.part1;
 
-public final class Person implements Cloneable{
+public class Person implements Cloneable{
     private String name = "Ivan";
     protected int age;
     public String lastName;

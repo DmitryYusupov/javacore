@@ -13,20 +13,25 @@ public class A_ParallelStream {
     public static void main(String[] args) {
         //calcDuration(A_ParallelStream::demoSequentalStream);
         // calcDuration(A_ParallelStream::demoParallelStream);
-        //calcDuration(A_ParallelStream::demoRunSeparateThreads);
+       // calcDuration(A_ParallelStream::demoRunSeparateThreads);
         calcDuration(A_ParallelStream::demoRunSeparateThreadsWithCustomPool);
         //System.out.println(Runtime.getRuntime().availableProcessors());
     }
 
     private static void demoRunSeparateThreadsWithCustomPool() {
-       // System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "2");
+        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "2");
         CountDownLatch countDownLatch = new CountDownLatch(2);
-        ForkJoinPool customPool = new ForkJoinPool(3);
+
+        Runnable task1 = () -> demoParallelStream(6, "AAAAAAA", countDownLatch);
+        new Thread(task1).start();
+        sleepInSeconds(2);
+
+        ForkJoinPool customPool = new ForkJoinPool();
         customPool.submit(()->{
             demoParallelStream(3, "BBBBBBB", countDownLatch);
         });
-        Runnable task1 = () -> demoParallelStream(3, "AAAAAAA", countDownLatch);
-        new Thread(task1).start();
+
+
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
@@ -35,18 +40,15 @@ public class A_ParallelStream {
     }
  private static void demoRunSeparateThreads() {
         System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "2");
-        CountDownLatch countDownLatch = new CountDownLatch(3);
+        CountDownLatch countDownLatch = new CountDownLatch(2);
 
-        Runnable task1 = () -> demoParallelStream(3, "AAAAAAA", countDownLatch);
-        Runnable task2 = () -> demoParallelStream(3, "BBBBBBB", countDownLatch);
-
-
+        Runnable task1 = () -> demoParallelStream(6, "AAAAAAA", countDownLatch);
         new Thread(task1).start();
+        sleepInSeconds(2);
+
+        Runnable task2 = () -> demoParallelStream(3, "BBBBBBB", countDownLatch);
         new Thread(task2).start();
 
-        sleepInSeconds(1);
-        Runnable task3 = () -> demoParallelStream(1, "CCCCC", countDownLatch);
-        new Thread(task3).start();
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
@@ -63,7 +65,7 @@ public class A_ParallelStream {
     }
 
     private static void demoParallelStream(int sleep, String tag, CountDownLatch countDownLatch) {
-        IntStream.range(1, 30)
+        IntStream.range(1, 10)
                 .parallel().mapToObj(i -> {
             longOperation(sleep, tag, i);
             return i;

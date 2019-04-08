@@ -1,6 +1,5 @@
-package ru.yusdm.javacore.lesson20.lesson;
+package ru.yusdm.javacore.lesson20up21reflection.lesson.part1;
 
-import com.sun.istack.internal.NotNull;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -8,11 +7,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
 
-/**
- * Created by Admin on 4/5/2019.
- */
 public class A_ReflectionDemo {
-
     public static void main(String[] args) throws Exception {
         //demoMethods();
         //  Person p = new Person();
@@ -80,7 +75,6 @@ public class A_ReflectionDemo {
         });
     }
 
-
     private static void demoAccessField() throws Exception {
         Person person = new Person();
         Field name = person.getClass().getDeclaredField("name");
@@ -95,28 +89,4 @@ public class A_ReflectionDemo {
         System.out.println(newPerson);
     }
 
-
-
-
-    private static void f1(){
-        try{
-
-        }catch (Exception e){
-            System.out.println("Sent email");
-        }
-    }
-
-
-    @NotNull
-    private static void f3(){
-        //logic
-    }
-
-    private static void f2(){
-        try{
-
-        }catch (Exception e){
-            System.out.println("Sent email");
-        }
-    }
 }
