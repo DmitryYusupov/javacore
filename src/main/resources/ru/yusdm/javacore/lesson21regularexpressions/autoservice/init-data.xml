@@ -141,7 +141,7 @@
                 <model type="PASSENGER">
                     <name>XC 90</name>
                     <description>Good car</description>
-                    <productionYearStart>200</productionYearStart>
+                    <productionYearStart>2000</productionYearStart>
                     <numberOfAirbags>2</numberOfAirbags>
                     <numberOfSeats>4</numberOfSeats>
                     <audioSystemName>Sony</audioSystemName>
@@ -154,7 +154,7 @@
                 <model type="PASSENGER">
                     <name>Accord</name>
                     <description>Smart</description>
-                    <productionYearStart>200</productionYearStart>
+                    <productionYearStart>2000</productionYearStart>
                     <numberOfAirbags>2</numberOfAirbags>
                     <numberOfSeats>4</numberOfSeats>
                     <audioSystemName>Sony</audioSystemName>
