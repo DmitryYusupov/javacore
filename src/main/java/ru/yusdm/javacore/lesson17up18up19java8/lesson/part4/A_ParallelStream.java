@@ -14,7 +14,7 @@ public class A_ParallelStream {
         //calcDuration(A_ParallelStream::demoSequentalStream);
         // calcDuration(A_ParallelStream::demoParallelStream);
        // calcDuration(A_ParallelStream::demoRunSeparateThreads);
-        calcDuration(A_ParallelStream::demoRunSeparateThreadsWithCustomPool);
+       // calcDuration(A_ParallelStream::demoRunSeparateThreadsWithCustomPool);
         //System.out.println(Runtime.getRuntime().availableProcessors());
     }
 
