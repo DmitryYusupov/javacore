@@ -71,4 +71,30 @@ public class Mark extends BaseDomain<Long> {
                 ", name='" + name + '\'' ;
 
     }
+    /*
+    1|Order |101
+    2|Order |202
+
+    101. Russia
+    202. Belarus
+    */
+
+    /*
+    1 |Order
+    27|Order
+
+    101|1| Russia
+    202|1| Belarus
+
+    401|27| Russia
+    502|27| Belarus
+
+
+
+    SELECT * FROM
+	 MARK mk, MODEL md
+	 WHERE
+	 (mk.NAME = 'Ford') AND (md.MARK_ID = mk.ID)
+
+    */
 }
