@@ -34,7 +34,14 @@ public final class ServiceSupplier {
         switch (storageType) {
             case MEMORY_ARRAY: {
                 serviceFactory = new MemoryArrayServiceFactory();
+                break;
             }
+
+            case RELATIONAL_DB: {
+                serviceFactory = new RelationalDbServiceFactory();
+                break;
+            }
+
             default: {
                 serviceFactory = new MemoryCollectionServiceFactory();
             }

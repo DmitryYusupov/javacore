@@ -1,10 +1,8 @@
 package ru.yusdm.javacore.lesson22relationaldb.autoservice;
 
 
-import com.zaxxer.hikari.HikariConfig;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.application.StorageType;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.application.servicefactory.ServiceSupplier;
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.database.datasource.HikariCpDataSource;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.AutoServiceCheckedException;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.search.OrderDirection;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.search.OrderType;
@@ -25,7 +23,6 @@ import ru.yusdm.javacore.lesson22relationaldb.autoservice.user.service.UserServi
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +34,7 @@ public class AutoServiceDemo {
 
     private static class Application {
         static {
-            ServiceSupplier.newInstance(StorageType.MEMORY_COLLECTION);
+            ServiceSupplier.newInstance(StorageType.RELATIONAL_DB);
         }
 
         private UserService userService = ServiceSupplier.getInstance().getUserService();
@@ -46,7 +43,12 @@ public class AutoServiceDemo {
         private OrderService orderService = ServiceSupplier.getInstance().getOrderService();
 
         public void fillStorage() throws Exception {
-            addUsers();
+            insertUsers();
+            insertMarksAndModels();
+            insertOrders();
+        }
+
+        private void insertMarksAndModels() throws Exception {
             StorageInitializer storageInitor = new StorageInitializer(markService);
             List<File> filesWithInitData = null;
             try {
@@ -65,8 +67,6 @@ public class AutoServiceDemo {
                     }
                 }
             }
-
-            appendOrdersToUsers();
         }
 
         private List<File> getFilesWithDataToInit() throws Exception {
@@ -79,7 +79,7 @@ public class AutoServiceDemo {
             return result;
         }
 
-        private void addUsers() {
+        private void insertUsers() {
             String[] usersAsCsv = new String[]{
                     "Ivan        | Ivanov | 21",
                     "Petr        | Petrov | 23",
@@ -100,7 +100,7 @@ public class AutoServiceDemo {
             }
         }
 
-        private void appendOrdersToUsers() {
+        private void insertOrders() {
             List<Mark> marks = markService.findAll();
             List<User> users = userService.findAll();
 
@@ -114,7 +114,6 @@ public class AutoServiceDemo {
                     orders.add(prepareOrderForUser(user, marks));
                 }
             }
-
             orderService.insert(orders);
         }
 
@@ -135,12 +134,6 @@ public class AutoServiceDemo {
 
         public void printMarks() {
             markService.printAll();
-        }
-
-        public void deleteUsers() {
-            userService.deleteById(1L);
-            userService.insert(new User("SSSS", "AAAA", 333));
-            userService.deleteById(33L);
         }
 
         public void searchMarksWithoutOrder() {
@@ -236,12 +229,11 @@ public class AutoServiceDemo {
 
                 if (fileWithReport != null) {
                     System.out.println("File with report '" + fileWithReport.getAbsolutePath() + "'");
-                    /*
                     //uncomment line to delete temp file
                     boolean deleted = fileWithReport.delete();
                     if (!deleted) {
                         System.out.println("OOps, can't delete file " + fileWithReport.getAbsolutePath());
-                    }*/
+                    }
                 }
             }
         }
@@ -251,6 +243,9 @@ public class AutoServiceDemo {
 
         H2DbInitor h2DbInitor = new H2DbInitor();
         h2DbInitor.init();
+
+        Application application = new Application();
+        application.fillStorage();
 
       /*  HikariCpDataSource.init(prepareDataSourceConfig());
 
@@ -267,9 +262,6 @@ public class AutoServiceDemo {
         System.out.println("--------Marks------------");
         application.printMarks();
 
-        System.out.println("--------Delete users------------");
-        application.deleteUsers();
-
         application.searchMarksWithoutOrder();
         application.searchMarksWithOrderAsc();
         application.searchMarksWithOrderDesc();
@@ -279,7 +271,6 @@ public class AutoServiceDemo {
         application.searchMarksWithPaginator();
 //        application.demoReporting();*/
     }
-
 
 
 }

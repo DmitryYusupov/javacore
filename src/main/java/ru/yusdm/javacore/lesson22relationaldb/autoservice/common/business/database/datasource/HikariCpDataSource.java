@@ -2,13 +2,15 @@ package ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.datab
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.ConnectionAchiveError;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 public class HikariCpDataSource implements ConnectionProvider {
 
-    private static volatile HikariDataSource INSTANCE = null;
+    private static volatile HikariCpDataSource INSTANCE = null;
+
+    private HikariDataSource hikariDataSource;
 
     public static class HikariCpDataSourceBuilder {
 
@@ -54,19 +56,24 @@ public class HikariCpDataSource implements ConnectionProvider {
     }
 
     @Override
-    public Connection getConnection() throws SQLException {
-        return INSTANCE.getConnection();
+    public Connection getConnection() {
+        try {
+            return hikariDataSource.getConnection();
+        }catch (Exception e){
+            throw new ConnectionAchiveError(e);
+        }
     }
 
     public static void init(HikariCpDataSourceBuilder hikariCpDataSourceBuilder) {
-        HikariDataSource result = INSTANCE;
+        HikariCpDataSource result = INSTANCE;
 
         if (result == null) {
 
             synchronized (HikariCpDataSource.class) {
                 result = INSTANCE;
                 if (result == null) {
-                    result = new HikariDataSource(hikariCpDataSourceBuilder.build());
+                    result = new HikariCpDataSource();
+                    result.hikariDataSource = new HikariDataSource(hikariCpDataSourceBuilder.build());
                     INSTANCE = result;
                 }
             }
@@ -74,7 +81,7 @@ public class HikariCpDataSource implements ConnectionProvider {
         }
     }
 
-    public static HikariDataSource getInstance() {
+    public static HikariCpDataSource getInstance() {
         return INSTANCE;
     }
 

@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<init-data>
+    <marks>
+        <mark>
+            <name>Toyota</name>
+            <country>Japan</country>
+            <models>
+                <model type="PASSENGER">
+                    <name>Land cruiser 200</name>
+                    <description>Big like a gym</description>
+                    <productionYearStart>1990</productionYearStart>
+                    <numberOfAirbags>4</numberOfAirbags>
+                    <numberOfSeats>3</numberOfSeats>
+                    <audioSystemName>Pioneer</audioSystemName>
+                </model>
+            </models>
+        </mark>
+        <mark>
+            <name>Ural</name>
+            <country>Russia</country>
+            <models>
+                <model type="TRUCK">
+                    <name>53125</name>
+                    <description>Power yeaah</description>
+                    <productionYearStart>1970</productionYearStart>
+                    <weight>7000</weight>
+                    <embeddedKitchen>N</embeddedKitchen>
+                    <tankSize>200</tankSize>
+                </model>
+            </models>
+        </mark>
+        <mark>
+            <name>BMW</name>
+            <country>Germany</country>
+            <models>
+                <model type="PASSENGER">
+                    <name>745Li</name>
+                    <description>Expensive</description>
+                    <productionYearStart>1960</productionYearStart>
+                    <numberOfAirbags>4</numberOfAirbags>
+                    <numberOfSeats>4</numberOfSeats>
+                    <audioSystemName>BestAudio</audioSystemName>
+                </model>
+            </models>
+        </mark>
+        <mark>
+            <name>Mazda</name>
+            <country>Japan</country>
+            <models>
+                <model type="PASSENGER">
+                    <name>Mazda 6</name>
+                    <description>Not bad</description>
+                    <productionYearStart>1990</productionYearStart>
+                    <numberOfAirbags>4</numberOfAirbags>
+                    <numberOfSeats>4</numberOfSeats>
+                    <audioSystemName>Panasonic</audioSystemName>
+                </model>
+            </models>
+        </mark>
+        <mark>
+            <name>Mercedes-Benz</name>
+            <country>Germany</country>
+            <models>
+                <model type="PASSENGER">
+                    <name>G-500 Amg</name>
+                    <description>Fast and brutal</description>
+                    <productionYearStart>1960</productionYearStart>
+                    <numberOfAirbags>6</numberOfAirbags>
+                    <numberOfSeats>4</numberOfSeats>
+                    <audioSystemName>Sony</audioSystemName>
+                </model>
+                <model type="PASSENGER">
+                    <name>SLR McLaren</name>
+                    <description>Great Sound</description>
+                    <productionYearStart>2002</productionYearStart>
+                    <productionYearEnd>2008</productionYearEnd>
+                    <numberOfAirbags>4</numberOfAirbags>
+                    <numberOfSeats>2</numberOfSeats>
+                    <audioSystemName>Prestige</audioSystemName>
+                </model>
+                <model type="TRUCK">
+                    <name>Actros</name>
+                    <description>Universal and powerfull</description>
+                    <productionYearStart>2002</productionYearStart>
+                    <productionYearEnd>2008</productionYearEnd>
+                    <weight>7000</weight>
+                    <embeddedKitchen>N</embeddedKitchen>
+                    <tankSize>200</tankSize>
+                </model>
+            </models>
+        </mark>
+    </marks>
+</init-data>

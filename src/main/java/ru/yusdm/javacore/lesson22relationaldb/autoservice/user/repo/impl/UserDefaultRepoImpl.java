@@ -1,9 +1,12 @@
 package ru.yusdm.javacore.lesson22relationaldb.autoservice.user.repo.impl;
 
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.SqlError;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.QueryWrapper;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.user.repo.UserRepo;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.user.search.UserSearchCondition;
 
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +54,12 @@ public class UserDefaultRepoImpl implements UserRepo {
 
     @Override
     public int countAll() {
-        return 0;
+        try {
+            return QueryWrapper.selectOne("SELECT COUNT(*) AS CNT FROM USER",
+                    (rs) -> rs.getInt("CNT")).orElse(0);
+        } catch (SQLException e) {
+            throw new SqlError(e);
+        }
+
     }
 }

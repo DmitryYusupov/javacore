@@ -5,5 +5,6 @@ package ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.appli
  */
 public enum StorageType {
     MEMORY_ARRAY,
-    MEMORY_COLLECTION
+    MEMORY_COLLECTION,
+    RELATIONAL_DB
 }

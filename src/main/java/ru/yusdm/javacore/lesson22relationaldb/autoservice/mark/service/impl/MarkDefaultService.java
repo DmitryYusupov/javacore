@@ -48,6 +48,7 @@ public class MarkDefaultService implements MarkService {
     @Override
     public void insert(Collection<Mark> marks) {
         if (marks != null && !marks.isEmpty()) {
+
             for (Mark mark : marks) {
                 markRepo.insert(mark);
 
