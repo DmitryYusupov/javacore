@@ -42,41 +42,9 @@ public class AutoServiceDemo {
         private ModelService modelService = ServiceSupplier.getInstance().getModelService();
         private OrderService orderService = ServiceSupplier.getInstance().getOrderService();
 
-        public void fillStorage() throws Exception {
+        public void fillStorage() {
             insertUsers();
-            insertMarksAndModels();
             insertOrders();
-        }
-
-        private void insertMarksAndModels() throws Exception {
-            StorageInitializer storageInitor = new StorageInitializer(markService);
-            List<File> filesWithInitData = null;
-            try {
-                filesWithInitData = getFilesWithDataToInit();
-                storageInitor.initStorageWithMarksAndModels(filesWithInitData, StorageInitializer.DataSourceType.XML_FILE);
-            } catch (AutoServiceCheckedException e) {
-                System.out.println("ERROR while init storage: " + e.getMessage());
-                throw e;
-            } catch (Exception e) {
-                System.out.println("Error: Unknown magic :" + e.getMessage());
-                throw e;
-            } finally {
-                if (filesWithInitData != null) {
-                    for (File file : filesWithInitData) {
-                        Files.delete(Paths.get(file.toURI()));
-                    }
-                }
-            }
-        }
-
-        private List<File> getFilesWithDataToInit() throws Exception {
-            String files[] = new String[]{INIT_DATA_XML_FILE_PART_1, INIT_DATA_XML_FILE_PART_2};
-            List<File> result = new ArrayList<>();
-
-            for (String file : files) {
-                result.add(createFileFromResource("init-data", ".txt", file));
-            }
-            return result;
         }
 
         private void insertUsers() {
