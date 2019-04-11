@@ -4,13 +4,15 @@ package ru.yusdm.javacore.lesson22relationaldb.autoservice.user.domain;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.domain.BaseDomain;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.domain.Order;
 
+import java.util.List;
+
 public class User extends BaseDomain<Long> {
 
     private String firstName;
     private String lastName;
     private int age;
-    private ClientType clientType;
-    private Order[] orders;
+    private ClientType clientType = ClientType.NEW;
+    private List<Order> orders;
 
     public User() {
     }
@@ -35,11 +37,11 @@ public class User extends BaseDomain<Long> {
         this.lastName = lastName;
     }
 
-    public Order[] getOrders() {
+    public List<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(Order[] orders) {
+    public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
 

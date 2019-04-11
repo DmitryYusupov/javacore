@@ -1,14 +1,12 @@
-package ru.yusdm.javacore.lesson22relationaldb.autoservice.model.exception;
+package ru.yusdm.javacore.lesson22relationaldb.autoservice.user.exception;
 
-public enum ModelExceptionMeta {
-
-    DELETE_MODEL_CONSTRAINT_ERROR(1, "Error while delete model. There is constraint violation!"),
-    JDBC_UNKNOWN_MODEL_DISCRIMINATOR_ERROR(20, "Unknown discriminator '%s'");
+public enum UserExceptionMeta {
+    JDBC_UNKNOWN_USER_CLIENT_TYPE_ERROR(1, "Unknown client type '%s'");
 
     private int code;
     private String description;
 
-    ModelExceptionMeta(int code, String description) {
+    UserExceptionMeta(int code, String description) {
         this.code = code;
         this.description = description;
     }

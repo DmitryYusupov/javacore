@@ -1,17 +1,21 @@
 package ru.yusdm.javacore.lesson22relationaldb.autoservice.model.repo.impl.jdbc;
 
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.ResultSetMappingException;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.PassengerModel;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.TruckModel;
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.exception.unchecked.ResultSetModelMappingException;
 
 import java.sql.ResultSet;
 
-import static ru.yusdm.javacore.lesson22relationaldb.autoservice.model.exception.ModelExceptionMeta.RESULT_SET_MODEL_MAP_ERROR;
+public final class ModelMapper {
 
-public class ModelMapper {
+    private static final String MODEL_CLASS_NAME = Model.class.getSimpleName();
 
-    public static TruckModel mapTruck(ResultSet rs) throws ResultSetModelMappingException {
+    private ModelMapper() {
+
+    }
+
+    public static TruckModel mapTruck(ResultSet rs) throws ResultSetMappingException {
         try {
             TruckModel truckModel = new TruckModel();
             truckModel.setWeight(rs.getInt("WEIGHT"));
@@ -21,11 +25,11 @@ public class ModelMapper {
             mapCommonModelData(truckModel, rs);
             return truckModel;
         } catch (Exception e) {
-            throw new ResultSetModelMappingException(RESULT_SET_MODEL_MAP_ERROR.getCode(), RESULT_SET_MODEL_MAP_ERROR.getDescription(), e);
+            throw new ResultSetMappingException(MODEL_CLASS_NAME, e);
         }
     }
 
-    public static PassengerModel mapPassenger(ResultSet rs) throws ResultSetModelMappingException {
+    public static PassengerModel mapPassenger(ResultSet rs) throws ResultSetMappingException {
         try {
 
             PassengerModel passengerModel = new PassengerModel();
@@ -37,12 +41,12 @@ public class ModelMapper {
 
             return passengerModel;
         } catch (Exception e) {
-            throw new ResultSetModelMappingException(RESULT_SET_MODEL_MAP_ERROR.getCode(), RESULT_SET_MODEL_MAP_ERROR.getDescription(), e);
+            throw new ResultSetMappingException(MODEL_CLASS_NAME, e);
         }
 
     }
 
-    public static void mapCommonModelData(Model model, ResultSet rs) throws ResultSetModelMappingException {
+    public static void mapCommonModelData(Model model, ResultSet rs) throws ResultSetMappingException {
         try {
             model.setName(rs.getString("NAME"));
             model.setMarkId(rs.getLong("MARK_ID"));
@@ -53,7 +57,7 @@ public class ModelMapper {
                 model.setProductionYearEnd(yearEnd);
             }
         } catch (Exception e) {
-            throw new ResultSetModelMappingException(RESULT_SET_MODEL_MAP_ERROR.getCode(), RESULT_SET_MODEL_MAP_ERROR.getDescription(), e);
+            throw new ResultSetMappingException(MODEL_CLASS_NAME, e);
         }
     }
 }

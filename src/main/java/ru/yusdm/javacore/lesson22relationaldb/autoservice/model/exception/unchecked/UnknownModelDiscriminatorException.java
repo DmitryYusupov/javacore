@@ -2,12 +2,12 @@ package ru.yusdm.javacore.lesson22relationaldb.autoservice.model.exception.unche
 
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.AutoServiceUncheckedException;
 
-import static ru.yusdm.javacore.lesson22relationaldb.autoservice.model.exception.ModelExceptionMeta.UNKNOWN_MODEL_DISCRIMINATOR_ERROR;
+import static ru.yusdm.javacore.lesson22relationaldb.autoservice.model.exception.ModelExceptionMeta.JDBC_UNKNOWN_MODEL_DISCRIMINATOR_ERROR;
 
 public class UnknownModelDiscriminatorException extends AutoServiceUncheckedException {
 
     public UnknownModelDiscriminatorException() {
-        this(UNKNOWN_MODEL_DISCRIMINATOR_ERROR.getCode(), UNKNOWN_MODEL_DISCRIMINATOR_ERROR.getDescription());
+        this(JDBC_UNKNOWN_MODEL_DISCRIMINATOR_ERROR.getCode(), JDBC_UNKNOWN_MODEL_DISCRIMINATOR_ERROR.getDescription());
     }
     public UnknownModelDiscriminatorException(int code, String message) {
         super(code, message);

@@ -2,6 +2,7 @@ package ru.yusdm.javacore.lesson22relationaldb.autoservice.user.domain;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public enum ClientType {
     VIP("Very important person"),
@@ -19,6 +20,10 @@ public enum ClientType {
         for (ClientType enumItem : ClientType.values()) {
             strNameEnumItemMap.put(enumItem.name(), enumItem);
         }
+    }
+
+    public static Optional<ClientType> getClientTypeByStrValue(String clientTypeStr) {
+        return Optional.ofNullable(strNameEnumItemMap.get(clientTypeStr));
     }
 
     ClientType(String description) {

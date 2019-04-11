@@ -1,7 +1,7 @@
 package ru.yusdm.javacore.lesson22relationaldb.autoservice.model.repo.impl.jdbc;
 
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.database.datasource.HikariCpDataSource;
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.SqlError;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.SqlError;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.QueryWrapper;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.ModelDiscriminator;
@@ -76,9 +76,9 @@ public class ModelDefaultRepoImpl implements ModelRepo {
                         break;
                     }
                 }
-                return ps;
+                ps.setLong(index.incrementAndGet(), model.getId());
             });
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new SqlError(e);
         }
     }
@@ -125,9 +125,8 @@ public class ModelDefaultRepoImpl implements ModelRepo {
 
                     ps -> {
                         ps.setLong(1, id);
-                        return ps;
                     });
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new SqlError(e);
         }
     }
@@ -137,9 +136,8 @@ public class ModelDefaultRepoImpl implements ModelRepo {
         try {
             QueryWrapper.executeUpdate("DELETE FROM MODEL WHERE ID = ?", ps -> {
                 ps.setLong(1, id);
-                return ps;
             });
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new SqlError(e);
         }
     }
@@ -160,7 +158,7 @@ public class ModelDefaultRepoImpl implements ModelRepo {
                                 .orElseThrow(UnknownModelDiscriminatorException::new);
                     }
             );
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new SqlError(e);
         }
     }
@@ -169,8 +167,8 @@ public class ModelDefaultRepoImpl implements ModelRepo {
     public int countAll() {
         try {
             return QueryWrapper.selectOne("SELECT COUNT(*) AS CNT FROM MODEL",
-                    (rs) -> rs.getInt("CNT")).orElse(0);
-        } catch (SQLException e) {
+                    rs -> rs.getInt("CNT")).orElse(0);
+        } catch (Exception e) {
             throw new SqlError(e);
         }
     }

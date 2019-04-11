@@ -1,7 +1,7 @@
-package ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.repo.impl;
+package ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.repo.impl.jdc;
 
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.KeyGenerationError;
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.SqlError;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.KeyGenerationError;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.SqlError;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.QueryWrapper;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.repo.MarkRepo;
@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MarkDefaultRepoImpl implements MarkRepo {
 
@@ -31,8 +32,7 @@ public class MarkDefaultRepoImpl implements MarkRepo {
         try {
             Optional<Long> generatedId = QueryWrapper.executeUpdateReturningGeneratedKey(sql,
                     ps -> {
-                        appendPreparedStatementParamsForMark(ps, mark);
-                        return ps;
+                        appendPreparedStatementParamsForMark(new AtomicInteger(0), ps, mark);
                     },
                     rs -> rs.getLong("ID"));
 
@@ -50,10 +50,9 @@ public class MarkDefaultRepoImpl implements MarkRepo {
         }
     }
 
-    private void appendPreparedStatementParamsForMark(PreparedStatement ps, Mark mark) throws SQLException {
-        int index = 0;
-        ps.setString(++index, mark.getName());
-        ps.setString(++index, mark.getCountry());
+    private void appendPreparedStatementParamsForMark(AtomicInteger index, PreparedStatement ps, Mark mark) throws SQLException {
+        ps.setString(index.incrementAndGet(), mark.getName());
+        ps.setString(index.incrementAndGet(), mark.getCountry());
     }
 
     @Override
@@ -62,7 +61,21 @@ public class MarkDefaultRepoImpl implements MarkRepo {
 
     @Override
     public void update(Mark mark) {
+        String sql = "UPDATE MARK SET " +
+                "NAME = ?," +
+                "COUNTRY = ?, " +
+                "WHERE ID = ?";
 
+        try {
+            QueryWrapper.executeUpdate(sql,
+                    ps -> {
+                        AtomicInteger index = new AtomicInteger();
+                        appendPreparedStatementParamsForMark(index, ps, mark);
+                        ps.setLong(index.incrementAndGet(), mark.getId());
+                    });
+        } catch (Exception e) {
+            throw new SqlError(e);
+        }
     }
 
     @Override
@@ -72,7 +85,13 @@ public class MarkDefaultRepoImpl implements MarkRepo {
 
     @Override
     public void deleteById(Long id) {
-
+        try {
+            QueryWrapper.executeUpdate("DELETE FROM MARK WHERE ID = ?", ps -> {
+                ps.setLong(1, id);
+            });
+        } catch (Exception e) {
+            throw new SqlError(e);
+        }
     }
 
     @Override
@@ -90,11 +109,10 @@ public class MarkDefaultRepoImpl implements MarkRepo {
         try {
             return QueryWrapper.selectOne("SELECT COUNT(*) AS CNT FROM MARK",
                     (rs) -> rs.getInt("CNT")).orElse(0);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new SqlError(e);
         }
 
     }
-
 
 }
