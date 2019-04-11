@@ -14,6 +14,10 @@ public class Mark extends BaseDomain<Long> {
     public Mark() {
     }
 
+    public Mark(Long id) {
+        this.id = id;
+    }
+
     public Mark(String name) {
         this.name = name;
     }
@@ -68,7 +72,7 @@ public class Mark extends BaseDomain<Long> {
     public String getAsStrWithoutModles() {
         return "id=" + id +
                 ", country='" + country + '\'' +
-                ", name='" + name + '\'' ;
+                ", name='" + name + '\'';
 
     }
 }

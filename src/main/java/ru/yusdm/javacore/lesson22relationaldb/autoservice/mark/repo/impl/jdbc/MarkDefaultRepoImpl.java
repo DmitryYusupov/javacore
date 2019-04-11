@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.repo.impl.jdc;
+package ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.repo.impl.jdbc;
 
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.KeyGenerationError;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.SqlError;

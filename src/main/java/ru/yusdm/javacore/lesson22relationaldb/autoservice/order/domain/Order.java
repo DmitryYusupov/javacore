@@ -6,38 +6,43 @@ import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.user.domain.User;
 
+import java.util.Optional;
+
 public class Order extends BaseDomain<Long> {
-    private Mark mark;
-    private Model model;
-    private User user;
+
+
+    private Long markId;
+    private Long modelId;
+    private Long userId;
+
     private String description;
     private int price;
 
     public Order() {
     }
 
-    public Mark getMark() {
-        return mark;
+    public Long getMarkId() {
+        return markId;
     }
 
-    public void setMark(Mark mark) {
-        this.mark = mark;
+    public void setMarkId(Long markId) {
+        this.markId = markId;
     }
 
-    public Model getModel() {
-        return model;
+    public Long getModelId() {
+        return modelId;
     }
 
-    public void setModel(Model model) {
-        this.model = model;
+    public void setModelId(Long modelId) {
+        this.modelId = modelId;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getDescription() {

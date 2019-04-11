@@ -75,12 +75,12 @@ public class OrderCollectionRepo implements OrderRepo {
 
     @Override
     public int countByModel(long modelId) {
-        return (int) ordersList.stream().filter(order -> modelId == order.getModel().getId()).count();
+        return (int) ordersList.stream().filter(order -> modelId == order.getModelId()).count();
     }
 
     @Override
     public int countByMark(long markId) {
-        return (int) ordersList.stream().filter(order -> markId == order.getMark().getId()).count();
+        return (int) ordersList.stream().filter(order -> markId == order.getMarkId()).count();
     }
 
     @Override
@@ -94,7 +94,7 @@ public class OrderCollectionRepo implements OrderRepo {
 
     @Override
     public List<Order> findByUserId(long userId) {
-        return ordersList.stream().filter(order -> order.getUser().getId().equals(userId)).collect(toList());
+        return ordersList.stream().filter(order -> order.getUserId().equals(userId)).collect(toList());
     }
 
     @Override

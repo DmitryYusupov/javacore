@@ -1,7 +1,7 @@
 package ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.application.servicefactory;
 
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.repo.MarkRepo;
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.repo.impl.jdc.MarkDefaultRepoImpl;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.repo.impl.jdbc.MarkDefaultRepoImpl;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.service.MarkService;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.service.impl.MarkDefaultService;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.repo.ModelRepo;

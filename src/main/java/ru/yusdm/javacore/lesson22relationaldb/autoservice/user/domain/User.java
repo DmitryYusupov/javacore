@@ -17,6 +17,10 @@ public class User extends BaseDomain<Long> {
     public User() {
     }
 
+    public User(Long id) {
+        this.id = id;
+    }
+
     public User(String firstName, String lastName, int age) {
         this.firstName = firstName;
         this.lastName = lastName;

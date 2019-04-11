@@ -119,10 +119,10 @@ public class AutoServiceDemo {
 
         private Order prepareOrderForUser(User user, List<Mark> marks) {
             Order order = new Order();
-            order.setUser(user);
+            order.setUserId(user.getId());
             Mark mark = marks.get(getRandomInt(0, marks.size() - 1));
-            order.setMark(mark);
-            order.setModel(mark.getModels().get(getRandomInt(0, mark.getModels().size() - 1)));
+            order.setMarkId(mark.getId());
+            order.setModelId(mark.getModels().get(getRandomInt(0, mark.getModels().size() - 1)).getId());
             order.setPrice(getRandomInt(1, 100000));
 
             return order;

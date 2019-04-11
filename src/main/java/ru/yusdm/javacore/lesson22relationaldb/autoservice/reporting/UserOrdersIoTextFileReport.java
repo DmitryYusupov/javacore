@@ -1,6 +1,8 @@
 package ru.yusdm.javacore.lesson22relationaldb.autoservice.reporting;
 
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.service.MarkService;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.service.ModelService;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.service.OrderService;
@@ -12,6 +14,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UserOrdersIoTextFileReport implements ReportComponent {
     private static final String USER_SEPARATOR = "--------------------------";
@@ -92,12 +95,17 @@ public class UserOrdersIoTextFileReport implements ReportComponent {
 
     private String orderToReportLine(Order order) {
         StringBuilder orderAsStr = new StringBuilder();
+        Optional<Mark> mark = markService.findById(order.getMarkId());
+        Optional<Model> model = modelService.findById(order.getModelId());
 
-        orderAsStr.append("Order: ")
-                .append("Mark: ").append(order.getMark().getName()).append(";")
-                .append(" Model: ").append(order.getModel().getName()).append(";")
-                .append(" Price: ").append(order.getPrice());
-
+        if (mark.isPresent() && model.isPresent()) {
+            orderAsStr.append("Order: ")
+                    .append("Mark: ").append(mark.get().getName()).append(";")
+                    .append(" Model: ").append(model.get().getName()).append(";")
+                    .append(" Price: ").append(order.getPrice());
+        }else{
+            throw new RuntimeException("Could fetch record by id");
+        }
         return orderAsStr.toString();
     }
 
