@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson22database.lesson;
+package ru.yusdm.javacore.lesson22relationaldb.lesson;
 
 /**
  * Created by Admin on 4/10/2019.

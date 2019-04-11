@@ -1,18 +1,16 @@
-package ru.yusdm.javacore.lesson22database.lesson;
+package ru.yusdm.javacore.lesson22relationaldb.lesson;
 
 import ru.yusdm.javacore.lesson21regularexpressions.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson21regularexpressions.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson21regularexpressions.autoservice.model.domain.ModelDiscriminator;
 import ru.yusdm.javacore.lesson21regularexpressions.autoservice.model.domain.PassengerModel;
 import ru.yusdm.javacore.lesson21regularexpressions.autoservice.model.domain.TruckModel;
-import ru.yusdm.javacore.lesson22database.lesson.connect.HikariConnectionPool;
+import ru.yusdm.javacore.lesson22relationaldb.lesson.connect.HikariConnectionPool;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 /**
  * Created by Admin on 4/10/2019.

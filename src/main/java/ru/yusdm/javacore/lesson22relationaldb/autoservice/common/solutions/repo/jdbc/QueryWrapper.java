@@ -31,9 +31,9 @@ public class QueryWrapper {
         }
     }
 
-    public static <T> List<T> select(String sql, Connection connection, ResultSetExtractor<T> mapper, PreparedStatementParamsConsumer psSupplier) throws Exception {
+    public static <T> List<T> select(String sql, Connection connection, ResultSetExtractor<T> mapper, PreparedStatementParamsConsumer psConsumer) throws Exception {
 
-        try (PreparedStatement ps = psSupplier.applyParamsAndGet(connection.prepareStatement(sql));
+        try (PreparedStatement ps = psConsumer.applyParamsAndGet(connection.prepareStatement(sql));
              ResultSet resultSet = ps.executeQuery()) {
 
             List<T> result = new ArrayList<>();
@@ -45,9 +45,9 @@ public class QueryWrapper {
         }
     }
 
-    public static <T> List<T> select(String sql, ResultSetExtractor<T> mapper, PreparedStatementParamsConsumer psSupplier) throws Exception {
+    public static <T> List<T> select(String sql, ResultSetExtractor<T> mapper, PreparedStatementParamsConsumer psConsumer) throws Exception {
         try (Connection connection = HikariCpDataSource.getInstance().getConnection()) {
-            return select(sql, connection, mapper, psSupplier);
+            return select(sql, connection, mapper, psConsumer);
         }
     }
 
@@ -68,8 +68,8 @@ public class QueryWrapper {
         }
     }
 
-    public static <T> Optional<T> selectOne(String sql, Connection connection, ResultSetExtractor<T> extractor, PreparedStatementParamsConsumer psSupplier) throws SQLException {
-        try (PreparedStatement ps = psSupplier.applyParamsAndGet(connection.prepareStatement(sql));
+    public static <T> Optional<T> selectOne(String sql, Connection connection, ResultSetExtractor<T> extractor, PreparedStatementParamsConsumer psConsumer) throws SQLException {
+        try (PreparedStatement ps = psConsumer.applyParamsAndGet(connection.prepareStatement(sql));
              ResultSet resultSet = ps.executeQuery()) {
             if (resultSet.next()) {
                 return Optional.of(extractor.extract(resultSet));
@@ -79,29 +79,29 @@ public class QueryWrapper {
         }
     }
 
-    public static <T> Optional<T> selectOne(String sql, ResultSetExtractor<T> extractor, PreparedStatementParamsConsumer psSupplier) throws SQLException {
+    public static <T> Optional<T> selectOne(String sql, ResultSetExtractor<T> extractor, PreparedStatementParamsConsumer psConsumer) throws SQLException {
         try (Connection connection = HikariCpDataSource.getInstance().getConnection()) {
-            return selectOne(sql, connection, extractor, psSupplier);
+            return selectOne(sql, connection, extractor, psConsumer);
         }
     }
 
-    public static int executeUpdate(String sql, Connection connection, PreparedStatementParamsConsumer psSupplier) throws SQLException {
-        try (PreparedStatement ps = psSupplier.applyParamsAndGet(connection.prepareStatement(sql))) {
+    public static int executeUpdate(String sql, Connection connection, PreparedStatementParamsConsumer psConsumer) throws SQLException {
+        try (PreparedStatement ps = psConsumer.applyParamsAndGet(connection.prepareStatement(sql))) {
             return ps.executeUpdate();
         }
     }
 
-    public static int executeUpdate(String sql, PreparedStatementParamsConsumer psSupplier) throws SQLException {
+    public static int executeUpdate(String sql, PreparedStatementParamsConsumer psConsumer) throws SQLException {
         try (Connection connection = HikariCpDataSource.getInstance().getConnection()) {
-            return executeUpdate(sql, connection, psSupplier);
+            return executeUpdate(sql, connection, psConsumer);
         }
     }
 
 
     public static <T> Optional<T> executeUpdateReturningGeneratedKey(String sql, Connection connection,
-                                                                     PreparedStatementParamsConsumer psSupplier,
+                                                                     PreparedStatementParamsConsumer psConsumer,
                                                                      ResultSetExtractor<T> keyExtractor) throws SQLException {
-        try (PreparedStatement ps = psSupplier.applyParamsAndGet(connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS))) {
+        try (PreparedStatement ps = psConsumer.applyParamsAndGet(connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS))) {
             ps.executeUpdate();
 
             try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -114,10 +114,10 @@ public class QueryWrapper {
         }
     }
 
-    public static <T> Optional<T> executeUpdateReturningGeneratedKey(String sql, PreparedStatementParamsConsumer psSupplier,
+    public static <T> Optional<T> executeUpdateReturningGeneratedKey(String sql, PreparedStatementParamsConsumer psConsumer,
                                                                      ResultSetExtractor<T> keyExtractor) throws SQLException {
         try (Connection connection = HikariCpDataSource.getInstance().getConnection()) {
-            return executeUpdateReturningGeneratedKey(sql, connection, psSupplier, keyExtractor);
+            return executeUpdateReturningGeneratedKey(sql, connection, psConsumer, keyExtractor);
         }
     }
 

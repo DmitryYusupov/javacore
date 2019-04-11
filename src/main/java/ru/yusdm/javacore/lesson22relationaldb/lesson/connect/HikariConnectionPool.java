@@ -1,4 +1,4 @@
-package ru.yusdm.javacore.lesson22database.lesson.connect;
+package ru.yusdm.javacore.lesson22relationaldb.lesson.connect;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
