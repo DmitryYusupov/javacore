@@ -14,12 +14,13 @@ import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.search.ModelSear
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static java.sql.Types.BOOLEAN;
+import static java.sql.Types.INTEGER;
 import static ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.ModelDiscriminator.PASSENGER;
 import static ru.yusdm.javacore.lesson22relationaldb.autoservice.model.repo.impl.jdbc.ModelMapper.mapPassenger;
 import static ru.yusdm.javacore.lesson22relationaldb.autoservice.model.repo.impl.jdbc.ModelMapper.mapTruck;
@@ -96,15 +97,15 @@ public class ModelDefaultRepoImpl implements ModelRepo {
         ps.setInt(index.incrementAndGet(), passenger.getNumberOfAirbags());
         ps.setInt(index.incrementAndGet(), passenger.getNumberOfSeats());
         ps.setString(index.incrementAndGet(), passenger.getAudioSystemName());
-        ps.setNull(index.incrementAndGet(), Types.INTEGER);
-        ps.setNull(index.incrementAndGet(), Types.BOOLEAN);
-        ps.setNull(index.incrementAndGet(), Types.INTEGER);
+        ps.setNull(index.incrementAndGet(), INTEGER);
+        ps.setNull(index.incrementAndGet(), BOOLEAN);
+        ps.setNull(index.incrementAndGet(), INTEGER);
     }
 
     private void appendPreparedStatementParamsForTruckModel(PreparedStatement ps, TruckModel truck, AtomicInteger index) throws SQLException {
-        ps.setNull(index.incrementAndGet(), Types.INTEGER);
-        ps.setNull(index.incrementAndGet(), Types.INTEGER);
-        ps.setNull(index.incrementAndGet(), Types.INTEGER);
+        ps.setNull(index.incrementAndGet(), INTEGER);
+        ps.setNull(index.incrementAndGet(), INTEGER);
+        ps.setNull(index.incrementAndGet(), INTEGER);
         ps.setInt(index.incrementAndGet(), truck.getWeight());
         ps.setBoolean(index.incrementAndGet(), truck.isEmbeddedKitchen());
         ps.setInt(index.incrementAndGet(), truck.getTankSize());
