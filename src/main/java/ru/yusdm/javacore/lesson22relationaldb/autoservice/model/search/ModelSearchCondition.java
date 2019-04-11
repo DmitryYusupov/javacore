@@ -5,7 +5,6 @@ import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.ModelDisc
 
 public class ModelSearchCondition extends BaseSearchCondition<Long> {
     private ModelDiscriminator modelDiscriminator;
-
     public ModelDiscriminator getModelDiscriminator() {
         return modelDiscriminator;
     }

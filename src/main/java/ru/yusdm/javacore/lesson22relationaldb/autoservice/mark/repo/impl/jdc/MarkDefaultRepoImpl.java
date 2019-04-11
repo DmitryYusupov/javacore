@@ -2,6 +2,10 @@ package ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.repo.impl.jdc;
 
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.KeyGenerationError;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.SqlError;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.repo.jdbc.SqlPreparedStatemntConsumerHolder;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.search.OrderDirection;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.search.OrderType;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.PreparedStatementConsumer;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.QueryWrapper;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.repo.MarkRepo;
@@ -9,16 +13,78 @@ import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.search.MarkSearch
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MarkDefaultRepoImpl implements MarkRepo {
 
+    private static final List<String> COMPLEX_ORDER_FIELDS = Arrays.asList("COUNTRY", "NAME");
+
     @Override
     public List<Mark> search(MarkSearchCondition searchCondition) {
-        return null;
+        try {
+            SqlPreparedStatemntConsumerHolder sqlParamsHolder = getSearchSqlAndPrStmtHolder(searchCondition);
+
+            return QueryWrapper.select(sqlParamsHolder.getSql(),
+                    MarkMapper::mapMark,
+                    ps -> {
+                        List<PreparedStatementConsumer> psConsumers = sqlParamsHolder.getPreparedStatementConsumers();
+                        for (PreparedStatementConsumer consumer : psConsumers) {
+                            consumer.consume(ps);
+                        }
+                    }
+            );
+        } catch (Exception e) {
+            throw new SqlError(e);
+        }
+    }
+
+    private SqlPreparedStatemntConsumerHolder getSearchSqlAndPrStmtHolder(MarkSearchCondition searchCondition) {
+        String sql = "SELECT * FROM MARK";
+
+        List<PreparedStatementConsumer> psConsumers = new ArrayList<>();
+
+        if (searchCondition.getId() != null) {
+            sql = sql + " WHERE ID = ?";
+            psConsumers.add(ps -> ps.setLong(1, searchCondition.getId()));
+        } else {
+            AtomicInteger index = new AtomicInteger(0);
+            List<String> where = new ArrayList<>();
+            if (searchCondition.searchByCountry()) {
+                where.add("(COUNTRY = ?)");
+                psConsumers.add(ps -> ps.setString(index.incrementAndGet(), searchCondition.getCountry()));
+            }
+
+            if (searchCondition.searchByName()) {
+                where.add("(NAME = ?)");
+                psConsumers.add(ps -> ps.setString(index.incrementAndGet(), searchCondition.getName()));
+            }
+            String whereStr = String.join("AND ", where);
+
+            sql = sql + (whereStr.isEmpty() ? "" : " WHERE " + whereStr) + getOrdering(searchCondition);
+        }
+
+        return new SqlPreparedStatemntConsumerHolder(sql, psConsumers);
+    }
+
+    private String getOrdering(MarkSearchCondition searchCondition) {
+
+        if (searchCondition.needOrdering()) {
+            OrderType orderType = searchCondition.getOrderType();
+            OrderDirection orderDirection = searchCondition.getOrderDirection();
+
+            switch (orderType) {
+
+                case SIMPLE: {
+                    return " ORDER BY " + searchCondition.getOrderByField().name() + " " + orderDirection;
+                }
+                case COMPLEX: {
+                    return " ORDER BY " + String.join(", ", COMPLEX_ORDER_FIELDS) + " " + orderDirection;
+                }
+            }
+        }
+
+        return "";
     }
 
     @Override
@@ -80,7 +146,12 @@ public class MarkDefaultRepoImpl implements MarkRepo {
 
     @Override
     public Optional<Mark> findById(Long id) {
-        return Optional.empty();
+        try {
+            String sql = "SELECT * FROM MARK WHERE ID = ?";
+            return QueryWrapper.selectOne(sql, MarkMapper::mapMark);
+        } catch (Exception e) {
+            throw new SqlError(e);
+        }
     }
 
     @Override
@@ -101,7 +172,11 @@ public class MarkDefaultRepoImpl implements MarkRepo {
 
     @Override
     public List<Mark> findAll() {
-        return null;
+        try {
+            return QueryWrapper.select("SELECT * FROM MARK", MarkMapper::mapMark);
+        } catch (Exception e) {
+            throw new SqlError(e);
+        }
     }
 
     @Override

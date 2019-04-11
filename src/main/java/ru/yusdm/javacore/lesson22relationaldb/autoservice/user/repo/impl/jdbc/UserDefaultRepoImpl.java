@@ -2,7 +2,6 @@ package ru.yusdm.javacore.lesson22relationaldb.autoservice.user.repo.impl.jdbc;
 
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.KeyGenerationError;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.SqlError;
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.PreparedStatementIdentityFunc;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.QueryWrapper;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.user.repo.UserRepo;

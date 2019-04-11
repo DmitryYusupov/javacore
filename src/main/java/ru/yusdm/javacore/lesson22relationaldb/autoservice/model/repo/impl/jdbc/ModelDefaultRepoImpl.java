@@ -1,7 +1,10 @@
 package ru.yusdm.javacore.lesson22relationaldb.autoservice.model.repo.impl.jdbc;
 
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.database.datasource.HikariCpDataSource;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.KeyGenerationError;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.SqlError;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.repo.jdbc.SqlPreparedStatemntConsumerHolder;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.PreparedStatementConsumer;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.QueryWrapper;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.ModelDiscriminator;
@@ -14,6 +17,7 @@ import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.search.ModelSear
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -29,37 +33,115 @@ public class ModelDefaultRepoImpl implements ModelRepo {
 
     @Override
     public List<? extends Model> search(ModelSearchCondition searchCondition) {
-        return null;
+        try {
+            SqlPreparedStatemntConsumerHolder sqlParamsHolder = getSearchSqlAndPrStmtHolder(searchCondition);
+
+            return QueryWrapper.select(sqlParamsHolder.getSql(),
+                    (rs) -> {
+                        String discriminatorStr = rs.getString("DISCRIMINATOR");
+                        return ModelDiscriminator.getDiscriminatorByName(discriminatorStr)
+                                .map(discriminator -> PASSENGER.equals(discriminator) ? mapPassenger(rs) : mapTruck(rs))
+                                .orElseThrow(UnknownModelDiscriminatorException::new);
+                    },
+                    ps -> {
+                        List<PreparedStatementConsumer> psConsumers = sqlParamsHolder.getPreparedStatementConsumers();
+                        for (PreparedStatementConsumer consumer : psConsumers) {
+                            consumer.consume(ps);
+                        }
+                    }
+            );
+        } catch (Exception e) {
+            throw new SqlError(e);
+        }
     }
 
+    private SqlPreparedStatemntConsumerHolder getSearchSqlAndPrStmtHolder(ModelSearchCondition searchCondition) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM MODEL");
+
+        List<PreparedStatementConsumer> psConsumers = new ArrayList<>();
+
+        if (searchCondition.getId() != null) {
+            sql.append(" WHERE ID = ?");
+            psConsumers.add(ps -> ps.setLong(1, searchCondition.getId()));
+        } else {
+            StringBuilder conditions = new StringBuilder();
+            AtomicInteger index = new AtomicInteger(0);
+
+            if (searchCondition.getModelDiscriminator() != null) {
+                conditions.append(" WHERE (DISCRIMINATOR = ?)");
+                psConsumers.add(ps -> ps.setString(index.incrementAndGet(), searchCondition.getModelDiscriminator().toString()));
+            }
+            sql.append(conditions.toString());
+        }
+
+        return new SqlPreparedStatemntConsumerHolder(sql.toString(), psConsumers);
+    }
+
+
     @Override
-    public Model insert(Model entity) {
-        return null;
+    public Model insert(Model model) {
+        String sql =
+                "INSERT INTO MODEL (" +
+                        "MARK_ID," +
+                        "NAME," +
+                        "DESCRIPTION," +
+                        "PRODUCTION_YEAR_START," +
+                        "PRODUCTION_YEAR_END," +
+                        "DISCRIMINATOR," +
+                        "NUMBER_OF_AIR_BAGS," +
+                        "NUMBER_OF_SEATS," +
+                        "AUDIO_SYSTEM_NAME," +
+                        "WEIGHT," +
+                        "EMBEDDED_KITCHEN," +
+                        "TANK_SIZE" +
+                        ")" +
+                        "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        try {
+            Optional<Long> generatedId = QueryWrapper.executeUpdateReturningGeneratedKey(sql,
+                    ps -> {
+                        appendPreparedStatementParamsForModel(ps, model, new AtomicInteger(0));
+                    },
+                    rs -> rs.getLong("ID"));
+
+            if (generatedId.isPresent()) {
+                model.setId(generatedId.get());
+            } else {
+                throw new KeyGenerationError("ID");
+            }
+
+            return model;
+        } catch (KeyGenerationError e) {
+            throw e;
+        } catch (Exception e) {
+            throw new SqlError(e);
+        }
     }
 
     @Override
     public void insert(Collection<Model> items) {
+
     }
 
     @Override
     public void update(Model model) {
         try {
-            String sql = "UPDATE MODEL " +
-                    "SET " +
-                    "MARK_ID = ?," +
-                    "NAME = ? ," +
-                    "DESCRIPTION = ?," +
-                    "PRODUCTION_YEAR_START = ?," +
-                    "PRODUCTION_YEAR_END = ?   ," +
-                    "DISCRIMINATOR = ? ," +
-                    "NUMBER_OF_AIR_BAGS = ? ," +
-                    "NUMBER_OF_SEATS = ? ," +
-                    "AUDIO_SYSTEM_NAME = ?," +
-                    "WEIGHT = ?     ," +
-                    "EMBEDDED_KITCHEN = ?," +
-                    "TANK_SIZE = ?    " +
-
-                    " WHERE ID = ? ";
+            String sql =
+                    "UPDATE MODEL " +
+                            "SET " +
+                            "MARK_ID = ?," +
+                            "NAME = ? ," +
+                            "DESCRIPTION = ?," +
+                            "PRODUCTION_YEAR_START = ?," +
+                            "PRODUCTION_YEAR_END = ?   ," +
+                            "DISCRIMINATOR = ? ," +
+                            "NUMBER_OF_AIR_BAGS = ? ," +
+                            "NUMBER_OF_SEATS = ? ," +
+                            "AUDIO_SYSTEM_NAME = ?," +
+                            "WEIGHT = ?     ," +
+                            "EMBEDDED_KITCHEN = ?," +
+                            "TANK_SIZE = ?    " +
+                            " WHERE ID = ? ";
 
             QueryWrapper.executeUpdate(sql, ps -> {
                 AtomicInteger index = new AtomicInteger(0);
@@ -117,7 +199,7 @@ public class ModelDefaultRepoImpl implements ModelRepo {
             return QueryWrapper.selectOne("SELECT * FROM MODEL WHERE ID = ?",
 
                     (rs) -> {
-                        String discriminatorStr = rs.getString("");
+                        String discriminatorStr = rs.getString("DISCRIMINATOR");
                         return ModelDiscriminator.getDiscriminatorByName(discriminatorStr)
                                 .map(discriminator -> PASSENGER.equals(discriminator) ? mapPassenger(rs) : mapTruck(rs))
                                 .orElseThrow(UnknownModelDiscriminatorException::new);

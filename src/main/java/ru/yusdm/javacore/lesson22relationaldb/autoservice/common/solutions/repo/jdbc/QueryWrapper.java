@@ -50,6 +50,32 @@ public class QueryWrapper {
         }
     }
 
+    public static <T> List<T> select(String sql, Connection connection, ResultSetExtractor<T> mapper, PreparedStatementConsumer psConsumer) throws Exception {
+        JdbcSupplier<PreparedStatement> supplier = () -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            psConsumer.consume(preparedStatement);
+            return preparedStatement;
+        };
+
+
+        try (PreparedStatement ps = supplier.get();
+             ResultSet resultSet = ps.executeQuery()) {
+
+            List<T> result = new ArrayList<>();
+            while (resultSet.next()) {
+                result.add(mapper.extract(resultSet));
+            }
+
+            return result;
+        }
+    }
+
+    public static <T> List<T> select(String sql, ResultSetExtractor<T> mapper, PreparedStatementConsumer psConsumer) throws Exception {
+        try (Connection connection = HikariCpDataSource.getInstance().getConnection()) {
+            return select(sql, connection, mapper, psConsumer);
+        }
+    }
+
     public static <T> Optional<T> selectOne(String sql, Connection connection, ResultSetExtractor<T> extractor) throws Exception {
         try (PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet resultSet = ps.executeQuery()) {
