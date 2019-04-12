@@ -3,7 +3,7 @@ package ru.yusdm.javacore.lesson22relationaldb.autoservice.model.repo.impl.jdbc;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.database.datasource.HikariCpDataSource;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.KeyGenerationError;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.SqlError;
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.repo.jdbc.SqlPreparedStatemntConsumerHolder;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.repo.jdbc.SqlPreparedStatementConsumerHolder;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.PreparedStatementConsumer;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.QueryWrapper;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.Model;
@@ -34,7 +34,7 @@ public class ModelDefaultRepoImpl implements ModelRepo {
     @Override
     public List<? extends Model> search(ModelSearchCondition searchCondition) {
         try {
-            SqlPreparedStatemntConsumerHolder sqlParamsHolder = getSearchSqlAndPrStmtHolder(searchCondition);
+            SqlPreparedStatementConsumerHolder sqlParamsHolder = getSearchSqlAndPrStmtHolder(searchCondition);
 
             return QueryWrapper.select(sqlParamsHolder.getSql(),
                     (rs) -> {
@@ -55,7 +55,7 @@ public class ModelDefaultRepoImpl implements ModelRepo {
         }
     }
 
-    private SqlPreparedStatemntConsumerHolder getSearchSqlAndPrStmtHolder(ModelSearchCondition searchCondition) {
+    private SqlPreparedStatementConsumerHolder getSearchSqlAndPrStmtHolder(ModelSearchCondition searchCondition) {
         StringBuilder sql = new StringBuilder("SELECT * FROM MODEL");
 
         List<PreparedStatementConsumer> psConsumers = new ArrayList<>();
@@ -65,16 +65,15 @@ public class ModelDefaultRepoImpl implements ModelRepo {
             psConsumers.add(ps -> ps.setLong(1, searchCondition.getId()));
         } else {
             StringBuilder conditions = new StringBuilder();
-            AtomicInteger index = new AtomicInteger(0);
 
             if (searchCondition.getModelDiscriminator() != null) {
                 conditions.append(" WHERE (DISCRIMINATOR = ?)");
-                psConsumers.add(ps -> ps.setString(index.incrementAndGet(), searchCondition.getModelDiscriminator().toString()));
+                psConsumers.add(ps -> ps.setString(1, searchCondition.getModelDiscriminator().toString()));
             }
             sql.append(conditions.toString());
         }
 
-        return new SqlPreparedStatemntConsumerHolder(sql.toString(), psConsumers);
+        return new SqlPreparedStatementConsumerHolder(sql.toString(), psConsumers);
     }
 
 

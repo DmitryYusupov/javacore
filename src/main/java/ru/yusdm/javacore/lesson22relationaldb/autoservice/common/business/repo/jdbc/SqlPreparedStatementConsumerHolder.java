@@ -4,11 +4,11 @@ import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.
 
 import java.util.List;
 
-public class SqlPreparedStatemntConsumerHolder {
+public class SqlPreparedStatementConsumerHolder {
     private String sql;
     private List<PreparedStatementConsumer> preparedStatementConsumers;
 
-    public SqlPreparedStatemntConsumerHolder(String sql, List<PreparedStatementConsumer> preparedStatementConsumers) {
+    public SqlPreparedStatementConsumerHolder(String sql, List<PreparedStatementConsumer> preparedStatementConsumers) {
         this.sql = sql;
         this.preparedStatementConsumers = preparedStatementConsumers;
     }

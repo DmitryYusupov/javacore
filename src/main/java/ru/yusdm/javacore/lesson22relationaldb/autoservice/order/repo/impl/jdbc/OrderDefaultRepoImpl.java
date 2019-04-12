@@ -2,17 +2,13 @@ package ru.yusdm.javacore.lesson22relationaldb.autoservice.order.repo.impl.jdbc;
 
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.KeyGenerationError;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.SqlError;
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.repo.jdbc.SqlPreparedStatemntConsumerHolder;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.repo.jdbc.SqlPreparedStatementConsumerHolder;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.PreparedStatementConsumer;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.QueryWrapper;
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.ResultSetExtractor;
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.search.MarkSearchCondition;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.repo.OrderRepo;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.search.OrderSearchCondition;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,7 +20,7 @@ public class OrderDefaultRepoImpl implements OrderRepo {
     @Override
     public List<Order> search(OrderSearchCondition searchCondition) {
         try {
-            SqlPreparedStatemntConsumerHolder selectDataHolder = getSearchSqlAndPrStmtHolder(searchCondition);
+            SqlPreparedStatementConsumerHolder selectDataHolder = getSearchSqlAndPrStmtHolder(searchCondition);
             return QueryWrapper.select(selectDataHolder.getSql(), OrderMapper::mapOrder,
                     ps -> {
                         for (PreparedStatementConsumer statementConsumer : selectDataHolder.getPreparedStatementConsumers()) {
@@ -36,7 +32,7 @@ public class OrderDefaultRepoImpl implements OrderRepo {
         }
     }
 
-    private SqlPreparedStatemntConsumerHolder getSearchSqlAndPrStmtHolder(OrderSearchCondition searchCondition) {
+    private SqlPreparedStatementConsumerHolder getSearchSqlAndPrStmtHolder(OrderSearchCondition searchCondition) {
         String sql = "SELECT * FROM ORDER";
 
         List<PreparedStatementConsumer> psConsumers = new ArrayList<>();
@@ -67,7 +63,7 @@ public class OrderDefaultRepoImpl implements OrderRepo {
             sql = sql + (whereStr.isEmpty() ? "" : " WHERE " + whereStr);
         }
 
-        return new SqlPreparedStatemntConsumerHolder(sql, psConsumers);
+        return new SqlPreparedStatementConsumerHolder(sql, psConsumers);
     }
 
 

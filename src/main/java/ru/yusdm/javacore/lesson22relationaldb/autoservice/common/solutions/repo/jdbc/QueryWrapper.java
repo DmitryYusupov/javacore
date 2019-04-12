@@ -24,6 +24,26 @@ public class QueryWrapper {
         }
     }
 
+    public static <T> List<T> select(String sql, Connection connection, ResultSetToExtractor<T> extractor) throws Exception {
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet resultSet = ps.executeQuery()) {
+            List<T> result = new ArrayList<>();
+            while (resultSet.next()) {
+                extractor.extract(resultSet, result);
+            }
+
+            return result;
+        }
+    }
+
+    public static <T> List<T> select(String sql, ResultSetToExtractor<T> extractor) throws Exception {
+        try (Connection connection = HikariCpDataSource.getInstance().getConnection()) {
+            return select(sql, connection, extractor);
+        }
+    }
+
+
     public static <T> List<T> select(String sql, ResultSetExtractor<T> extractor) throws Exception {
         try (Connection connection = HikariCpDataSource.getInstance().getConnection()) {
             return select(sql, connection, extractor);

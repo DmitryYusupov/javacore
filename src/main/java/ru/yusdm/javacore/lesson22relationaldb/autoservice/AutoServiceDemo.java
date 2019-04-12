@@ -69,7 +69,7 @@ public class AutoServiceDemo {
         }
 
         private void insertOrders() {
-            List<Mark> marks = markService.findAll();
+            List<Mark> marks = markService.findAllMarksFetchingModels();
             List<User> users = userService.findAll();
 
             List<Order> orders = new ArrayList<>();

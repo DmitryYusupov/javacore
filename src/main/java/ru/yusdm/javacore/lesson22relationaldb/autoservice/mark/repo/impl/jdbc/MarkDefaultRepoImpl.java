@@ -2,7 +2,7 @@ package ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.repo.impl.jdbc;
 
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.KeyGenerationError;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.SqlError;
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.repo.jdbc.SqlPreparedStatemntConsumerHolder;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.repo.jdbc.SqlPreparedStatementConsumerHolder;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.search.OrderDirection;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.search.OrderType;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.PreparedStatementConsumer;
@@ -23,7 +23,18 @@ public class MarkDefaultRepoImpl implements MarkRepo {
     @Override
     public List<Mark> search(MarkSearchCondition searchCondition) {
         try {
-            SqlPreparedStatemntConsumerHolder sqlParamsHolder = getSearchSqlAndPrStmtHolder(searchCondition);
+            //SELECT * FROM PERSON WHERE (AGE = ?) AND (NAME = ?)
+            //ps.set(1, 30)
+            //ps.set(2, "Dima")
+            //ps.set(10, "Petr")
+
+            //SELECT * FROM PERSON WHERE (AGE = :age) AND (NAME = :name)
+            //map.put("age", 30)
+            //map.put("name", "Dima")
+
+            //SELECT * FROM PERSON WHERE (AGE = ?) AND (NAME = ?)
+
+            SqlPreparedStatementConsumerHolder sqlParamsHolder = getSearchSqlAndPrStmtHolder(searchCondition);
 
             return QueryWrapper.select(sqlParamsHolder.getSql(),
                     MarkMapper::mapMark,
@@ -39,7 +50,7 @@ public class MarkDefaultRepoImpl implements MarkRepo {
         }
     }
 
-    private SqlPreparedStatemntConsumerHolder getSearchSqlAndPrStmtHolder(MarkSearchCondition searchCondition) {
+    private SqlPreparedStatementConsumerHolder getSearchSqlAndPrStmtHolder(MarkSearchCondition searchCondition) {
         String sql = "SELECT * FROM MARK";
 
         List<PreparedStatementConsumer> psConsumers = new ArrayList<>();
@@ -50,6 +61,7 @@ public class MarkDefaultRepoImpl implements MarkRepo {
         } else {
             AtomicInteger index = new AtomicInteger(0);
             List<String> where = new ArrayList<>();
+
             if (searchCondition.searchByCountry()) {
                 where.add("(COUNTRY = ?)");
                 psConsumers.add(ps -> ps.setString(index.incrementAndGet(), searchCondition.getCountry()));
@@ -59,12 +71,14 @@ public class MarkDefaultRepoImpl implements MarkRepo {
                 where.add("(NAME = ?)");
                 psConsumers.add(ps -> ps.setString(index.incrementAndGet(), searchCondition.getName()));
             }
-            String whereStr = String.join("AND ", where);
-
+            String whereStr = String.join(" AND ", where);
+            //(NAME =?) AND (COUNTRY = ?)
+            //SELECT * FROM MARK WHERE (NAME =?) AND (COUNTRY = ?)
             sql = sql + (whereStr.isEmpty() ? "" : " WHERE " + whereStr) + getOrdering(searchCondition);
+            //SELECT * FROM MARK WHERE (NAME =?) AND (COUNTRY = ?) ORDER BY NAME,COUNTRY ASC
         }
 
-        return new SqlPreparedStatemntConsumerHolder(sql, psConsumers);
+        return new SqlPreparedStatementConsumerHolder(sql, psConsumers);
     }
 
     private String getOrdering(MarkSearchCondition searchCondition) {
@@ -77,9 +91,11 @@ public class MarkDefaultRepoImpl implements MarkRepo {
 
                 case SIMPLE: {
                     return " ORDER BY " + searchCondition.getOrderByField().name() + " " + orderDirection;
+                    //ORDER BY NAME ASC/DESC
                 }
                 case COMPLEX: {
                     return " ORDER BY " + String.join(", ", COMPLEX_ORDER_FIELDS) + " " + orderDirection;
+                    // ORDER BY NAME,COUNTRY ASC/DESC
                 }
             }
         }
@@ -148,7 +164,11 @@ public class MarkDefaultRepoImpl implements MarkRepo {
     public Optional<Mark> findById(Long id) {
         try {
             String sql = "SELECT * FROM MARK WHERE ID = ?";
-            return QueryWrapper.selectOne(sql, MarkMapper::mapMark);
+            return QueryWrapper.selectOne(sql,
+                    MarkMapper::mapMark,
+                    ps -> {
+                        ps.setLong(1, id);
+                    });
         } catch (Exception e) {
             throw new SqlError(e);
         }

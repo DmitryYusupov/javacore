@@ -58,7 +58,8 @@ public class HikariCpDataSource implements ConnectionProvider {
     @Override
     public Connection getConnection() {
         try {
-            return hikariDataSource.getConnection();
+            Connection connection = hikariDataSource.getConnection();
+            return connection;
         }catch (Exception e){
             throw new ConnectionAchiveError(e);
         }
