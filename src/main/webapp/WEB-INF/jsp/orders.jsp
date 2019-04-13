@@ -25,6 +25,7 @@
                 if (request.getAttribute("orders") != null) {
                     List<OrderDto> orders = (List<OrderDto>) request.getAttribute("orders");
             %>
+            <h2><a href="<%=request.getContextPath()+"/addeditorder"%>">Создать заказ</a></h2>
             <table width="100%" style="border-collapse: collapse; border: 1px solid gray" border="1" cellpadding="5px">
                 <thead>
                 <th>Клиент</th>
@@ -57,7 +58,7 @@
                     </td>
                     <td>
                         <a href='<%=request.getContextPath()+"/deleteorder?id="+orderId%>'>Удалить</a><br>
-                        <a href='<%=request.getContextPath()+"/editorder?id="+orderId%>'>Редактировать</a><br>
+                        <a href='<%=request.getContextPath()+"/addeditorder?id="+orderId%>'>Редактировать</a><br>
                         <a href='<%=request.getContextPath()+"/vieworder?id="+orderId%>'>Детальный просмотр</a><br>
                     </td>
                 </tr>

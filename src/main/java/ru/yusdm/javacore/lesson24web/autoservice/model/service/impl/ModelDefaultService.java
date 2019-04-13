@@ -87,6 +87,14 @@ public class ModelDefaultService implements ModelService {
     }
 
     @Override
+    public List<Model> getModelsByMarkId(Long markId) {
+        if (markId != null) {
+            return modelRepo.getModelsByMarkId(markId);
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
     public void update(Model model) {
         if (model.getId() != null) {
             modelRepo.update(model);

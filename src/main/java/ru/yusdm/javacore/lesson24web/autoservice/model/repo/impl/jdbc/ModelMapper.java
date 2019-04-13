@@ -48,6 +48,7 @@ public final class ModelMapper {
 
     public static void mapCommonModelData(Model model, ResultSet rs) throws ResultSetMappingException {
         try {
+            model.setId(rs.getLong("ID"));
             model.setName(rs.getString("NAME"));
             model.setMarkId(rs.getLong("MARK_ID"));
             model.setDescription(rs.getString("DESCRIPTION"));

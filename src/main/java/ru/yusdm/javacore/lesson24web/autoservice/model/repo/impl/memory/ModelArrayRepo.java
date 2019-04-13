@@ -79,6 +79,11 @@ public class ModelArrayRepo implements ModelRepo {
         return result;
     }
 
+    @Override
+    public List<Model> getModelsByMarkId(long markId) {
+        return null;
+    }
+
     private List<? extends Model> getPageableData(List<? extends Model> models, Paginator paginator) {
         return CollectionUtils.getPageableData(models, paginator.getLimit(), paginator.getOffset());
     }

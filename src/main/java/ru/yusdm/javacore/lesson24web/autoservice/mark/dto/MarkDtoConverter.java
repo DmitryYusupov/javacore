@@ -18,6 +18,7 @@ public final class MarkDtoConverter {
 
     public static MarkDto convertToDto(Mark mark) {
         MarkDto result = new MarkDto();
+        result.setId(mark.getId());
         result.setName(mark.getName());
         result.setCountry(mark.getCountry());
 

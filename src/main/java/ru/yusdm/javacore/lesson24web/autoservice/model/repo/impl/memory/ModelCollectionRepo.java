@@ -1,5 +1,6 @@
 package ru.yusdm.javacore.lesson24web.autoservice.model.repo.impl.memory;
 
+import ru.yusdm.javacore.lesson24web.autoservice.common.business.domain.BaseDomain;
 import ru.yusdm.javacore.lesson24web.autoservice.common.business.search.Paginator;
 import ru.yusdm.javacore.lesson24web.autoservice.common.solutions.utils.CollectionUtils;
 import ru.yusdm.javacore.lesson24web.autoservice.model.domain.Model;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static ru.yusdm.javacore.lesson24web.autoservice.storage.Storage.modelsList;
 
@@ -68,6 +70,11 @@ public class ModelCollectionRepo implements ModelRepo {
         }
 
         return result;
+    }
+
+    @Override
+    public List<Model> getModelsByMarkId(long markId) {
+        return modelsList.stream().filter(m -> m.getMarkId().equals(markId)).collect(Collectors.toList());
     }
 
     private List<? extends Model> getPageableData(List<? extends Model> models, Paginator paginator) {

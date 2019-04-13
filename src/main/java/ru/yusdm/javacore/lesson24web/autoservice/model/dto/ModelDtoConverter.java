@@ -5,6 +5,10 @@ import ru.yusdm.javacore.lesson24web.autoservice.model.domain.ModelDiscriminator
 import ru.yusdm.javacore.lesson24web.autoservice.model.domain.PassengerModel;
 import ru.yusdm.javacore.lesson24web.autoservice.model.domain.TruckModel;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public final class ModelDtoConverter {
     private ModelDtoConverter() {
 
@@ -30,6 +34,7 @@ public final class ModelDtoConverter {
             modelDto = dto;
         }
 
+        modelDto.setId(model.getId());
         modelDto.setDescription(model.getDescription());
         modelDto.setName(model.getName());
         modelDto.setProductionYearStart(model.getProductionYearStart());
@@ -38,5 +43,9 @@ public final class ModelDtoConverter {
         return modelDto;
     }
 
+
+    public static List<ModelDto> convertToDtos(Collection<Model> models) {
+        return models.stream().map(ModelDtoConverter::convertToDto).collect(Collectors.toList());
+    }
 
 }

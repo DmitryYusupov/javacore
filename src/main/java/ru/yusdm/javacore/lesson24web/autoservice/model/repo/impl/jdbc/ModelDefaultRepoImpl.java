@@ -260,6 +260,26 @@ public class ModelDefaultRepoImpl implements ModelRepo {
         }
     }
 
+    @Override
+    public List<Model> getModelsByMarkId(long markId) {
+        try {
+            String sql = "SELECT * FROM MODEL WHERE MARK_ID = ?";
+            return QueryWrapper.select(sql,
+                    rs -> {
+                        String discriminatorStr = rs.getString("DISCRIMINATOR");
+                        return ModelDiscriminator.getDiscriminatorByName(discriminatorStr)
+                                .map(discriminator -> PASSENGER.equals(discriminator) ? mapPassenger(rs) : mapTruck(rs))
+                                .orElseThrow(UnknownModelDiscriminatorException::new);
+                    },
+                    ps -> {
+                        ps.setLong(1, markId);
+                    }
+            );
+        } catch (Exception e) {
+            throw new SqlError(e);
+        }
+    }
+
     private Connection getConnection() {
         return HikariCpDataSource.getInstance().getConnection();
     }

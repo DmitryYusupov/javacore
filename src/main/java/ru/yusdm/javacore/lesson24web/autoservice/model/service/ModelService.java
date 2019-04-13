@@ -9,5 +9,5 @@ import java.util.List;
 public interface ModelService extends BaseService<Model, Long> {
 
     List<? extends Model> search(ModelSearchCondition searchCondition);
-
+    List<Model> getModelsByMarkId(Long markId);
 }

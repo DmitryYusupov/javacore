@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ModelRepo extends BaseRepo<Model, Long> {
     List<? extends Model> search(ModelSearchCondition searchCondition);
+    List<Model> getModelsByMarkId(long markId);
+
 }
