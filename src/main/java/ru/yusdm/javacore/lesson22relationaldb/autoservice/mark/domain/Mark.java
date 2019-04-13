@@ -1,6 +1,7 @@
 package ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.domain;
 
 
+import org.apache.commons.collections4.CollectionUtils;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.domain.BaseDomain;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.Model;
 
@@ -62,8 +63,12 @@ public class Mark extends BaseDomain<Long> {
 
     private String getModelsAsStr() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Model model : models) {
-            stringBuilder.append(model.toString()).append("\n");
+        if (CollectionUtils.isNotEmpty(models)) {
+            for (Model model : models) {
+                stringBuilder.append(model.toString()).append("\n");
+            }
+        }else{
+            stringBuilder.append("No models");
         }
 
         return stringBuilder.toString();

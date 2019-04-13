@@ -95,8 +95,8 @@ public class UserOrdersIoTextFileReport implements ReportComponent {
 
     private String orderToReportLine(Order order) {
         StringBuilder orderAsStr = new StringBuilder();
-        Optional<Mark> mark = markService.findById(order.getMarkId());
-        Optional<Model> model = modelService.findById(order.getModelId());
+        Optional<Mark> mark = markService.findById(order.getMark().getId());
+        Optional<Model> model = modelService.findById(order.getModel().getId());
 
         if (mark.isPresent() && model.isPresent()) {
             orderAsStr.append("Order: ")

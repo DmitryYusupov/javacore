@@ -196,7 +196,7 @@ public class MarkDefaultRepoImpl implements MarkRepo {
 
     @Override
     public void printAll() {
-        findAll().forEach(System.out::println);
+        findAllMarksFetchingModels().forEach(System.out::println);
     }
 
     @Override

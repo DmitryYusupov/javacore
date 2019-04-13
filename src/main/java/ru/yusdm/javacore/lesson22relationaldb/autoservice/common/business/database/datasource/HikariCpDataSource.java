@@ -59,6 +59,7 @@ public class HikariCpDataSource implements ConnectionProvider {
     public Connection getConnection() {
         try {
             Connection connection = hikariDataSource.getConnection();
+            connection.setAutoCommit(true);
             return connection;
         }catch (Exception e){
             throw new ConnectionAchiveError(e);

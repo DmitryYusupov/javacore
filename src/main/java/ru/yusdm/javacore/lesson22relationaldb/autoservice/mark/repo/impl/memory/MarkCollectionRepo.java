@@ -59,6 +59,11 @@ public class MarkCollectionRepo implements MarkRepo {
         return result;
     }
 
+    @Override
+    public List<Mark> findAllMarksFetchingModels() {
+        return marksList;
+    }
+
     private List<Mark> doSearch(MarkSearchCondition searchCondition) {
         List<Mark> result = new ArrayList<>();
 

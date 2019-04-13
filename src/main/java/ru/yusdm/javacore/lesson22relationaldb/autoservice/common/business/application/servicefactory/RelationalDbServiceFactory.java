@@ -17,7 +17,7 @@ import ru.yusdm.javacore.lesson22relationaldb.autoservice.user.repo.impl.jdbc.Us
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.user.service.UserService;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.user.service.impl.UserDefaultService;
 
-public class RelationalDbServiceFactory implements ServiceFactory{
+public class RelationalDbServiceFactory implements ServiceFactory {
 
     private OrderRepo orderRepo = new OrderDefaultRepoImpl();
     private ModelRepo modelRepo = new ModelDefaultRepoImpl();
@@ -25,7 +25,7 @@ public class RelationalDbServiceFactory implements ServiceFactory{
     private UserRepo userRepo = new UserDefaultRepoImpl();
 
     private ModelService modelService = new ModelDefaultService(modelRepo, orderRepo);
-    private OrderService orderService = new OrderDefaultService(orderRepo);
+    private OrderService orderService = new OrderDefaultService(orderRepo, markRepo, modelRepo, userRepo);
     private UserService userService = new UserDefaultService(userRepo, orderService);
     private MarkService markService = new MarkDefaultService(markRepo, modelService, orderRepo);
 

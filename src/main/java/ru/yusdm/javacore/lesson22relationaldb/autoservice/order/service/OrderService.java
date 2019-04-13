@@ -13,4 +13,8 @@ public interface OrderService extends BaseService<Order, Long> {
     void deleteByUserId(Long userId);
 
     List<Order> getOrdersByUser(Long userId);
+
+    void fillOrderWithDetailedData(Order order);
+
+    List<Order> getAllOrdersWithFilledData();
 }

@@ -5,10 +5,12 @@ import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.except
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.repo.jdbc.SqlPreparedStatementConsumerHolder;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.PreparedStatementConsumer;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.QueryWrapper;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.ResultSetExtractor;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.repo.OrderRepo;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.search.OrderSearchCondition;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 
 public class OrderDefaultRepoImpl implements OrderRepo {
 
@@ -121,17 +124,32 @@ public class OrderDefaultRepoImpl implements OrderRepo {
 
     @Override
     public Order insert(Order order) {
+        return insert(order, null);
+    }
+
+    @Override
+    public Order insertTx(Order order, Connection connection) {
+        return insert(order, connection);
+    }
+
+    private Order insert(Order order, Connection connection) {
         try {
-            Optional<Long> optionalId = QueryWrapper.executeUpdateReturningGeneratedKey(getInsertOrderSql(),
-                    ps -> {appendPsValuesForInsertOrder(ps,order); },
-                    rs -> rs.getLong("ID"));
+
+            Optional<Long> optionalId;
+            PreparedStatementConsumer psConsumer = ps -> appendPsValuesForInsertOrder(ps, order);
+            ResultSetExtractor<Long> rsExtractor = rs -> rs.getLong("ID");
+
+            if (connection == null) {
+                optionalId = QueryWrapper.executeUpdateReturningGeneratedKey(getInsertOrderSql(), psConsumer, rsExtractor);
+            } else {
+                optionalId = QueryWrapper.executeUpdateReturningGeneratedKey(getInsertOrderSql(), connection, psConsumer, rsExtractor);
+            }
 
             if (optionalId.isPresent()) {
                 order.setId(optionalId.get());
             } else {
                 throw new KeyGenerationError("ID");
             }
-
             return order;
         } catch (KeyGenerationError e) {
             throw e;
@@ -142,9 +160,9 @@ public class OrderDefaultRepoImpl implements OrderRepo {
 
     private void appendPsValuesForInsertOrder(PreparedStatement ps, Order order) throws SQLException {
         int index = 0;
-        ps.setLong(++index, order.getUserId());
-        ps.setLong(++index, order.getMarkId());
-        ps.setLong(++index, order.getModelId());
+        ps.setLong(++index, order.getUser().getId());
+        ps.setLong(++index, order.getMark().getId());
+        ps.setLong(++index, order.getModel().getId());
         ps.setString(++index, order.getDescription());
         ps.setInt(++index, order.getPrice());
     }
@@ -181,10 +199,23 @@ public class OrderDefaultRepoImpl implements OrderRepo {
 
     @Override
     public void deleteById(Long id) {
+        deleteById(id, null);
+    }
+
+    @Override
+    public void deleteByIdTx(long id, Connection connection) {
+        deleteById(id, connection);
+    }
+
+    private void deleteById(Long id, Connection connection) {
         try {
-            QueryWrapper.executeUpdate("DELETE FROM USER WHERE ID = ?", ps -> {
-                ps.setLong(1, id);
-            });
+            String sql = "DELETE FROM USER WHERE ID = ?";
+            PreparedStatementConsumer psConsumer = ps -> ps.setLong(1, id);
+            if (connection == null) {
+                QueryWrapper.executeUpdate(sql, psConsumer);
+            } else {
+                QueryWrapper.executeUpdate(sql, connection, psConsumer);
+            }
         } catch (Exception e) {
             throw new SqlError(e);
         }

@@ -7,6 +7,7 @@ import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.repo.OrderRepo;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.search.OrderSearchCondition;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.storage.SequenceGenerator;
 
+import java.sql.Connection;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -75,12 +76,12 @@ public class OrderCollectionRepo implements OrderRepo {
 
     @Override
     public int countByModel(long modelId) {
-        return (int) ordersList.stream().filter(order -> modelId == order.getModelId()).count();
+        return (int) ordersList.stream().filter(order -> modelId == order.getModel().getId()).count();
     }
 
     @Override
     public int countByMark(long markId) {
-        return (int) ordersList.stream().filter(order -> markId == order.getMarkId()).count();
+        return (int) ordersList.stream().filter(order -> markId == order.getMark().getId()).count();
     }
 
     @Override
@@ -94,7 +95,17 @@ public class OrderCollectionRepo implements OrderRepo {
 
     @Override
     public List<Order> findByUserId(long userId) {
-        return ordersList.stream().filter(order -> order.getUserId().equals(userId)).collect(toList());
+        return ordersList.stream().filter(order -> order.getUser().getId().equals(userId)).collect(toList());
+    }
+
+    @Override
+    public void deleteByIdTx(long id, Connection connection) {
+        deleteById(id);
+    }
+
+    @Override
+    public Order insertTx(Order order, Connection connection) {
+        return insert(order);
     }
 
     @Override

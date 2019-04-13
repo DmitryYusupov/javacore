@@ -24,6 +24,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static ru.yusdm.javacore.lesson22relationaldb.autoservice.common.application.ApplicationConfigurations.*;
@@ -83,16 +84,23 @@ public class AutoServiceDemo {
                 }
             }
             orderService.insert(orders);
+
+            //test transaction
+            orderService.update(orders.get(0));
         }
 
         private Order prepareOrderForUser(User user, List<Mark> marks) {
             Order order = new Order();
-            order.setUserId(user.getId());
+            order.setUser(user);
             Mark mark = marks.get(getRandomInt(0, marks.size() - 1));
-            order.setMarkId(mark.getId());
-            order.setModelId(mark.getModels().get(getRandomInt(0, mark.getModels().size() - 1)).getId());
+            order.setMark(mark);
+            order.setModel(mark.getModels().get(getRandomInt(0, mark.getModels().size() - 1)));
             order.setPrice(getRandomInt(1, 100000));
+            List<String> problems = Arrays.asList("Не заводится",
+                    "Еле едет", "Запах масла в салоне", "Стучит подвеска", "Ржавчина на пороге", "Помято крыло", "Не греют сиденья",
+                    "Не включается дальний свет");
 
+            order.setDescription(problems.get(getRandomInt(0, problems.size() - 1)));
             return order;
         }
 
@@ -215,16 +223,7 @@ public class AutoServiceDemo {
         Application application = new Application();
         application.fillStorage();
 
-      /*  HikariCpDataSource.init(prepareDataSourceConfig());
-
-        try (Connection connection = HikariCpDataSource.getInstance().getConnection()) {
-            initDataBaseWithData(connection);
-        }*/
-
-       /* Application application = new Application();
-        application.fillStorage();
-
-  /*      System.out.println("--------Users------------");
+        System.out.println("--------Users------------");
         application.printUsers();
 
         System.out.println("--------Marks------------");
@@ -234,7 +233,8 @@ public class AutoServiceDemo {
         application.searchMarksWithOrderAsc();
         application.searchMarksWithOrderDesc();
         application.searchMarksWithComplexOrderAsc();
-        application.searchMarksWithComplexOrderDesc();*/
+        application.searchMarksWithComplexOrderDesc();
+
         /*System.out.println("----Demo mark pagination -----");
         application.searchMarksWithPaginator();
 //        application.demoReporting();*/

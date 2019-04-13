@@ -10,10 +10,9 @@ import java.util.Optional;
 
 public class Order extends BaseDomain<Long> {
 
-
-    private Long markId;
-    private Long modelId;
-    private Long userId;
+    private Mark mark;
+    private Model model;
+    private User user;
 
     private String description;
     private int price;
@@ -21,28 +20,28 @@ public class Order extends BaseDomain<Long> {
     public Order() {
     }
 
-    public Long getMarkId() {
-        return markId;
+    public Mark getMark() {
+        return mark;
     }
 
-    public void setMarkId(Long markId) {
-        this.markId = markId;
+    public void setMark(Mark mark) {
+        this.mark = mark;
     }
 
-    public Long getModelId() {
-        return modelId;
+    public Model getModel() {
+        return model;
     }
 
-    public void setModelId(Long modelId) {
-        this.modelId = modelId;
+    public void setModel(Model model) {
+        this.model = model;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getDescription() {

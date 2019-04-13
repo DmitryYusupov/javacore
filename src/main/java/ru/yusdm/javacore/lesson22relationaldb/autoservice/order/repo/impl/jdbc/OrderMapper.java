@@ -2,6 +2,7 @@ package ru.yusdm.javacore.lesson22relationaldb.autoservice.order.repo.impl.jdbc;
 
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.exception.jdbc.ResultSetMappingException;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.domain.Mark;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.ProxyModel;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.user.domain.User;
 
@@ -19,9 +20,9 @@ public final class OrderMapper {
         try {
             Order order = new Order();
             order.setId(rs.getLong("ID"));
-            order.setMarkId(rs.getLong("MARK_ID"));
-            order.setModelId(rs.getLong("MODEL_ID"));
-            order.setUserId(rs.getLong("USER_ID"));
+            order.setMark(new Mark(rs.getLong("MARK_ID")));
+            order.setModel(new ProxyModel(rs.getLong("MODEL_ID")));
+            order.setUser(new User(rs.getLong("USER_ID")));
             order.setPrice(rs.getInt("PRICE"));
             order.setDescription(rs.getString("DESCRIPTION"));
             return order;

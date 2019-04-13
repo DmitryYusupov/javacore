@@ -65,6 +65,11 @@ public class MarkArrayRepo implements MarkRepo {
         return result;
     }
 
+    @Override
+    public List<Mark> findAllMarksFetchingModels() {
+        return new ArrayList<>(Arrays.asList(marksArray));
+    }
+
     private List<Mark> doSearch(MarkSearchCondition searchCondition) {
         Mark[] result = new Mark[marksArray.length];
         int resultIndex = 0;
