@@ -1,5 +1,6 @@
 package ru.yusdm.javacore.lesson24web.autoservice.mark.dto;
 
+
 import ru.yusdm.javacore.lesson24web.autoservice.common.business.dto.BaseDto;
 import ru.yusdm.javacore.lesson24web.autoservice.model.dto.ModelDto;
 
@@ -36,4 +37,5 @@ public class MarkDto extends BaseDto<Long> {
     public void setModels(List<ModelDto> models) {
         this.models = models;
     }
+
 }

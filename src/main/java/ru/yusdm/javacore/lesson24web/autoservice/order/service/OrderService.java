@@ -5,6 +5,7 @@ import ru.yusdm.javacore.lesson24web.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson24web.autoservice.order.search.OrderSearchCondition;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderService extends BaseService<Order, Long> {
 
@@ -17,4 +18,6 @@ public interface OrderService extends BaseService<Order, Long> {
     void fillOrderWithDetailedData(Order order);
 
     List<Order> getAllOrdersWithFilledData();
+
+     Optional<Order> getFullOrder(Long id);
 }

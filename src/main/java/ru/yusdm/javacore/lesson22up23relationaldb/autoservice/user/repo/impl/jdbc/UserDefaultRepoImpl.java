@@ -92,10 +92,13 @@ public class UserDefaultRepoImpl implements UserRepo {
         }
     }
 
-    @Override
+ @Override
     public Optional<User> findById(Long id) {
         try {
-            return QueryWrapper.selectOne("SELECT * FROM USER WHERE ID = ?", UserMapper::mapUser);
+            return QueryWrapper.selectOne("SELECT * FROM USER WHERE ID = ?",
+                    UserMapper::mapUser, ps -> {
+                        ps.setLong(1, id);
+                    });
         } catch (Exception e) {
             throw new SqlError(e);
         }

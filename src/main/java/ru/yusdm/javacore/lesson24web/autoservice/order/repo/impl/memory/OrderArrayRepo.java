@@ -51,6 +51,11 @@ public class OrderArrayRepo implements OrderRepo {
     }
 
     @Override
+    public Optional<Order> getFullOrder(long id) {
+        return findOrderIndexById(id).map(index -> ordersArray[index]);
+    }
+
+    @Override
     public void deleteById(Long id) {
         findOrderIndexById(id).ifPresent(this::deleteOrderByIndex);
     }

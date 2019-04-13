@@ -28,7 +28,7 @@ import static ru.yusdm.javacore.lesson24web.autoservice.common.solutions.utils.R
 
 public class AutoServiceDemo {
 
-    private static class Application {
+    public static class Application {
         static {
             ServiceSupplier.newInstance(StorageType.RELATIONAL_DB);
         }

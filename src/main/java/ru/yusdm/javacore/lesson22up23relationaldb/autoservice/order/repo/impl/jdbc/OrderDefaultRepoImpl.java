@@ -216,7 +216,7 @@ public class OrderDefaultRepoImpl implements OrderRepo {
 
     private void deleteById(Long id, Connection connection) {
         try {
-            String sql = "DELETE FROM USER WHERE ID = ?";
+            String sql = "DELETE FROM ORDER_TAB WHERE ID = ?";
             PreparedStatementConsumer psConsumer = ps -> ps.setLong(1, id);
             if (connection == null) {
                 QueryWrapper.executeUpdate(sql, psConsumer);

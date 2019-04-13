@@ -6,6 +6,7 @@ import ru.yusdm.javacore.lesson24web.autoservice.order.search.OrderSearchConditi
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderRepo extends BaseRepo<Order, Long> {
 
@@ -22,4 +23,6 @@ public interface OrderRepo extends BaseRepo<Order, Long> {
     void deleteByIdTx(long id, Connection connection);
 
     Order insertTx(Order order, Connection connection);
+
+    Optional<Order> getFullOrder(long id);
 }

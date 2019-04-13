@@ -1,5 +1,6 @@
 package ru.yusdm.javacore.lesson24web.autoservice.order.service.impl;
 
+import org.apache.commons.collections4.CollectionUtils;
 import ru.yusdm.javacore.lesson24web.autoservice.common.business.database.datasource.HikariCpDataSource;
 import ru.yusdm.javacore.lesson24web.autoservice.common.business.exception.jdbc.SqlError;
 import ru.yusdm.javacore.lesson24web.autoservice.mark.domain.Mark;
@@ -94,6 +95,15 @@ public class OrderDefaultService implements OrderService {
     }
 
     @Override
+    public Optional<Order> getFullOrder(Long id) {
+        if (id != null) {
+            return orderRepo.getFullOrder(id);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public void delete(Order order) {
         if (order.getId() != null) {
             this.deleteById(order.getId());
@@ -102,11 +112,18 @@ public class OrderDefaultService implements OrderService {
 
     @Override
     public List<Order> search(OrderSearchCondition searchCondition) {
+        List<Order> orders;
         if (searchCondition.getId() != null) {
-            return orderRepo.findById(searchCondition.getId()).map(Collections::singletonList).orElse(emptyList());
+            orders = orderRepo.findById(searchCondition.getId()).map(Collections::singletonList).orElse(emptyList());
         } else {
-            return orderRepo.search(searchCondition);
+            orders = orderRepo.search(searchCondition);
         }
+
+        if (CollectionUtils.isNotEmpty(orders)) {
+            orders.forEach(this::fillOrderWithDetailedData);
+        }
+
+        return orders;
     }
 
     @Override

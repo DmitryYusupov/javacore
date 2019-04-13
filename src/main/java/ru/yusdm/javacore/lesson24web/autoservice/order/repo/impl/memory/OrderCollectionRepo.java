@@ -42,6 +42,11 @@ public class OrderCollectionRepo implements OrderRepo {
     }
 
     @Override
+    public Optional<Order> getFullOrder(long id) {
+        return findOrderById(id);
+    }
+
+    @Override
     public List<Order> search(OrderSearchCondition searchCondition) {
         List<Order> orders = doSearch(searchCondition);
 

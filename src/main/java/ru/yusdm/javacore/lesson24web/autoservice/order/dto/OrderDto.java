@@ -3,6 +3,7 @@ package ru.yusdm.javacore.lesson24web.autoservice.order.dto;
 import ru.yusdm.javacore.lesson24web.autoservice.common.business.dto.BaseDto;
 import ru.yusdm.javacore.lesson24web.autoservice.mark.dto.MarkDto;
 import ru.yusdm.javacore.lesson24web.autoservice.model.dto.ModelDto;
+import ru.yusdm.javacore.lesson24web.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson24web.autoservice.user.dto.UserDto;
 
 public class OrderDto extends BaseDto<Long> {

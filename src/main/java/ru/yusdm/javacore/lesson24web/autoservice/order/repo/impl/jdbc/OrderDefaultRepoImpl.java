@@ -6,12 +6,20 @@ import ru.yusdm.javacore.lesson24web.autoservice.common.business.repo.jdbc.SqlPr
 import ru.yusdm.javacore.lesson24web.autoservice.common.solutions.repo.jdbc.PreparedStatementConsumer;
 import ru.yusdm.javacore.lesson24web.autoservice.common.solutions.repo.jdbc.QueryWrapper;
 import ru.yusdm.javacore.lesson24web.autoservice.common.solutions.repo.jdbc.ResultSetExtractor;
+import ru.yusdm.javacore.lesson24web.autoservice.mark.domain.Mark;
+import ru.yusdm.javacore.lesson24web.autoservice.mark.repo.impl.jdbc.MarkMapper;
+import ru.yusdm.javacore.lesson24web.autoservice.model.domain.Model;
+import ru.yusdm.javacore.lesson24web.autoservice.model.domain.ModelDiscriminator;
+import ru.yusdm.javacore.lesson24web.autoservice.model.repo.impl.jdbc.ModelMapper;
 import ru.yusdm.javacore.lesson24web.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson24web.autoservice.order.repo.OrderRepo;
 import ru.yusdm.javacore.lesson24web.autoservice.order.search.OrderSearchCondition;
+import ru.yusdm.javacore.lesson24web.autoservice.user.domain.User;
+import ru.yusdm.javacore.lesson24web.autoservice.user.repo.impl.jdbc.UserMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,7 +45,7 @@ public class OrderDefaultRepoImpl implements OrderRepo {
     }
 
     private SqlPreparedStatementConsumerHolder getSearchSqlAndPrStmtHolder(OrderSearchCondition searchCondition) {
-        String sql = "SELECT * FROM ORDER";
+        String sql = "SELECT * FROM ORDER_TAB ";
 
         List<PreparedStatementConsumer> psConsumers = new ArrayList<>();
 
@@ -66,7 +74,7 @@ public class OrderDefaultRepoImpl implements OrderRepo {
             String whereStr = String.join("AND ", where);
             sql = sql + (whereStr.isEmpty() ? "" : " WHERE " + whereStr);
 
-            if (searchCondition.shouldPaginate()){
+            if (searchCondition.shouldPaginate()) {
                 sql = sql + getPagebleSqlPart(searchCondition);
             }
         }
@@ -74,7 +82,7 @@ public class OrderDefaultRepoImpl implements OrderRepo {
         return new SqlPreparedStatementConsumerHolder(sql, psConsumers);
     }
 
-    private String getPagebleSqlPart(OrderSearchCondition orderSearchCondition){
+    private String getPagebleSqlPart(OrderSearchCondition orderSearchCondition) {
         return " LIMIT " + orderSearchCondition.getPaginator().getLimit() + " OFFSET " + orderSearchCondition.getPaginator().getOffset();
     }
 
@@ -205,6 +213,70 @@ public class OrderDefaultRepoImpl implements OrderRepo {
     }
 
     @Override
+    public Optional<Order> getFullOrder(long id) {
+        try {
+            String sql = "SELECT " +
+                    "ordr.ID AS ORDER_IDENT, " +
+                    "ordr.*, " +
+                    "mk.ID AS MARK_IDENT, " +
+                    "mk.NAME AS MARK_NAME, " +
+                    "mk.*, " +
+                    "md.ID AS MODEL_IDENT," +
+                    "md.NAME AS MODEL_NAME, " +
+                    "md.*, " +
+                    "u.*, " +
+                    "u.ID AS USER_IDENT " +
+                    "FROM " +
+                    "ORDER_TAB ordr " +
+                    "INNER JOIN MARK mk ON (mk.ID = ordr.MARK_ID) " +
+                    "INNER JOIN MODEL md ON (md.ID = ordr.MODEL_ID) " +
+                    "INNER JOIN USER u ON (u.ID = ordr.USER_ID) " +
+                    "WHERE ordr.ID = ?";
+
+            return QueryWrapper.selectOne(sql, rs -> {
+                Order order = OrderMapper.mapOrder(rs);
+                order.setId(rs.getLong("ORDER_IDENT"));
+
+                order.setMark(getMarkForOrderFullRequest(rs));
+                order.setModel(getModelForOrderFullRequest(rs));
+                order.setUser(getUserForOrderFullRequest(rs));
+                return order;
+            }, ps -> {
+                ps.setLong(1, id);
+            });
+        } catch (Exception e) {
+            throw new SqlError(e);
+        }
+    }
+
+    private User getUserForOrderFullRequest(ResultSet rs) throws SQLException {
+        User user = UserMapper.mapUser(rs);
+        user.setId(rs.getLong("USER_IDENT"));
+        return user;
+    }
+
+    private Mark getMarkForOrderFullRequest(ResultSet rs) throws SQLException {
+        Mark mark = MarkMapper.mapMark(rs);
+        mark.setName(rs.getString("MARK_NAME"));
+        mark.setId(rs.getLong("MARK_IDENT"));
+        return mark;
+    }
+
+    private Model getModelForOrderFullRequest(ResultSet rs) throws SQLException {
+        ModelDiscriminator discriminator = ModelDiscriminator.valueOf(rs.getString("DISCRIMINATOR"));
+        Model model;
+        if (ModelDiscriminator.PASSENGER.equals(discriminator)) {
+            model = ModelMapper.mapPassenger(rs);
+        } else {
+            model = ModelMapper.mapTruck(rs);
+        }
+        model.setId(rs.getLong("MODEL_IDENT"));
+        model.setName(rs.getString("MODEL_NAME"));
+
+        return model;
+    }
+
+    @Override
     public void deleteById(Long id) {
         deleteById(id, null);
     }
@@ -216,7 +288,7 @@ public class OrderDefaultRepoImpl implements OrderRepo {
 
     private void deleteById(Long id, Connection connection) {
         try {
-            String sql = "DELETE FROM USER WHERE ID = ?";
+            String sql = "DELETE FROM ORDER_TAB WHERE ID = ?";
             PreparedStatementConsumer psConsumer = ps -> ps.setLong(1, id);
             if (connection == null) {
                 QueryWrapper.executeUpdate(sql, psConsumer);

@@ -53,4 +53,5 @@ public abstract class ModelDto extends BaseDto<Long> {
         return discriminator;
     }
 
+
 }
