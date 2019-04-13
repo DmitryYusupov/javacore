@@ -6,6 +6,7 @@ import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.repo.j
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.PreparedStatementConsumer;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.QueryWrapper;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.ResultSetExtractor;
+import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.search.MarkSearchCondition;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.repo.OrderRepo;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.search.OrderSearchCondition;
@@ -18,7 +19,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Supplier;
 
 public class OrderDefaultRepoImpl implements OrderRepo {
 
@@ -66,9 +66,17 @@ public class OrderDefaultRepoImpl implements OrderRepo {
 
             String whereStr = String.join("AND ", where);
             sql = sql + (whereStr.isEmpty() ? "" : " WHERE " + whereStr);
+
+            if (searchCondition.shouldPaginate()){
+                sql = sql + getPagebleSqlPart(searchCondition);
+            }
         }
 
         return new SqlPreparedStatementConsumerHolder(sql, psConsumers);
+    }
+
+    private String getPagebleSqlPart(OrderSearchCondition orderSearchCondition){
+        return " LIMIT " + orderSearchCondition.getPaginator().getLimit() + " OFFSET " + orderSearchCondition.getPaginator().getOffset();
     }
 
 
@@ -229,7 +237,7 @@ public class OrderDefaultRepoImpl implements OrderRepo {
     @Override
     public List<Order> findAll() {
         try {
-            String sql = "SELECT * FROM ORDER_TAB";
+            String sql = "SELECT * FROM ORDER_TAB ";
             return QueryWrapper.select(sql, OrderMapper::mapOrder);
         } catch (Exception e) {
             throw new SqlError(e);
