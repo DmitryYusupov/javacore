@@ -6,7 +6,6 @@ import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.repo.j
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.PreparedStatementConsumer;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.QueryWrapper;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.ResultSetExtractor;
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.search.MarkSearchCondition;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.repo.OrderRepo;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.search.OrderSearchCondition;
