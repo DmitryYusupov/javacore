@@ -1,8 +1,8 @@
-package ru.yusdm.javacore.lesson22up23relationaldb.autoservice.storage.initor.fromsql;
+package ru.yusdm.javacore.lesson24web.autoservice.storage.initor.fromsql;
 
 import org.apache.commons.collections4.CollectionUtils;
-import ru.yusdm.javacore.lesson22up23relationaldb.autoservice.common.business.database.datasource.HikariCpDataSource;
-import ru.yusdm.javacore.lesson22up23relationaldb.autoservice.storage.initor.Initor;
+import ru.yusdm.javacore.lesson24web.autoservice.common.business.database.datasource.HikariCpDataSource;
+import ru.yusdm.javacore.lesson24web.autoservice.storage.initor.Initor;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class H2DbInitor implements Initor {
-    private static final String DATABASE_CONFIG_PATH = "/ru/yusdm/javacore/lesson22up23relationaldb/autoservice/database/config/config.properties";
-    private static final String DDL_SCRIPT_PATH = "/ru/yusdm/javacore/lesson22up23relationaldb/autoservice/database/ddl/crerate-schema.sql";
-    private static final String DML_SCRIPT_PATH = "/ru/yusdm/javacore/lesson22up23relationaldb/autoservice/database/dml/init-data.sql";
+    private static final String DATABASE_CONFIG_PATH = "/ru/yusdm/javacore/lesson24web/autoservice/database/config/config.properties";
+    private static final String DDL_SCRIPT_PATH = "/ru/yusdm/javacore/lesson24web/autoservice/database/ddl/crerate-schema.sql";
+    private static final String DML_SCRIPT_PATH = "/ru/yusdm/javacore/lesson24web/autoservice/database/dml/init-data.sql";
 
 
     @Override
