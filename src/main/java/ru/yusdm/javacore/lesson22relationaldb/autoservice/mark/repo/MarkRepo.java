@@ -10,4 +10,6 @@ public interface MarkRepo extends BaseRepo<Mark, Long> {
 
     List<Mark> search(MarkSearchCondition searchCondition);
 
+    List<Mark> findAllMarksFetchingModels();
+
 }

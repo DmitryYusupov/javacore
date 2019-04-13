@@ -1,15 +1,19 @@
 package ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc;
 
+import org.apache.commons.collections4.CollectionUtils;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.database.datasource.HikariCpDataSource;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 public class QueryWrapper {
+
+    private static final int BATCH_EXECUTE_THRESHOLD = 10;
 
     public static <T> List<T> select(String sql, Connection connection, ResultSetExtractor<T> extractor) throws Exception {
 
@@ -235,5 +239,46 @@ public class QueryWrapper {
         }
     }
 
+    public static <T> void executeUpdateAsBatch(String sql, Connection connection, boolean execInTransaction, Collection<T> batchItems,
+                                                PreparedStatementBiConsumer<T> psConsumer) throws Exception {
 
+        if (CollectionUtils.isNotEmpty(batchItems)) {
+            boolean rememberAutoCommit = connection.getAutoCommit();
+
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                int counter = 0;
+                boolean needFlush = false;
+
+                for (T item : batchItems) {
+                    needFlush = true;
+                    counter++;
+                    psConsumer.consume(ps, item);
+                    ps.addBatch();
+
+                    if (counter % BATCH_EXECUTE_THRESHOLD == 0) {
+                        ps.executeBatch();
+                        counter = 0;
+                    }
+                }
+
+                if (needFlush && counter > 0) {
+                    ps.executeBatch();
+                }
+
+                if (!execInTransaction) {
+                    connection.commit();
+                }
+            } finally {
+                connection.setAutoCommit(rememberAutoCommit);
+            }
+        }
+
+    }
+
+    public static <T> void executeUpdateAsBatch(String sql, Collection<T> batchItems,
+                                                PreparedStatementBiConsumer<T> psConsumer) throws Exception {
+        try (Connection connection = HikariCpDataSource.getInstance().getConnection()) {
+            executeUpdateAsBatch(sql, connection, false, batchItems, psConsumer);
+        }
+    }
 }

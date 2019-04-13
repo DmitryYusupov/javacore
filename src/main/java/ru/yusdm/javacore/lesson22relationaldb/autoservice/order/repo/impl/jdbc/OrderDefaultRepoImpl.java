@@ -9,6 +9,8 @@ import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.repo.OrderRepo;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.order.search.OrderSearchCondition;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -120,16 +122,8 @@ public class OrderDefaultRepoImpl implements OrderRepo {
     @Override
     public Order insert(Order order) {
         try {
-            String sql = "INSERT INTO ORDER_TAB (USER_ID, MARK_ID, MODEL_ID, DESCRIPTION, PRICE) VALUES (?, ?, ?, ?, ?)";
-            Optional<Long> optionalId = QueryWrapper.executeUpdateReturningGeneratedKey(sql,
-                    ps -> {
-                        int index = 0;
-                        ps.setLong(++index, order.getUserId());
-                        ps.setLong(++index, order.getMarkId());
-                        ps.setLong(++index, order.getModelId());
-                        ps.setString(++index, order.getDescription());
-                        ps.setInt(++index, order.getPrice());
-                    },
+            Optional<Long> optionalId = QueryWrapper.executeUpdateReturningGeneratedKey(getInsertOrderSql(),
+                    ps -> {appendPsValuesForInsertOrder(ps,order); },
                     rs -> rs.getLong("ID"));
 
             if (optionalId.isPresent()) {
@@ -146,13 +140,31 @@ public class OrderDefaultRepoImpl implements OrderRepo {
         }
     }
 
-    @Override
-    public void insert(Collection<Order> items) {
+    private void appendPsValuesForInsertOrder(PreparedStatement ps, Order order) throws SQLException {
+        int index = 0;
+        ps.setLong(++index, order.getUserId());
+        ps.setLong(++index, order.getMarkId());
+        ps.setLong(++index, order.getModelId());
+        ps.setString(++index, order.getDescription());
+        ps.setInt(++index, order.getPrice());
+    }
 
+    private String getInsertOrderSql() {
+        return "INSERT INTO ORDER_TAB (USER_ID, MARK_ID, MODEL_ID, DESCRIPTION, PRICE) VALUES (?, ?, ?, ?, ?)";
+    }
+
+    @Override
+    public void insert(Collection<Order> orders) {
+        try {
+            QueryWrapper.executeUpdateAsBatch(getInsertOrderSql(), orders, this::appendPsValuesForInsertOrder);
+        } catch (Exception e) {
+            throw new SqlError(e);
+        }
     }
 
     @Override
     public void update(Order order) {
+        throw new UnsupportedOperationException("No update operation for order");
     }
 
     @Override

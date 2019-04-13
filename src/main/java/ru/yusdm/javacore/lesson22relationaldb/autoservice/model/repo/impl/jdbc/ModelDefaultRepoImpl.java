@@ -79,25 +79,8 @@ public class ModelDefaultRepoImpl implements ModelRepo {
 
     @Override
     public Model insert(Model model) {
-        String sql =
-                "INSERT INTO MODEL (" +
-                        "MARK_ID," +
-                        "NAME," +
-                        "DESCRIPTION," +
-                        "PRODUCTION_YEAR_START," +
-                        "PRODUCTION_YEAR_END," +
-                        "DISCRIMINATOR," +
-                        "NUMBER_OF_AIR_BAGS," +
-                        "NUMBER_OF_SEATS," +
-                        "AUDIO_SYSTEM_NAME," +
-                        "WEIGHT," +
-                        "EMBEDDED_KITCHEN," +
-                        "TANK_SIZE" +
-                        ")" +
-                        "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
-
         try {
-            Optional<Long> generatedId = QueryWrapper.executeUpdateReturningGeneratedKey(sql,
+            Optional<Long> generatedId = QueryWrapper.executeUpdateReturningGeneratedKey(getInsertModelSql(),
                     ps -> {
                         appendPreparedStatementParamsForModel(ps, model, new AtomicInteger(0));
                     },
@@ -117,9 +100,32 @@ public class ModelDefaultRepoImpl implements ModelRepo {
         }
     }
 
-    @Override
-    public void insert(Collection<Model> items) {
+    private String getInsertModelSql() {
+        return "INSERT INTO MODEL (" +
+                "MARK_ID," +
+                "NAME," +
+                "DESCRIPTION," +
+                "PRODUCTION_YEAR_START," +
+                "PRODUCTION_YEAR_END," +
+                "DISCRIMINATOR," +
+                "NUMBER_OF_AIR_BAGS," +
+                "NUMBER_OF_SEATS," +
+                "AUDIO_SYSTEM_NAME," +
+                "WEIGHT," +
+                "EMBEDDED_KITCHEN," +
+                "TANK_SIZE" +
+                ")" +
+                "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+    }
 
+    @Override
+    public void insert(Collection<Model> models) {
+        try {
+            QueryWrapper.executeUpdateAsBatch(getInsertModelSql(), models,
+                    (ps, model) -> appendPreparedStatementParamsForModel(ps, model, new AtomicInteger(0)));
+        } catch (Exception e) {
+            throw new SqlError(e);
+        }
     }
 
     @Override

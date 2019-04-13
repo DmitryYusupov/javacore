@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class UserDefaultRepoImpl implements UserRepo {
+
     @Override
     public List<? extends User> search(UserSearchCondition searchCondition) {
         return null;
@@ -22,15 +23,8 @@ public class UserDefaultRepoImpl implements UserRepo {
 
     @Override
     public User insert(User user) {
-        String sql = "INSERT INTO USER (" +
-                "FIRST_NAME," +
-                "LAST_NAME," +
-                "AGE," +
-                "CLIENT_TYPE" +
-                ")" +
-                "VALUES (?, ? ,? ,?)";
         try {
-            Optional<Long> generatedId = QueryWrapper.executeUpdateReturningGeneratedKey(sql,
+            Optional<Long> generatedId = QueryWrapper.executeUpdateReturningGeneratedKey(getInsertUserSql(),
                     ps -> {
                         appendPreparedStatementParamsToUser(new AtomicInteger(0), ps, user);
                     },
@@ -50,6 +44,16 @@ public class UserDefaultRepoImpl implements UserRepo {
         }
     }
 
+    private String getInsertUserSql() {
+        return "INSERT INTO USER (" +
+                "FIRST_NAME," +
+                "LAST_NAME," +
+                "AGE," +
+                "CLIENT_TYPE" +
+                ")" +
+                "VALUES (?, ? ,? ,?)";
+    }
+
     private void appendPreparedStatementParamsToUser(AtomicInteger index, PreparedStatement ps, User user) throws SQLException {
         ps.setString(index.incrementAndGet(), user.getFirstName());
         ps.setString(index.incrementAndGet(), user.getLastName());
@@ -59,7 +63,12 @@ public class UserDefaultRepoImpl implements UserRepo {
 
     @Override
     public void insert(Collection<User> users) {
-
+        try {
+            QueryWrapper.executeUpdateAsBatch(getInsertUserSql(), users,
+                    (ps, user) -> appendPreparedStatementParamsToUser(new AtomicInteger(0), ps, user));
+        } catch (Exception e) {
+            throw new SqlError(e);
+        }
     }
 
     @Override

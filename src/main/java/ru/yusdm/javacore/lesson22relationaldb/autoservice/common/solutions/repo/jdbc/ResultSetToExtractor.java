@@ -6,5 +6,5 @@ import java.util.List;
 
 @FunctionalInterface
 public interface ResultSetToExtractor<EXTRACT_TO> {
-    void extract(ResultSet rs, List<EXTRACT_TO> accomulator) throws SQLException;
+    void extract(ResultSet rs, List<EXTRACT_TO> accumulator) throws SQLException;
 }
