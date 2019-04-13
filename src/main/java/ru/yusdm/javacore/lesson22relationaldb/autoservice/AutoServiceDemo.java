@@ -235,9 +235,9 @@ public class AutoServiceDemo {
         application.searchMarksWithComplexOrderAsc();
         application.searchMarksWithComplexOrderDesc();
 
-        /*System.out.println("----Demo mark pagination -----");
+        System.out.println("----Demo mark pagination -----");
         application.searchMarksWithPaginator();
-//        application.demoReporting();*/
+        application.demoReporting();
     }
 
 

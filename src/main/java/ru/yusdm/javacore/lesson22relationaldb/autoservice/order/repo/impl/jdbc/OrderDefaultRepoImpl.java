@@ -113,7 +113,7 @@ public class OrderDefaultRepoImpl implements OrderRepo {
     @Override
     public List<Order> findByUserId(long userId) {
         try {
-            String sql = "SELECT FROM ORDER_TAB WHERE USER_ID = ?";
+            String sql = "SELECT * FROM ORDER_TAB WHERE USER_ID = ?";
             return QueryWrapper.select(sql, OrderMapper::mapOrder, ps -> {
                 ps.setLong(1, userId);
             });

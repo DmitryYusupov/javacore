@@ -69,7 +69,7 @@ public class ProxyModel extends Model {
 
     @Override
     protected void initDiscriminator() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        
     }
 
 

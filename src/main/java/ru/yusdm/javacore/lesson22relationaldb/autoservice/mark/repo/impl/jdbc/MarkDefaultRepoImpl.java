@@ -5,17 +5,13 @@ import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.except
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.repo.jdbc.SqlPreparedStatementConsumerHolder;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.search.OrderDirection;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.business.search.OrderType;
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.PreparedStatementBiConsumer;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.PreparedStatementConsumer;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.QueryWrapper;
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.common.solutions.repo.jdbc.ResultSetToExtractor;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.repo.MarkRepo;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.mark.search.MarkSearchCondition;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.Model;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.ModelDiscriminator;
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.PassengerModel;
-import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.domain.TruckModel;
 import ru.yusdm.javacore.lesson22relationaldb.autoservice.model.repo.impl.jdbc.ModelMapper;
 
 import java.sql.PreparedStatement;
@@ -84,9 +80,17 @@ public class MarkDefaultRepoImpl implements MarkRepo {
             //SELECT * FROM MARK WHERE (NAME =?) AND (COUNTRY = ?)
             sql = sql + (whereStr.isEmpty() ? "" : " WHERE " + whereStr) + getOrdering(searchCondition);
             //SELECT * FROM MARK WHERE (NAME =?) AND (COUNTRY = ?) ORDER BY NAME,COUNTRY ASC
+
+            if (searchCondition.shouldPaginate()){
+                sql = sql + getPagebleSqlPart(searchCondition);
+            }
         }
 
         return new SqlPreparedStatementConsumerHolder(sql, psConsumers);
+    }
+
+    private String getPagebleSqlPart(MarkSearchCondition markSearchCondition){
+        return " LIMIT " + markSearchCondition.getPaginator().getLimit() + " OFFSET " + markSearchCondition.getPaginator().getOffset();
     }
 
     private String getOrdering(MarkSearchCondition searchCondition) {
