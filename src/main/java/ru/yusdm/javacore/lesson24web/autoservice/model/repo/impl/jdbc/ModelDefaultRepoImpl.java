@@ -82,7 +82,19 @@ public class ModelDefaultRepoImpl implements ModelRepo {
         try {
             Optional<Long> generatedId = QueryWrapper.executeUpdateReturningGeneratedKey(getInsertModelSql(),
                     ps -> {
-                        appendPreparedStatementParamsForModel(ps, model, new AtomicInteger(0));
+                        AtomicInteger index = new AtomicInteger(0);
+                        appendPreparedStatementParamsForModel(ps, model, index);
+                        switch (model.getDiscriminator()) {
+
+                            case PASSENGER: {
+                                appendPreparedStatementParamsForPassengerModel(ps, (PassengerModel) model, index);
+                                break;
+                            }
+                            case TRUCK: {
+                                appendPreparedStatementParamsForTruckModel(ps, (TruckModel) model, index);
+                                break;
+                            }
+                        }
                     },
                     rs -> rs.getLong("ID"));
 
@@ -122,7 +134,21 @@ public class ModelDefaultRepoImpl implements ModelRepo {
     public void insert(Collection<Model> models) {
         try {
             QueryWrapper.executeUpdateAsBatch(getInsertModelSql(), models,
-                    (ps, model) -> appendPreparedStatementParamsForModel(ps, model, new AtomicInteger(0)));
+                    (ps, model) -> {
+                        AtomicInteger index = new AtomicInteger(0);
+                        appendPreparedStatementParamsForModel(ps, model, index);
+                        switch (model.getDiscriminator()) {
+
+                            case PASSENGER: {
+                                appendPreparedStatementParamsForPassengerModel(ps, (PassengerModel) model, index);
+                                break;
+                            }
+                            case TRUCK: {
+                                appendPreparedStatementParamsForTruckModel(ps, (TruckModel) model, index);
+                                break;
+                            }
+                        }
+                    });
         } catch (Exception e) {
             throw new SqlError(e);
         }
@@ -175,7 +201,11 @@ public class ModelDefaultRepoImpl implements ModelRepo {
         ps.setString(index.incrementAndGet(), model.getName());
         ps.setString(index.incrementAndGet(), model.getDescription());
         ps.setInt(index.incrementAndGet(), model.getProductionYearStart());
-        ps.setInt(index.incrementAndGet(), model.getProductionYearEnd());
+        if (model.getProductionYearEnd() == null) {
+            ps.setNull(index.incrementAndGet(), INTEGER);
+        } else {
+            ps.setInt(index.incrementAndGet(), model.getProductionYearEnd());
+        }
         ModelDiscriminator discriminator = model.getDiscriminator();
         ps.setString(index.incrementAndGet(), discriminator.toString());
     }

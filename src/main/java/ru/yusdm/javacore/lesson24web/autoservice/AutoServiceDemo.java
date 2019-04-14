@@ -34,7 +34,7 @@ import static ru.yusdm.javacore.lesson24web.autoservice.common.solutions.utils.R
 public class AutoServiceDemo {
 
     public static class Application {
-        private static StorageType storageType = StorageType.MEMORY_ARRAY;
+        private static StorageType storageType = StorageType.RELATIONAL_DB;
 
         static {
             ServiceSupplier.newInstance(storageType);
