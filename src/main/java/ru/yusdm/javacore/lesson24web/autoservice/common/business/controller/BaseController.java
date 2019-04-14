@@ -36,11 +36,15 @@ public abstract class BaseController extends HttpServlet {
     }
 
 
-    protected void show404(String message){
+    protected void redirectTo404(String message, HttpServletResponse servletResponse) {
 
     }
 
-    protected void show500(String message){
-
+    protected void redirectTo500(String message, HttpServletResponse response) {
+        try {
+            response.sendRedirect("error500?errorMessage=" + message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

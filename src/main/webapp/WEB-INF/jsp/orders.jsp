@@ -1,6 +1,5 @@
-<%@ page import="ru.yusdm.javacore.lesson24web.autoservice.order.domain.Order" %>
-<%@ page import="java.util.List" %>
 <%@ page import="ru.yusdm.javacore.lesson24web.autoservice.order.dto.OrderDto" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -10,7 +9,7 @@
 
 <table border="0" width="100%" style="height: 100%;">
     <tr>
-        <td colspan="3">
+        <td colspan="3" align="center">
             <%@ include file="common/header.jsp" %>
         </td>
     </tr>

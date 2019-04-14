@@ -5,7 +5,6 @@ import ru.yusdm.javacore.lesson24web.autoservice.common.business.controller.Base
 import ru.yusdm.javacore.lesson24web.autoservice.mark.domain.Mark;
 import ru.yusdm.javacore.lesson24web.autoservice.mark.dto.MarkDtoConverter;
 import ru.yusdm.javacore.lesson24web.autoservice.mark.service.MarkService;
-import ru.yusdm.javacore.lesson24web.autoservice.order.dto.OrderDtoConverter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,7 +30,7 @@ public class ViewAllMarsWithModelsController extends BaseController {
             forwardToPage(req, resp, "marks.jsp");
         } catch (Exception e) {
             e.printStackTrace();
-            show500("Couldn't fetch marks!");
+            redirectTo500("Couldn't fetch marks!", resp);
         }
     }
 }

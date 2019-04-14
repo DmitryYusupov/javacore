@@ -6,7 +6,7 @@
 <html>
 <head>
     <title>Title</title>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="<%=request.getContextPath()%>/resources/scripts/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 

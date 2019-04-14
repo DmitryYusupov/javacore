@@ -1,21 +1,18 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Dmitry
-  Date: 13.04.2019
-  Time: 17:44
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<table>
+<h2>"ООО Автосервисы Димы"</h2>
+<table cellspacing="10" width="70%">
+    <thead>
     <tr>
-        <td>
-            <h1>"ООО Автосервисы Димы"</h1>
-        </td>
+        <td><b>Контакты</b></td>
+        <td><b>Отзывы</b></td>
     </tr>
-
+    </thead>
     <tr>
         <td>
-            О нас
+            <div><b>Сайт</b> www.autoservicedima.ru</div>
+            <div><b>Адрес</b>СПб, Улица автосервисная 33 д.1</div>
+            <div><b>Телефон</b>+7-d{8}</div>
         </td>
+        <td><a href="<%=request.getContextPath()%>/clientcallbacks">Отзывы клиентов</a></td>
     </tr>
 </table>

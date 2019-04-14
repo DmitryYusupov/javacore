@@ -38,7 +38,7 @@ public class AddEditOrderController extends BaseController {
             forwardToPage(req, resp, "addeditorder.jsp");
         } catch (Exception e) {
             e.printStackTrace();
-            show500("Error while prepare data to create order");
+            redirectTo500("Error while prepare data to create order", resp);
         }
     }
 
@@ -66,7 +66,7 @@ public class AddEditOrderController extends BaseController {
             resp.sendRedirect("orders");
         } catch (Exception e) {
             e.printStackTrace();
-            show500("Error while add/edit order");
+            redirectTo500("Error while add/edit order", resp);
         }
     }
 

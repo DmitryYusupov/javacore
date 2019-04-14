@@ -30,7 +30,7 @@ public class ViewAllOrdersController extends BaseController {
             forwardToPage(req, resp, "orders.jsp");
         } catch (Exception e) {
             e.printStackTrace();
-            show500("Couldn't fetch orders!");
+            redirectTo500("Couldn't fetch orders!", resp);
         }
     }
 

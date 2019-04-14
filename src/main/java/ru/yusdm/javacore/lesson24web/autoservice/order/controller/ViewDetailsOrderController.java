@@ -26,13 +26,13 @@ public class ViewDetailsOrderController extends BaseController {
                 if (fullOrder.isPresent()) {
                     req.setAttribute("order", OrderDtoConverter.convertToDto(fullOrder.get()));
                 } else {
-                    show404("No order with id '" + id + "'");
+                    redirectTo404("No order with id '" + id + "'", resp);
                 }
             }
             forwardToPage(req, resp, "order.jsp");
         } catch (Exception e) {
             e.printStackTrace();
-            show500(e.getMessage());
+            redirectTo500(e.getMessage(), resp);
         }
     }
 }
