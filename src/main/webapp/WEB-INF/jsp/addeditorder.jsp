@@ -1,7 +1,7 @@
 <%@ page import="ru.yusdm.javacore.lesson24web.autoservice.mark.dto.MarkDto" %>
 <%@ page import="ru.yusdm.javacore.lesson24web.autoservice.user.dto.UserDto" %>
 <%@ page import="java.util.List" %>
-<%@ page import="ru.yusdm.javacore.lesson24web.autoservice.common.solutions.web.HttpServletRequestUtils" %>
+<%@ page import="ru.yusdm.javacore.lesson24web.autoservice.order.domain.Order" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -28,13 +28,26 @@
                     <tr>
                         <td>Клиент:</td>
                         <td>
-                            <select name="user">
+                            <select name="userId" id="userCombo">
+                                <option value=""></option>
                                 <%
+                                    Order editedOrder = null;
+                                    if (request.getAttribute("editedOrder") != null) {
+                                        editedOrder = (Order) request.getAttribute("editedOrder");
+                                    }
+
                                     if (request.getAttribute("users") != null) {
                                         List<UserDto> users = (List<UserDto>) request.getAttribute("users");
                                         for (UserDto user : users) {
+
+                                            String selected = "";
+                                            if (editedOrder != null && user.getId().equals(editedOrder.getUser().getId())) {
+                                                selected = "selected=\"selected\"";
+                                            }
                                 %>
-                                <option value="<%=user.getId()%>"><%=user.getLastName() + " " + user.getFirstName()%>
+
+
+                                <option value="<%=user.getId()%>" <%=selected%>><%=user.getLastName() + " " + user.getFirstName()%>
                                 </option>
                                 <%
                                         }
@@ -47,14 +60,20 @@
                     <tr>
                         <td>Марка</td>
                         <td>
-                            <select name="mark" id="mark">
+                            <select name="markId" id="markCombo">
                                 <option value=""></option>
                                 <%
                                     if (request.getAttribute("marks") != null) {
                                         List<MarkDto> marks = (List<MarkDto>) request.getAttribute("marks");
                                         for (MarkDto mark : marks) {
+
+                                            String selected = "";
+                                            if (editedOrder != null && mark.getId().equals(editedOrder.getMark().getId())) {
+                                                selected = "selected=\"selected\"";
+                                            }
+
                                 %>
-                                <option value="<%=mark.getId()%>"><%=mark.getName()%>
+                                <option value="<%=mark.getId()%>" <%=selected%>><%=mark.getName()%>
                                 </option>
                                 <%
                                         }
@@ -66,21 +85,30 @@
 
                     <tr>
                         <td>Модель:</td>
-                        <td><select name="user" id="user"></select></td>
+                        <td><select name="modelId" id="modelCombo"></select></td>
                     </tr>
 
                     <tr>
                         <td>Поломка:</td>
-                        <td><input type="text" name="description" id="description"/></td>
+                        <td><input type="text" name="description"
+                                   value="<%=editedOrder!=null ? editedOrder.getDescription():""%>"/></td>
                     </tr>
 
                     <tr>
                         <td>Цена</td>
-                        <td><input type="text" name="price"/></td>
+                        <td><input type="text" name="price" value="<%=editedOrder!=null ? editedOrder.getPrice():""%>"/>
+                        </td>
                     </tr>
 
                 </table>
-                <input type="submit" value="Добавить заказ">
+                <%
+                    if (request.getParameterMap().containsKey("id")) {
+                %>
+                <input type="text" name="editedOrderId" value="<%=request.getParameter("id")%>"/>
+                <%
+                    }
+                %>
+                <input type="submit" value="<%=editedOrder!=null ? "Редактировать заказ" : "Добавить заказ"%>">
             </form>
         </td>
 
@@ -99,16 +127,45 @@
 </body>
 
 <script type="text/javascript">
-    $('#mark').on('change', function() {
 
-
+    function getModelsForSelectedMark(markId) {
         $.ajax({
-            url: "<%=request.getContextPath() + "/getmodels?markId="%>" + this.value
-        })
-            .done(function( data ) {
-                if ( console && console.log ) {
-                    console.log( "Sample of data:", data.slice( 0, 100 ) );
-                }
+            url: "<%=request.getContextPath() + "/getmodels?markId="%>" + markId
+        }).done(
+            function (data) {
+
+                var modelCombo = $('#modelCombo');
+                $(modelCombo).empty();
+                $(modelCombo).append('<option value="" selected="selected"></option>');
+
+                data.split(";").forEach(function (modelIdNamePairStr) {
+                    var splitted = modelIdNamePairStr.split(":");
+                    $(modelCombo).append('<option value="' + splitted[0] + '">' + splitted[1] + '</option>');
+
+                    <%
+                    if (editedOrder!=null){
+                    %>
+                    $("#modelCombo").val("<%=editedOrder.getModel().getId()%>");
+                    <%
+                    }
+                    %>
+                });
             });
-    });</script>
+    }
+
+    $('#markCombo').on('change', function () {
+        getModelsForSelectedMark(this.value)
+    });
+
+
+    <%
+        if (editedOrder != null) {
+    %>
+    $(document).ready(function () {
+        getModelsForSelectedMark('<%=editedOrder.getMark().getId()%>');
+    });
+    <%
+        }
+    %>
+</script>
 </html>

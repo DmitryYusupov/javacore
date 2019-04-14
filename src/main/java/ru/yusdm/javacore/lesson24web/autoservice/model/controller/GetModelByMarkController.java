@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,8 +47,14 @@ public class GetModelByMarkController extends BaseController {
 
         try {
             writer = servletResponse.getWriter();
-            for (ModelDto dto : dtos) {
+            Iterator<ModelDto> iter = dtos.iterator();
+            while (iter.hasNext()) {
+                ModelDto dto = iter.next();
                 writer.write(dto.getId() + ":" + dto.getName());
+                if (iter.hasNext()){
+                    writer.write(";");
+                }
+
             }
             writer.flush();
         } catch (Exception e) {
