@@ -29,7 +29,7 @@ public class ViewAllUsersController extends BaseController {
             forwardToPage(req, resp, "users.jsp");
         } catch (Exception e) {
             e.printStackTrace();
-            redirectTo500("Couldn't fetch all user!");
+            redirectTo500("Couldn't fetch all user!", resp);
         }
     }
 }

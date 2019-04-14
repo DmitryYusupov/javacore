@@ -85,12 +85,16 @@ public class OrderArrayRepo implements OrderRepo {
 
     @Override
     public int countByModel(long modelId) {
-        return (int) Arrays.stream(ordersArray).filter(order -> modelId == order.getModel().getId()).count();
+        return (int) Arrays.stream(ordersArray)
+                .filter(Objects::nonNull)
+                .filter(order -> modelId == order.getModel().getId()).count();
     }
 
     @Override
     public int countByMark(long markId) {
-        return (int) Arrays.stream(ordersArray).filter(order -> markId == order.getMark().getId()).count();
+        return (int) Arrays.stream(ordersArray)
+                .filter(Objects::nonNull)
+                .filter(order -> markId == order.getMark().getId()).count();
     }
 
     @Override
@@ -99,12 +103,16 @@ public class OrderArrayRepo implements OrderRepo {
 
     @Override
     public List<Order> findAll() {
-        return new ArrayList<>(Arrays.asList(ordersArray));
+        return  Arrays.asList(ordersArray).stream().filter(Objects::nonNull).collect(toList());
     }
 
     @Override
     public List<Order> findByUserId(long userId) {
-        return Arrays.stream(ordersArray).filter(order -> order.getUser().getId().equals(userId)).collect(toList());
+        return Arrays.stream(ordersArray)
+                .filter(Objects::nonNull)
+                .filter(order ->{
+                    return order.getUser().getId().equals(userId);
+                }).collect(toList());
     }
 
     @Override

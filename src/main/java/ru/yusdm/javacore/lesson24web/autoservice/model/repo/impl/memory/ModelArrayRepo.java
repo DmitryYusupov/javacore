@@ -15,10 +15,10 @@ import ru.yusdm.javacore.lesson24web.autoservice.model.search.TruckModelSearchCo
 import ru.yusdm.javacore.lesson24web.autoservice.storage.SequenceGenerator;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static ru.yusdm.javacore.lesson24web.autoservice.storage.Storage.modelsArray;
-import static ru.yusdm.javacore.lesson24web.autoservice.storage.Storage.modelsList;
 
 
 public class ModelArrayRepo implements ModelRepo {
@@ -59,7 +59,7 @@ public class ModelArrayRepo implements ModelRepo {
     public List<? extends Model> search(ModelSearchCondition searchCondition) {
         ModelDiscriminator modelDiscriminator = searchCondition.getModelDiscriminator();
 
-        List<? extends Model> result = modelsList;
+        List<? extends Model> result = Arrays.asList(modelsArray);
 
         switch (modelDiscriminator) {
             case PASSENGER: {
@@ -81,7 +81,7 @@ public class ModelArrayRepo implements ModelRepo {
 
     @Override
     public List<Model> getModelsByMarkId(long markId) {
-        return null;
+        return Arrays.stream(modelsArray).filter(m -> m.getMarkId().equals(markId)).collect(Collectors.toList());
     }
 
     private List<? extends Model> getPageableData(List<? extends Model> models, Paginator paginator) {
@@ -92,7 +92,7 @@ public class ModelArrayRepo implements ModelRepo {
         TruckModel[] foundModels = new TruckModel[modelsArray.length];
         int resultIndex = 0;
 
-        for (Model model : modelsList) {
+        for (Model model : modelsArray) {
 
             if (ModelDiscriminator.TRUCK.equals(model.getDiscriminator())) {
                 TruckModel truckModel = (TruckModel) model;
@@ -133,7 +133,7 @@ public class ModelArrayRepo implements ModelRepo {
         PassengerModel[] foundModels = new PassengerModel[modelsArray.length];
         int resultIndex = 0;
 
-        for (Model model : modelsList) {
+        for (Model model : modelsArray) {
 
             if (ModelDiscriminator.PASSENGER.equals(model.getDiscriminator())) {
                 PassengerModel passengerModel = (PassengerModel) model;

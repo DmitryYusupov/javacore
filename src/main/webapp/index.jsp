@@ -17,7 +17,7 @@
     <tr>
         <td width="33%"></td>
         <td width="33%">
-            <form method="post" action="<%=request.getContextPath()+"/" + "aaa"%>">
+            <form method="post" action="<%=request.getContextPath()+"/" + "selectstorage"%>">
                 <label>
                     Выбирите тип хранилища:
                     <select name="storageType">

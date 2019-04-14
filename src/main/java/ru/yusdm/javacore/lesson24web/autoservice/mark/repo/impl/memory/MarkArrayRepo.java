@@ -10,6 +10,7 @@ import ru.yusdm.javacore.lesson24web.autoservice.mark.search.MarkSearchCondition
 import ru.yusdm.javacore.lesson24web.autoservice.storage.SequenceGenerator;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static ru.yusdm.javacore.lesson24web.autoservice.storage.Storage.marksArray;
@@ -67,7 +68,7 @@ public class MarkArrayRepo implements MarkRepo {
 
     @Override
     public List<Mark> findAllMarksFetchingModels() {
-        return new ArrayList<>(Arrays.asList(marksArray));
+        return Arrays.stream(marksArray).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     private List<Mark> doSearch(MarkSearchCondition searchCondition) {
@@ -131,7 +132,7 @@ public class MarkArrayRepo implements MarkRepo {
 
     @Override
     public List<Mark> findAll() {
-        return new ArrayList<>(Arrays.asList(marksArray));
+        return Arrays.stream(marksArray).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     @Override

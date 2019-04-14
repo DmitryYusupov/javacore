@@ -10,6 +10,7 @@ import ru.yusdm.javacore.lesson24web.autoservice.user.repo.UserRepo;
 import ru.yusdm.javacore.lesson24web.autoservice.user.search.UserSearchCondition;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static ru.yusdm.javacore.lesson24web.autoservice.storage.Storage.usersArray;
@@ -60,7 +61,7 @@ public class UserArrayRepo implements UserRepo {
     }
 
     private List<User> doSearch(UserSearchCondition searchCondition) {
-        return Collections.emptyList();
+        return Arrays.stream(usersArray).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     private List<? extends User> getPageableData(List<? extends User> users, Paginator paginator) {
@@ -92,7 +93,7 @@ public class UserArrayRepo implements UserRepo {
 
     @Override
     public List<User> findAll() {
-        return new ArrayList<>(Arrays.asList(usersArray));
+        return Arrays.asList(usersArray).stream().filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     @Override

@@ -3,6 +3,7 @@ package ru.yusdm.javacore.lesson24web.autoservice;
 
 import ru.yusdm.javacore.lesson24web.autoservice.common.business.application.StorageType;
 import ru.yusdm.javacore.lesson24web.autoservice.common.business.application.servicefactory.ServiceSupplier;
+import ru.yusdm.javacore.lesson24web.autoservice.common.business.exception.AutoServiceCheckedException;
 import ru.yusdm.javacore.lesson24web.autoservice.common.business.search.OrderDirection;
 import ru.yusdm.javacore.lesson24web.autoservice.common.business.search.OrderType;
 import ru.yusdm.javacore.lesson24web.autoservice.common.business.search.Paginator;
@@ -14,23 +15,29 @@ import ru.yusdm.javacore.lesson24web.autoservice.model.service.ModelService;
 import ru.yusdm.javacore.lesson24web.autoservice.order.domain.Order;
 import ru.yusdm.javacore.lesson24web.autoservice.order.service.OrderService;
 import ru.yusdm.javacore.lesson24web.autoservice.reporting.ReportProvider;
+import ru.yusdm.javacore.lesson24web.autoservice.storage.initor.StorageInitializer;
 import ru.yusdm.javacore.lesson24web.autoservice.storage.initor.fromsql.H2DbInitor;
 import ru.yusdm.javacore.lesson24web.autoservice.user.domain.User;
 import ru.yusdm.javacore.lesson24web.autoservice.user.service.UserService;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static ru.yusdm.javacore.lesson24web.autoservice.common.application.ApplicationConfigurations.PAGE_SIZE;
+import static ru.yusdm.javacore.lesson24web.autoservice.common.application.ApplicationConfigurations.*;
+import static ru.yusdm.javacore.lesson24web.autoservice.common.solutions.utils.FileUtils.createFileFromResource;
 import static ru.yusdm.javacore.lesson24web.autoservice.common.solutions.utils.RandomUtils.getRandomInt;
 
 public class AutoServiceDemo {
 
     public static class Application {
+        private static StorageType storageType = StorageType.MEMORY_ARRAY;
+
         static {
-            ServiceSupplier.newInstance(StorageType.RELATIONAL_DB);
+            ServiceSupplier.newInstance(storageType);
         }
 
         private UserService userService = ServiceSupplier.getInstance().getUserService();
@@ -40,8 +47,47 @@ public class AutoServiceDemo {
 
         public void fillStorage() {
             insertUsers();
+            if (!StorageType.RELATIONAL_DB.equals(storageType)) {
+                fillStorageIfMemoryStorage();
+            }
             insertOrders();
         }
+
+        public void fillStorageIfMemoryStorage() {
+            try {
+                StorageInitializer storageInitor = new StorageInitializer(markService);
+                List<File> filesWithInitData = null;
+                try {
+                    filesWithInitData = getFilesWithDataToInit();
+                    storageInitor.initStorageWithMarksAndModels(filesWithInitData, StorageInitializer.DataSourceType.XML_FILE);
+                } catch (AutoServiceCheckedException e) {
+                    System.out.println("ERROR while init storage: " + e.getMessage());
+                    throw e;
+                } catch (Exception e) {
+                    System.out.println("Error: Unknown magic :" + e.getMessage());
+                    throw e;
+                } finally {
+                    if (filesWithInitData != null) {
+                        for (File file : filesWithInitData) {
+                            Files.delete(Paths.get(file.toURI()));
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Init data error", e);
+            }
+        }
+
+        private List<File> getFilesWithDataToInit() throws Exception {
+            String files[] = new String[]{INIT_DATA_XML_FILE_PART_1, INIT_DATA_XML_FILE_PART_2};
+            List<File> result = new ArrayList<>();
+
+            for (String file : files) {
+                result.add(createFileFromResource("init-data", ".txt", file));
+            }
+            return result;
+        }
+
 
         private void insertUsers() {
             String[] usersAsCsv = new String[]{
