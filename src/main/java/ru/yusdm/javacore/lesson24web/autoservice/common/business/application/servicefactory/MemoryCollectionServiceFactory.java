@@ -12,6 +12,7 @@ import ru.yusdm.javacore.lesson24web.autoservice.order.repo.OrderRepo;
 import ru.yusdm.javacore.lesson24web.autoservice.order.repo.impl.memory.OrderCollectionRepo;
 import ru.yusdm.javacore.lesson24web.autoservice.order.service.OrderService;
 import ru.yusdm.javacore.lesson24web.autoservice.order.service.impl.OrderDefaultService;
+import ru.yusdm.javacore.lesson24web.autoservice.order.service.impl.OrderMemoryService;
 import ru.yusdm.javacore.lesson24web.autoservice.user.repo.UserRepo;
 import ru.yusdm.javacore.lesson24web.autoservice.user.repo.impl.memory.UserCollectionRepo;
 import ru.yusdm.javacore.lesson24web.autoservice.user.service.UserService;
@@ -25,7 +26,7 @@ public class MemoryCollectionServiceFactory implements ServiceFactory {
     private UserRepo userRepo = new UserCollectionRepo();
 
     private ModelService modelService = new ModelDefaultService(modelRepo, orderRepo);
-    private OrderService orderService = new OrderDefaultService(orderRepo, markRepo, modelRepo, userRepo);
+    private OrderService orderService = new OrderMemoryService(orderRepo, markRepo, modelRepo, userRepo);
     private UserService userService = new UserDefaultService(userRepo, orderService);
     private MarkService markService = new MarkDefaultService(markRepo, modelService, orderRepo);
 

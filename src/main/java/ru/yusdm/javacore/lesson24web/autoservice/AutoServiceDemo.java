@@ -74,6 +74,7 @@ public class AutoServiceDemo {
                     }
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 throw new RuntimeException("Init data error", e);
             }
         }
@@ -83,7 +84,7 @@ public class AutoServiceDemo {
             List<File> result = new ArrayList<>();
 
             for (String file : files) {
-                result.add(createFileFromResource("init-data", ".txt", file));
+                result.add(createFileFromResource(this.getClass(),"init-data", ".txt", file));
             }
             return result;
         }

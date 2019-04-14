@@ -12,7 +12,7 @@
 
 <table border="0" width="100%" style="height: 100%;">
     <tr>
-        <td colspan="3">
+        <td colspan="3"align="center">
             <%@ include file="common/header.jsp" %>
         </td>
     </tr>
@@ -22,7 +22,7 @@
             <%@ include file="common/menu.jsp" %>
         </td>
 
-        <td valign="top" style="height: 60%">
+        <td width="70%" valign="top" style="height: 60%">
             <form method="post" action="<%=request.getContextPath() + "/addeditorder"%>">
                 <table>
                     <tr>
@@ -104,7 +104,7 @@
                 <%
                     if (request.getParameterMap().containsKey("id")) {
                 %>
-                <input type="text" name="editedOrderId" value="<%=request.getParameter("id")%>"/>
+                <input type="hidden" name="editedOrderId" value="<%=request.getParameter("id")%>"/>
                 <%
                     }
                 %>
@@ -112,7 +112,7 @@
             </form>
         </td>
 
-        <td>
+        <td valign="top">
             <%@ include file="common/right.jsp" %>
         </td>
     </tr>

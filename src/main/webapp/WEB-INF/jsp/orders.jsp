@@ -19,7 +19,7 @@
             <%@ include file="common/menu.jsp" %>
         </td>
 
-        <td valign="top" style="height: 60%">
+        <td width="70%" valign="top" style="height: 60%">
             <h2><a href="<%=request.getContextPath()+"/addeditorder"%>">Создать заказ</a></h2>
             <%
                 if (request.getAttribute("orders") != null) {
@@ -67,7 +67,7 @@
             <%}%>
         </td>
 
-        <td>
+        <td valign="top">
             <%@ include file="common/right.jsp" %>
         </td>
     </tr>

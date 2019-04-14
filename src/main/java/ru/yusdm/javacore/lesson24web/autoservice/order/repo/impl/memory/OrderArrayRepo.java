@@ -110,9 +110,7 @@ public class OrderArrayRepo implements OrderRepo {
     public List<Order> findByUserId(long userId) {
         return Arrays.stream(ordersArray)
                 .filter(Objects::nonNull)
-                .filter(order ->{
-                    return order.getUser().getId().equals(userId);
-                }).collect(toList());
+                .filter(order -> order.getUser().getId().equals(userId)).collect(toList());
     }
 
     @Override

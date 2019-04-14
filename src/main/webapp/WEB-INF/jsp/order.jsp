@@ -10,7 +10,7 @@
 
 <table border="0" width="100%" style="height: 100%;">
     <tr>
-        <td colspan="3">
+        <td colspan="3" align="center">
             <%@ include file="common/header.jsp" %>
         </td>
     </tr>

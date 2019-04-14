@@ -29,6 +29,7 @@ public class SelectStorageController extends BaseController {
 
             resp.sendRedirect("orders");
         } catch (Exception e) {
+            e.printStackTrace();
             redirectTo500(e.getMessage(), resp);
         }
     }
